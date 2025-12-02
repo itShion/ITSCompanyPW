@@ -1,0 +1,15 @@
+.idea/
+.vscode/
+
+*.py[co]
+__pycache__/
+
+db.sqlite3
+
+.venv/
+
+compose.yaml
+compose.override.yaml
+
+secrets/*
+!secrets/.gitkeep

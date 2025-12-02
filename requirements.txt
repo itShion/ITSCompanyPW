@@ -1,0 +1,2 @@
+pipenv
+django==5.2.8

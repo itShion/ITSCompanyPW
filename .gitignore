@@ -11,10 +11,10 @@ compose.yaml
 compose.override.yaml
 
 # Secrets
-secrets/*
+.env
 secrets.txt
 !secrets/.gitkeep
-
+secrets/db.env
 # Angular / Frontend
 **/dist/
 **/out-tsc/

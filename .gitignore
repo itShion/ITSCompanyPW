@@ -12,6 +12,7 @@ compose.override.yaml
 
 # Secrets
 secrets/*
+secrets.txt
 !secrets/.gitkeep
 
 # Angular / Frontend

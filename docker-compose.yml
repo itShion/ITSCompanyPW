@@ -1,0 +1,41 @@
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    env_file:
+      - secrets/db.env
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  django:
+    container_name: gestionale
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - secrets/secrets.txt
+    volumes:
+      - .:/usr/src/app
+      - ./secrets/secrets.txt:/usr/src/app/CompanyResources/secrets/secrets.txt
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    # Comando che aspetta MySQL
+    command: >
+      sh -c "echo 'Waiting for MySQL...' &&
+             sleep 15 &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+volumes:
+  mysql_data:

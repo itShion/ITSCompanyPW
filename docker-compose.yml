@@ -25,7 +25,6 @@ services:
       - secrets/secrets.txt
     volumes:
       - .:/usr/src/app
-      - ./secrets/secrets.txt:/usr/src/app/CompanyResources/secrets/secrets.txt
     ports:
       - "8000:8000"
     depends_on:

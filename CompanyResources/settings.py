@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'Risorsa',
     'Utente',
+    'Prenotazione',
 ]
 
 MIDDLEWARE = [

@@ -33,6 +33,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    #DRF
+
+    'rest_framework',
+
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,11 +47,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 
+
     # Le mie app:
 
     'Risorsa',
     'Utente',
     'Prenotazione',
+
+    #API
+    'API_Resources'
 ]
 
 MIDDLEWARE = [

@@ -13,13 +13,8 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
     serializer_class = RisorsaSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
 
 class TipoRisorsaAPIViewSet(RisorsaAPIViewSet):
     queryset = TipoRisorsa.objects.all()
     serializer_class = TipoRisorsaSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)

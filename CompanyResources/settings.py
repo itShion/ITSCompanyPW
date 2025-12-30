@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     #DRF
 
     'rest_framework',
-
+    'drf_spectacular',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -151,6 +151,24 @@ USE_I18N = True
 
 USE_TZ = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Company Resources API',
+    'DESCRIPTION': 'API per la gestione delle risorse aziendali',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+
+    # Per Angular/TypeScript
+    'COMPONENT_SPLIT_REQUEST': True,
+    'ENUM_NAME_SUFFIX': 'Enum',
+    'TAGS': [
+        {'name': 'Risorse', 'description': 'Gestione risorse aziendali'},
+        {'name': 'Tipi Risorsa', 'description': 'Categorie delle risorse'},
+    ],
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

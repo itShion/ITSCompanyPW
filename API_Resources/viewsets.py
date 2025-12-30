@@ -12,6 +12,7 @@ __all__ = [
     "UtenteAPIViewSet",
 ]
 
+#--------------- RISORSE ----------------------
 @extend_schema_view(
     list=extend_schema(tags=['Risorse']),
     create=extend_schema(tags=['Risorse']),
@@ -26,6 +27,7 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
+#--------------- TIPO-RISORSE ----------------------
 @extend_schema_view(
     list=extend_schema(tags=['Tipi Risorsa']),
     create=extend_schema(tags=['Tipi Risorsa']),
@@ -40,6 +42,7 @@ class TipoRisorsaAPIViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
+#--------------- UTENTE ----------------------
 @extend_schema_view(
     list=extend_schema(tags=['Utente']),
     create=extend_schema(tags=['Utente']),

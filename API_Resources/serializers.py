@@ -23,3 +23,11 @@ class RisorsaSerializer(serializers.ModelSerializer):
             'capacita', 'tipo', 'tipo_nome', 'tipo_descrizione'
         ]
         read_only_fields = ['id', 'tipo_nome', 'tipo_descrizione']
+
+
+# ============== UTENTE ==============
+class UtenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Utente
+        fields = ['id', 'user', 'ruolo', 'telefono']
+        read_only_fields = ['id']

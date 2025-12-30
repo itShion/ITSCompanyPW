@@ -2,14 +2,17 @@
 from rest_framework import viewsets, permissions
 
 from API_Resources.permissions import IsOwnerOrReadOnly
-from API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer
+from API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer
 from Risorsa.models import TipoRisorsa, Risorsa
+from Utente.models import Utente
 
 __all__ = [
     "RisorsaAPIViewSet",
     "TipoRisorsaAPIViewSet",
+    "UtenteAPIViewSet",
 ]
 
+#--------------- RISORSE ----------------------
 @extend_schema_view(
     list=extend_schema(tags=['Risorse']),
     create=extend_schema(tags=['Risorse']),
@@ -18,12 +21,13 @@ __all__ = [
     partial_update=extend_schema(tags=['Risorse']),
     destroy=extend_schema(tags=['Risorse']),
 )
-
 class RisorsaAPIViewSet(viewsets.ModelViewSet):
     queryset = Risorsa.objects.all()
     serializer_class = RisorsaSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+
+#--------------- TIPO-RISORSE ----------------------
 @extend_schema_view(
     list=extend_schema(tags=['Tipi Risorsa']),
     create=extend_schema(tags=['Tipi Risorsa']),
@@ -35,4 +39,19 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
 class TipoRisorsaAPIViewSet(viewsets.ModelViewSet):
     queryset = TipoRisorsa.objects.all()
     serializer_class = TipoRisorsaSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+#--------------- UTENTE ----------------------
+@extend_schema_view(
+    list=extend_schema(tags=['Utente']),
+    create=extend_schema(tags=['Utente']),
+    retrieve=extend_schema(tags=['Utente']),
+    update=extend_schema(tags=['Utente']),
+    partial_update=extend_schema(tags=['Utente']),
+    destroy=extend_schema(tags=['Utente']),
+)
+class UtenteAPIViewSet(viewsets.ModelViewSet):
+    queryset = Utente.objects.all()
+    serializer_class = UtenteSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

@@ -2,7 +2,8 @@
 from rest_framework import viewsets, permissions
 
 from API_Resources.permissions import IsOwnerOrReadOnly
-from API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer
+from API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer, PrenotazioneSerializer
+from Prenotazione.models import Prenotazione
 from Risorsa.models import TipoRisorsa, Risorsa
 from Utente.models import Utente
 
@@ -54,4 +55,19 @@ class TipoRisorsaAPIViewSet(viewsets.ModelViewSet):
 class UtenteAPIViewSet(viewsets.ModelViewSet):
     queryset = Utente.objects.all()
     serializer_class = UtenteSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+#--------------- PRENOTAZIONE ----------------------
+@extend_schema_view(
+    list=extend_schema(tags=['Prenotazione']),
+    create=extend_schema(tags=['Prenotazione']),
+    retrieve=extend_schema(tags=['Prenotazione']),
+    update=extend_schema(tags=['Prenotazione']),
+    partial_update=extend_schema(tags=['Prenotazione']),
+    destroy=extend_schema(tags=['Prenotazione']),
+)
+class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
+    queryset = Prenotazione.objects.all()
+    serializer_class = PrenotazioneSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

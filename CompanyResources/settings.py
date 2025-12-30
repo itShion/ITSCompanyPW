@@ -168,6 +168,7 @@ SPECTACULAR_SETTINGS = {
         {'name': 'Risorse', 'description': 'Gestione risorse aziendali'},
         {'name': 'Tipi Risorsa', 'description': 'Categorie delle risorse'},
         {'name': 'Utente', 'description': 'Gestione utenti'},
+        {'name': 'Prenotazione', 'description': 'Gestione delle prenotazioni'},
     ],
 }
 

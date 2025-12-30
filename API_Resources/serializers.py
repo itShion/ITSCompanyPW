@@ -31,3 +31,12 @@ class UtenteSerializer(serializers.ModelSerializer):
         model = Utente
         fields = ['id', 'user', 'ruolo', 'telefono']
         read_only_fields = ['id']
+
+
+# ============== PRENOTAZIONE ==============
+class PrenotazioneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prenotazione
+        fields = ['id', 'utente', 'risorsa', 'data_inizio', 'data_fine', 'stato', 'created_at']
+        read_only_fields = ['id', 'created_at']
+

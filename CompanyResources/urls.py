@@ -26,7 +26,7 @@ urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
     # Le tue API
-    path('api/v1/', include('API_Resources.urls')),
+    path('api/v1/', include('CompanyResources.API_Resources.urls')),
 
     # OpenAPI Schema (JSON)
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

@@ -1,9 +1,8 @@
 ﻿from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets, permissions
 
-from API_Resources.permissions import IsOwnerOrReadOnly
-from API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer
-from Risorsa.models import TipoRisorsa, Risorsa
+from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer
+from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa
 
 __all__ = [
     "RisorsaAPIViewSet",

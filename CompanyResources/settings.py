@@ -50,12 +50,12 @@ INSTALLED_APPS = [
 
     # Le mie app:
 
-    'Risorsa',
-    'Utente',
-    'Prenotazione',
+    'CompanyResources.Risorsa',
+    'CompanyResources.Utente',
+    'CompanyResources.Prenotazione',
 
     #API
-    'API_Resources'
+    'CompanyResources.API_Resources'
 ]
 
 MIDDLEWARE = [

@@ -1,7 +1,7 @@
 from django.db import models
 
-from Risorsa.models import Risorsa
-from Utente.models import Utente
+from CompanyResources.Risorsa.models import Risorsa
+from CompanyResources.Utente.models import Utente
 
 
 # Create your models here.

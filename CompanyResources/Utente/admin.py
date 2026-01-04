@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from Utente.models import Utente
+from CompanyResources.Utente.models import Utente
 
 
 # Register your models here.

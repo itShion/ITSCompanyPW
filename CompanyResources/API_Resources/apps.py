@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class UtenteConfig(AppConfig):
+class ApiResourcesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Utente'
+    name = 'CompanyResources.API_Resources'

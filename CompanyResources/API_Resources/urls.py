@@ -1,6 +1,6 @@
-﻿from rest_framework.routers import DefaultRouter, SimpleRouter
+﻿from rest_framework.routers import SimpleRouter
 
-from API_Resources.viewsets import TipoRisorsaAPIViewSet, RisorsaAPIViewSet
+from CompanyResources.API_Resources.viewsets import TipoRisorsaAPIViewSet, RisorsaAPIViewSet
 
 router = SimpleRouter()
 router.register('tipo-risorse', TipoRisorsaAPIViewSet, basename='tipo-risorse')

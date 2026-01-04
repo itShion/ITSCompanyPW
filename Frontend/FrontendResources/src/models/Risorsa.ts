@@ -1,4 +1,4 @@
-﻿import { TipoRisorsa } from './TipoRisorsa';
+﻿import { TipoRisorsa } from "./TipoRisorsa";
 
 export interface Risorsa {
   id: number;
@@ -6,7 +6,7 @@ export interface Risorsa {
   descrizione: string;
   is_available: boolean;
   capacita: number;
-  tipo : TipoRisorsa;
+  tipo: TipoRisorsa;
 }
 
 

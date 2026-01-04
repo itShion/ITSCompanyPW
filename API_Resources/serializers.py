@@ -13,16 +13,16 @@ class TipoRisorsaSerializer(serializers.ModelSerializer):
 
 
 class RisorsaSerializer(serializers.ModelSerializer):
-    tipo_nome = serializers.CharField(source='tipo.nome', read_only=True)
-    tipo_descrizione = serializers.CharField(source='tipo.descrizione', read_only=True)
+    tipo = TipoRisorsaSerializer(read_only=True)  # GET: restituisce l'oggetto completo
+    tipo_id = serializers.IntegerField(write_only=True, source='tipo.id')  # POST/PUT: accetta solo l'ID
 
     class Meta:
         model = Risorsa
         fields = [
             'id', 'nome', 'descrizione', 'is_available',
-            'capacita', 'tipo', 'tipo_nome', 'tipo_descrizione'
+            'capacita', 'tipo', 'tipo_id'
         ]
-        read_only_fields = ['id', 'tipo_nome', 'tipo_descrizione']
+        read_only_fields = ['id']
 
 
 # ============== UTENTE ==============

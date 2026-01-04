@@ -1,5 +1,7 @@
 ﻿from rest_framework import serializers
 from CompanyResources.Risorsa.models import Risorsa, TipoRisorsa
+from CompanyResources.Utente.models import Utente
+from CompanyResources.Prenotazione.models import Prenotazione
 
 
 # ============== RISORSE ==============

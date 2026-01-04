@@ -2,7 +2,9 @@
 from rest_framework import viewsets, permissions
 
 from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer, PrenotazioneSerializer
-from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa, Utente, Prenotazione
+from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa
+from CompanyResources.Prenotazione.models import Prenotazione
+from CompanyResources.Utente.models import Utente
 
 __all__ = [
     "RisorsaAPIViewSet",

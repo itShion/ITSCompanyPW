@@ -21,3 +21,20 @@ class RisorsaSerializer(serializers.ModelSerializer):
             'capacita', 'tipo', 'tipo_nome', 'tipo_descrizione'
         ]
         read_only_fields = ['id', 'tipo_nome', 'tipo_descrizione']
+
+
+# ============== UTENTE ==============
+class UtenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Utente
+        fields = ['id', 'user', 'ruolo', 'telefono']
+        read_only_fields = ['id']
+
+
+# ============== PRENOTAZIONE ==============
+class PrenotazioneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prenotazione
+        fields = ['id', 'utente', 'risorsa', 'data_inizio', 'data_fine', 'stato', 'created_at']
+        read_only_fields = ['id', 'created_at']
+

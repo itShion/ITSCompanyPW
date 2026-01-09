@@ -1,0 +1,45 @@
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #d32f2f;
+  background: #ffebee;
+  border-radius: 4px;
+}
+
+.risorse-container {
+  padding: 2rem;
+}
+
+.risorsa-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.risorsa-card h3 {
+  margin-top: 0;
+  color: #1976d2;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.badge.success {
+  background: #4caf50;
+  color: white;
+}
+
+.badge.danger {
+  background: #f44336;
+  color: white;
+}

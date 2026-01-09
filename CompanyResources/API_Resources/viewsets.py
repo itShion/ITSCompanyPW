@@ -40,7 +40,7 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
 class TipoRisorsaAPIViewSet(viewsets.ModelViewSet):
     queryset = TipoRisorsa.objects.all()
     serializer_class = TipoRisorsaSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 #--------------- UTENTE ----------------------

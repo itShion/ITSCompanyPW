@@ -13,16 +13,17 @@ class TipoRisorsaSerializer(serializers.ModelSerializer):
 
 
 class RisorsaSerializer(serializers.ModelSerializer):
-    tipo = TipoRisorsaSerializer(read_only=True)  # GET: restituisce l'oggetto completo
-    tipo_id = serializers.IntegerField(write_only=True, source='tipo.id')  # POST/PUT: accetta solo l'ID
+    tipo = serializers.PrimaryKeyRelatedField(
+        queryset=TipoRisorsa.objects.all()
+    )
 
     class Meta:
         model = Risorsa
         fields = [
             'id', 'nome', 'descrizione', 'is_available',
-            'capacita', 'tipo', 'tipo_id'
+            'capacita', 'tipo'
         ]
-        read_only_fields = ['id']
+        read_only_fields = ['id' ]
 
 
 # ============== UTENTE ==============

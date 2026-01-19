@@ -1,0 +1,149 @@
+:root {
+  --color-1: #ffffff;
+  --text-color: #1f2937;
+  --accent-color: #006aff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 12pt;
+  font-family: Poppins, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+  height: 60px;
+  background-color: var(--color-1);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--text-color);
+  width: 100%;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.navbar svg {
+  fill: var(--text-color);
+}
+
+#sidebar-active {
+  display: none;
+}
+
+.open-sidebar-button,
+.close-sidebar-button {
+  padding: 20px;
+  display: block;
+  cursor: pointer;
+}
+
+.brand {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-color);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  padding-left: 20px;
+  display: none;
+}
+
+.links-container {
+  height: 100%;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  z-index: 10;
+  background-color: var(--color-1);
+  box-shadow: -5px 0 12px rgba(0, 0, 0, 0.15);
+  transition: right 0.75s ease-out;
+}
+
+
+.navbar a:hover {
+  background-color: rgba(0, 106, 255, 0.08);
+}
+
+.navbar .home-link {
+  margin-right: 0;
+}
+
+#sidebar-active:checked ~ .links-container {
+  right: 0;
+}
+
+#sidebar-active:checked ~ #overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.page-container {
+    display: block;
+    width: 100%;
+    padding: 20px 20px 20px 20px; 
+    text-align: left;
+}
+
+
+@media (min-width: 769px) {
+  .navbar {
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: block;
+  }
+
+  .open-sidebar-button,
+  .close-sidebar-button {
+    display: none;
+  }
+
+  .links-container {
+    position: static;
+    width: auto;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    background-color: transparent;
+    box-shadow: none;
+    transition: none;
+  }
+
+  .navbar a {
+    height: 100%;
+    width: auto;
+    padding: 0 20px;
+    justify-content: center;
+  }
+
+  .navbar .home-link {
+    display: none;
+  }
+
+  #overlay {
+    display: none;
+  }
+}

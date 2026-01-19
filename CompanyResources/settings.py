@@ -33,12 +33,29 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    #DRF
+
+    'rest_framework',
+    'drf_spectacular',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
+
+    # Le mie app:
+
+    'CompanyResources.Risorsa',
+    'CompanyResources.Utente',
+    'CompanyResources.Prenotazione',
+
+    #API
+    'CompanyResources.API_Resources'
 ]
 
 MIDDLEWARE = [
@@ -134,6 +151,26 @@ USE_I18N = True
 
 USE_TZ = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Company Resources API',
+    'DESCRIPTION': 'API per la gestione delle risorse aziendali',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+
+    # Per Angular/TypeScript
+    'COMPONENT_SPLIT_REQUEST': True,
+    'ENUM_NAME_SUFFIX': 'Enum',
+    'TAGS': [
+        {'name': 'Risorse', 'description': 'Gestione risorse aziendali'},
+        {'name': 'Tipi Risorsa', 'description': 'Categorie delle risorse'},
+        {'name': 'Utente', 'description': 'Gestione utenti'},
+        {'name': 'Prenotazione', 'description': 'Gestione delle prenotazioni'},
+    ],
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

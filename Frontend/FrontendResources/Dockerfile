@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
-
+RUN npm install zone.js
 COPY .. .
 
 EXPOSE 4200

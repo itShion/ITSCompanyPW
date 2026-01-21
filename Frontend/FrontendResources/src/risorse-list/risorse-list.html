@@ -1,0 +1,37 @@
+@if (loading()) {
+  <div class="loading">
+    <p>Caricamento risorse...</p>
+  </div>
+}
+
+@if (error()) {
+  <div class="error">
+    <p>{{ error() }}</p>
+  </div>
+}
+
+@if (!loading() && !error()) {
+  <div class="risorse-container">
+    <h2>Lista Risorse</h2>
+    
+    @if (risorse().length === 0) {
+      <p>Nessuna risorsa disponibile</p>
+    } @else {
+      @for (risorsa of risorse(); track risorsa.id) {
+        <div class="risorsa-card">
+          <h3>{{ risorsa.nome }}</h3>
+          <p>{{ risorsa.descrizione }}</p>
+          <p><strong>Tipo:</strong> {{ risorsa.tipo.nome }}</p>
+          <p><strong>Capacità:</strong> {{ risorsa.capacita }}</p>
+          <p><strong>Disponibile:</strong> 
+            @if (risorsa.is_available) {
+              <span class="badge success">Sì</span>
+            } @else {
+              <span class="badge danger">No</span>
+            }
+          </p>
+        </div>
+      }
+    }
+  </div>
+}

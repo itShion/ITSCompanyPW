@@ -1,82 +1,28 @@
 <section>
-  <div class="top">
-    <label>
-      Tipo Servizio:
-      <input type="text"
-             placeholder="Filtra per tipo servizio"
-             [(ngModel)]="filtrotipo"
-             (input)="filtraTabella()">
-    </label>
-    <button (click)="azzeraFiltro()">Azzera</button>
-  </div>
-
-  <h3>Numero elementi: {{ tabella.length }}</h3>
-
+  @if (risorse().length === 0) {
+    <p>Nessuna risorsa disponibile</p>}
+  @else {
+    @for (risorsa of risorse(); track risorsa.id) {
   <table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Numero</th>
-        <th>Tipo</th>
-        <th>Preferiti</th>
-        <th>Azioni</th>
+        <th>NOME</th>
+        <th>TIPO</th>
+        <th>DESCRIZIONE</th>
+        <th>AZIONI</th>
       </tr>
     </thead>
-
+   
     <tbody>
-      <ng-container *ngFor="let item of tabellaFiltrati">
         <tr>
-            <td>{{item.id}}</td>
-          <td>{{ item.numeroServizio }}</td>
-          <td><div>{{ item.tipoServizio }}</div>
-           <div *ngIf="item.prenotata && item.orario" style="font-size: 14px; margin-top: 4px;">{{ item.orario }}</div>
-        </td>
-          <td>
-            <button (click)="preferiti(item.id)">
-              {{ item.favourite ? '★' : '☆' }}
-            </button>
-          </td>
-          <td>
-             <select
-            *ngIf="item.inPrenotazione"
-            [(ngModel)]="item.orario">
-            <option value="" disabled selected>Seleziona orario</option>
-            <option value="09:00 - 10:00">09:00 - 10:00</option>
-            <option value="10:00 - 11:00">10:00 - 11:00</option>
-            <option value="11:00 - 12:00">11:00 - 12:00</option>
-            <option value="14:00 - 15:00">14:00 - 15:00</option>
-            <option value="15:00 - 16:00">15:00 - 16:00</option>
-            </select>
-            <button *ngIf="!item.prenotata" (click)="prenotaPostazione(item.id)"  [disabled]="item.prenotata"> {{ item.inPrenotazione ? 'Conferma' : 'Prenota' }}</button>
-            <button *ngIf="item.prenotata" (click)="cancellaPrenotazione(item.id)"> Cancella prenotazione</button>
-            <button (click)="modificaPostazione(item.id)">Modifica</button>
-            <button (click)="cancelUser(item.id)">Cancella</button>
+            <td>{{risorsa.nome}}</td>
+          <td>{{ risorsa.tipo }}</td>
+          <td><div>{{ risorsa.descrizione }}</div></td>
+            <td><a routerLink="/prenota">PRENOTA</a>
           </td>
         </tr>
-
-        <tr *ngIf="postazioneId === item.id">
-          <td>{{ item.id }}</td>
-          <td><input [(ngModel)]="postazioneNumero"></td>
-          <td><input [(ngModel)]="postazioneTipo"></td>
-          <td><button (click)="salvaEdit()">Salva</button></td>
-        </tr>
-
-        <tr *ngIf="cancelledUser === item.id">
-          <td colspan="3">Sei sicuro?</td>
-          <td>
-            <button (click)="confirmCancel()">✔</button>
-            <button (click)="cancelledUser=null">✖</button>
-          </td>
-        </tr>
-      </ng-container>
     </tbody>
   </table>
-
-  <div>
-    <button (click)="inizio()">««</button>
-    <button (click)="indietro()">«</button>
-    Pagina {{ indicePagina }}
-    <button (click)="avanti()">»</button>
-    <button (click)="fine()">»»</button>
-  </div>
+    }
+  }
 </section>

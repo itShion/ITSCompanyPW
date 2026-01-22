@@ -19,12 +19,6 @@ export class Prenotazionitab implements OnInit {
   tabella: Risorsa[] = [];
 
 
-  risorsaId: string = '';
-  risorsaNome: string = '';
-  risorsaTipo: string = '';
-
-  cancelledUser: string | null = null;
-
   private originalIndexes = new Map<string, number>();
   risorse = signal<Risorsa[]>([]);
   loading = signal(true);

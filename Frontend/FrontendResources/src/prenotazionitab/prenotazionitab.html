@@ -18,7 +18,7 @@
             <td>{{risorsa.nome}}</td>
           <td>{{ risorsa.tipo }}</td>
           <td><div>{{ risorsa.descrizione }}</div></td>
-            <td><a routerLink="/prenota">PRENOTA</a>
+            <td><a [routerLink]="['/prenota', risorsa.id]">PRENOTA</a>
           </td>
         </tr>
     </tbody>

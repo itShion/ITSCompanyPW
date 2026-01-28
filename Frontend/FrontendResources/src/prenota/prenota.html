@@ -1,0 +1,22 @@
+<form>
+    <label for="utente">Utente:</label><br>
+    <input type="text" id="utente" name="utente"><br>
+  
+    <label for="risorsa">
+      Risorsa: 
+      @if (risorsa()) {
+          {{ risorsa()?.nome }}
+      } @else {
+          Caricamento...
+      }
+    </label><br>
+  
+    <label for="dInizio">Data Inizio:</label><br>
+    <input type="date" id="dInizio" name="dInizio"><br>
+  
+    <label for="dFine">Data Fine:</label><br>
+    <input type="date" id="dFine" name="dFine"><br>
+  
+    <button>PRENOTA</button>
+  </form>
+  

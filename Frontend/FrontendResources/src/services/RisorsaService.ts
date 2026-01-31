@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { Risorsa } from '../models/Risorsa';
 import { TipoRisorsa } from '../models/TipoRisorsa';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +18,7 @@ export class RisorsaService {
   getRisorsa(id: number): Observable<Risorsa> {
     return this.http.get<Risorsa>(`${this.apiUrl}/risorse/${id}/`);
   }
-
+  
   getTipiRisorsa(): Observable<TipoRisorsa[]> {
     return this.http.get<TipoRisorsa[]>(`${this.apiUrl}/tipo-risorse/`);
   }

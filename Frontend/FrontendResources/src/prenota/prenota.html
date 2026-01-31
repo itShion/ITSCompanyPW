@@ -1,6 +1,6 @@
-<form>
+
     <label for="utente">Utente:</label><br>
-    <input type="text" id="utente" name="utente"><br>
+    <input type="text" id="utente" name="utente" value="{{ user?.username }}" readonly><br>
   
     <label for="risorsa">
       Risorsa: 
@@ -12,11 +12,11 @@
     </label><br>
   
     <label for="dInizio">Data Inizio:</label><br>
-    <input type="date" id="dInizio" name="dInizio"><br>
+    <input type="date" id="dInizio" name="dInizio" [(ngModel)]="dataInizio"><br>
   
     <label for="dFine">Data Fine:</label><br>
-    <input type="date" id="dFine" name="dFine"><br>
+    <input type="date" id="dFine" name="dFine" [(ngModel)]="dataFine"><br>
   
-    <button>PRENOTA</button>
-  </form>
+    <button (click)="prenota()">PRENOTA</button>
+
   

@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$1000000$HvGUAhfleljhvu1jHAJAvl$Kw209qCazXZ6JTiaCW6EWaG0kdklppOj9rPs9V3Dpmk=",
-    "last_login": "2025-12-28T17:57:11.104Z",
+    "last_login": "2025-12-29T01:41:11.512Z",
     "is_superuser": true,
     "username": "Admin",
     "first_name": "",
@@ -84,24 +84,24 @@
   "model": "Risorsa.tiporisorsa",
   "pk": 1,
   "fields": {
-    "nome": "Postazione",
-    "descrizione": "Postazione in ufficio"
+    "nome": "Sala Riunioni",
+    "descrizione": "spazio prenotabile per riunioni e incontri di lavoro, dotato di posti a sedere e eventuali strumenti"
   }
 },
 {
   "model": "Risorsa.tiporisorsa",
   "pk": 2,
   "fields": {
-    "nome": "Stampante",
-    "descrizione": "Stampante standard per stampare e scannerizzare documenti"
+    "nome": "Attrezzatura",
+    "descrizione": "insieme di strumenti e dispositivi prenotabili per supportare le attività lavorative."
   }
 },
 {
   "model": "Risorsa.tiporisorsa",
   "pk": 3,
   "fields": {
-    "nome": "Stampante 3D",
-    "descrizione": "Stampante 3D per stampare modelli grafici"
+    "nome": "Postazione",
+    "descrizione": "spazio di lavoro individuale prenotabile per lo svolgimento delle attività quotidiane."
   }
 },
 {
@@ -109,10 +109,10 @@
   "pk": 1,
   "fields": {
     "nome": "Postazione1",
-    "descrizione": "Singola postazione",
-    "is_available": false,
+    "descrizione": "spazio di lavoro individuale prenotabile per lo svolgimento delle attività quotidiane.",
+    "is_available": true,
     "capacita": 1,
-    "tipo": 1
+    "tipo": 3
   }
 },
 {
@@ -120,8 +120,8 @@
   "pk": 2,
   "fields": {
     "nome": "Stampante1",
-    "descrizione": "canon5530",
-    "is_available": false,
+    "descrizione": "dispositivo prenotabile per la stampa di documenti in formato cartaceo.",
+    "is_available": true,
     "capacita": 1,
     "tipo": 2
   }
@@ -130,10 +130,10 @@
   "model": "Risorsa.risorsa",
   "pk": 3,
   "fields": {
-    "nome": "Postazione2",
-    "descrizione": "Quadrupla postazione",
-    "is_available": false,
-    "capacita": 4,
+    "nome": "Sala Riunione Alpha",
+    "descrizione": "spazio prenotabile per riunioni e incontri di lavoro, dotato di posti a sedere e eventuali strumenti multimediali.",
+    "is_available": true,
+    "capacita": 15,
     "tipo": 1
   }
 },
@@ -142,8 +142,19 @@
   "pk": 4,
   "fields": {
     "nome": "Stampante1 3D",
-    "descrizione": "Stampante 3D",
-    "is_available": false,
+    "descrizione": "dispositivo prenotabile per la realizzazione di oggetti tridimensionali tramite stampa additiva.",
+    "is_available": true,
+    "capacita": 1,
+    "tipo": 2
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 5,
+  "fields": {
+    "nome": "Postazione2",
+    "descrizione": "spazio di lavoro individuale prenotabile per lo svolgimento delle attività quotidiane.",
+    "is_available": true,
     "capacita": 1,
     "tipo": 3
   }

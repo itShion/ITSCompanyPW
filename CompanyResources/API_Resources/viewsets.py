@@ -68,6 +68,23 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
     destroy=extend_schema(tags=['Prenotazione']),
 )
 class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
-    queryset = Prenotazione.objects.all()
     serializer_class = PrenotazioneSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        try:
+            utente = Utente.objects.get(user=self.request.user)
+            return Prenotazione.objects.filter(utente=utente)
+        except Utente.DoesNotExist:
+            return Prenotazione.objects.none()
+
+    def perform_create(self, serializer):
+        utente, created = Utente.objects.get_or_create(
+            user=self.request.user,
+            defaults={
+                'ruolo': 'USER',  # Valore di default
+                'telefono': ''  # Valore di default
+            }
+        )
+        print(f"DEBUG - Utente: {utente.id}, User: {self.request.user.id}")
+        serializer.save(utente=utente)

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RisorsaService } from '../services/RisorsaService';
+import { RisorsaService } from '../app/services/RisorsaService';
 import { Risorsa } from '../models/Risorsa';
 
 @Component({

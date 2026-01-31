@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RisorsaService } from '../services/RisorsaService';
+import { RisorsaService } from '../app/services/RisorsaService';
 import { signal } from '@angular/core';
 import { Risorsa } from '../models/Risorsa';
 

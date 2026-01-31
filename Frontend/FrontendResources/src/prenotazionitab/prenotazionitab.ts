@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RisorsaService } from '../services/RisorsaService';
+import { RisorsaService } from '../app/services/RisorsaService';
 import { Risorsa } from '../models/Risorsa';
 import { RouterLink } from "@angular/router";
 

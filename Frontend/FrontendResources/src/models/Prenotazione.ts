@@ -5,5 +5,12 @@ export interface Prenotazione {
     stato: string;
     created_at: Date;
     utente_id: number;
-    risorsa_id: number;
+    risorsa: number;
+}
+
+export interface PrenotazioneDTO{
+    data_inizio: string;
+    data_fine: string;
+    stato: 'TRUE' | 'FALSE';
+    risorsa: number;
 }

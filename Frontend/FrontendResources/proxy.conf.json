@@ -1,8 +1,11 @@
 {
   "/api/v1": {
-    "target": "http://localhost:8000",
+    "target": "http://django:8000",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/v1": "/api/v1"
+    }
   }
 }

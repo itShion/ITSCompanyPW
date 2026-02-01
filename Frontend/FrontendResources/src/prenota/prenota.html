@@ -1,22 +1,38 @@
+<body>
+  <form class="prenotazione-form">
+    <h2>Prenota {{ risorsa()?.nome }}</h2>
 
-    <label for="utente">Utente:</label><br>
-    <input type="text" id="utente" name="utente" value="{{ user?.username }}" readonly><br>
-  
-    <label for="risorsa">
-      Risorsa: 
-      @if (risorsa()) {
-          {{ risorsa()?.nome }}
-      } @else {
-          Caricamento...
-      }
-    </label><br>
-  
-    <label for="dInizio">Data Inizio:</label><br>
-    <input type="date" id="dInizio" name="dInizio" [(ngModel)]="dataInizio"><br>
-  
-    <label for="dFine">Data Fine:</label><br>
-    <input type="date" id="dFine" name="dFine" [(ngModel)]="dataFine"><br>
-  
-    <button (click)="prenota()">PRENOTA</button>
+    <label for="data">Data</label>
+    <input type="date" 
+           [value]="dataSelezionata()" 
+           (input)="dataSelezionata.set($any($event.target).value)">
+    
+    <label for="oraInizio">Ora Inizio</label>
+    <select [value]="oraInizio()" (change)="oraInizio.set($any($event.target).value)">
+      <option *ngFor="let ora of orariDisponibiliBase" [value]="ora">{{ ora }}</option>
+    </select>
 
-  
+    <label for="oraFine">Ora Fine</label>
+    <select [value]="oraFine()" (change)="oraFine.set($any($event.target).value)">
+      <option *ngFor="let ora of getOrariFineDisponibili()" [value]="ora">{{ ora }}</option>
+    </select>
+    
+ 
+    <label for="motivo">Motivo (opzionale)</label>
+    <textarea [value]="motivo()" 
+              (input)="motivo.set($any($event.target).value)" 
+              rows="2"></textarea>
+    
+
+    <button (click)="prenota()" [disabled]="loading()">
+      {{ loading() ? 'Prenotando...' : 'Prenota' }}
+    </button>
+    
+    <div *ngIf="errorMessage()" style="color: red; margin-top: 10px;">
+      {{ errorMessage() }}
+    </div>
+    <div *ngIf="successMessage()" style="color: green; margin-top: 10px;">
+      {{ successMessage() }}
+    </div>
+  </form>
+</body>

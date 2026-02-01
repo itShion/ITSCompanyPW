@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Prenotazione, PrenotazioneDTO } from '../../models/Prenotazione';
 import { Observable } from 'rxjs';
@@ -7,18 +7,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PrenotaService {
-  private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8000/api/v1';
+  private apiUrl = 'http://localhost:8000/api/v1/prenotazioni/';
+
+  constructor(private http: HttpClient) {}
 
   getPrenotazioni(): Observable<Prenotazione[]> {
-    return this.http.get<Prenotazione[]>(`${this.apiUrl}/prenotazioni/`);
+    return this.http.get<Prenotazione[]>(this.apiUrl);
   }
 
-  getPrenotazione(id: number): Observable<Prenotazione> {
-    return this.http.get<Prenotazione>(`${this.apiUrl}/prenotazioni/${id}/`);
+  createPrenotazione(prenotazione: PrenotazioneDTO): Observable<Prenotazione> {
+    return this.http.post<Prenotazione>(this.apiUrl, prenotazione);
   }
 
-  createPrenotazione(prenotazione: PrenotazioneDTO): Observable<PrenotazioneDTO> {
-    return this.http.post<PrenotazioneDTO>(`${this.apiUrl}/prenotazioni/`, prenotazione);
+  annullaPrenotazione(id: number): Observable<Prenotazione> {
+    return this.http.post<Prenotazione>(`${this.apiUrl}${id}/annulla/`, {});
   }
 }

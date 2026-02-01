@@ -1,16 +1,22 @@
+import { Risorsa } from "./Risorsa";
+
 export interface Prenotazione {
     id: number;
-    data_inizio: Date;
-    data_fine: Date;
-    stato: string;
-    created_at: Date;
-    utente_id: number;
-    risorsa: number;
-}
-
-export interface PrenotazioneDTO{
+    risorsa: Risorsa;
+    utente: number;
+    utente_nome: string;
     data_inizio: string;
     data_fine: string;
-    stato: 'TRUE' | 'FALSE';
-    risorsa: number;
+    stato: 'PENDING' | 'CONFERMATA' | 'ANNULLATA';
+    stato_display: string;
+    motivo?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface PrenotazioneDTO {
+    risorsa_id: number;
+    data_inizio: string;
+    data_fine: string;
+    motivo?: string;
 }

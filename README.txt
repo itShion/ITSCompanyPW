@@ -9,4 +9,4 @@ per caricare i dati:
 > python manage.py flush
 
 (per caricare i dati di default per testing nel db)
-> python manage.py loaddata fixtures/dev_dumpdata.json
+> python manage.py loaddata fixtures/dev_dumpdata2.json

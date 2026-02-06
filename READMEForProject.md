@@ -114,7 +114,7 @@ Per tornare 1 commit indietro:
 git reset --soft 1d3ea30
 ```
 
-Altrimento se volete tornare indietro senza tenere le vostre modifiche:
+Altrimenti se volete tornare indietro senza tenere le vostre modifiche:
 
 ```
 git reset --hard 1d3ea30
@@ -132,7 +132,7 @@ git stash pop
 
 # Infine
 
-Quando avrete ocmpletato la vostra task e sapete potete includerlo nel branch **develop** aprite una **_Pull Request_**
+Quando avrete completato la vostra task e sapete che potete includerlo nel branch **develop** aprite una **_Pull Request_**
 su GitHub. 
 
 ```

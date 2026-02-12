@@ -1,4 +1,7 @@
-﻿from rest_framework import serializers
+﻿import datetime
+
+from jsonschema import ValidationError
+from rest_framework import serializers
 from CompanyResources.Risorsa.models import Risorsa, TipoRisorsa
 from CompanyResources.Utente.models import Utente
 from CompanyResources.Prenotazione.models import Prenotazione
@@ -8,7 +11,7 @@ from CompanyResources.Prenotazione.models import Prenotazione
 class TipoRisorsaSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoRisorsa
-        fields = ['id', 'nome', 'descrizione']
+        fields = ['id', 'nome', 'descrizione', 'immagine_url']
         read_only_fields = ['id']
 
 
@@ -20,11 +23,12 @@ class RisorsaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Risorsa
         fields = [
-            'id', 'nome', 'descrizione', 'is_available',
-            'capacita', 'tipo'
+            'id', 'nome', 'descrizione', 'capacita','tipo',
+            'orario_apertura', 'orario_chiusura',
+            'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica',
+            'attiva',
         ]
-        read_only_fields = ['id' ]
-
+        read_only_fields = ['id', 'created_at']
 
 # ============== UTENTE ==============
 class UtenteSerializer(serializers.ModelSerializer):
@@ -36,8 +40,31 @@ class UtenteSerializer(serializers.ModelSerializer):
 
 # ============== PRENOTAZIONE ==============
 class PrenotazioneSerializer(serializers.ModelSerializer):
+    risorsa = RisorsaSerializer(read_only=True)
+
+    risorsa_id = serializers.PrimaryKeyRelatedField(
+        queryset=Risorsa.objects.all(),
+        source='risorsa',
+        write_only=True
+    )
+
+    utente_nome = serializers.CharField(source='utente.username', read_only=True)
+    stato_display = serializers.CharField(source='get_stato_display', read_only=True)
+
     class Meta:
         model = Prenotazione
-        fields = ['id', 'utente', 'risorsa', 'data_inizio', 'data_fine', 'stato', 'created_at']
-        read_only_fields = ['id', 'created_at']
+        fields = [
+            'id',
+            'risorsa',
+            'risorsa_id',
+            'utente', 'utente_nome',
+            'data_inizio', 'data_fine',
+            'stato', 'stato_display', 'motivo',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = [
+            'id', 'utente', 'created_at', 'updated_at',
+            'risorsa', 'utente_nome', 'stato_display'
+        ]
+
 

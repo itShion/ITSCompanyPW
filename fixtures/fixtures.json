@@ -1,0 +1,207 @@
+[
+{
+  "model": "Utente.utente",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "ruolo": "Admin",
+    "telefono": "3331234567"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "ruolo": "Dipendente",
+    "telefono": "3339876543"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "ruolo": "Dipendente",
+    "telefono": "3339876544"
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 1,
+  "fields": {
+    "nome": "Postazione1",
+    "descrizione": "spazio di lavoro individuale prenotabile per lo svolgimento delle attività quotidiane.",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "attiva": true,
+    "tipo": 3
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 2,
+  "fields": {
+    "nome": "Stampante1",
+    "descrizione": "dispositivo prenotabile per la stampa di documenti in formato cartaceo.",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "attiva": true,
+    "tipo": 2
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 3,
+  "fields": {
+    "nome": "Sala Riunione Alpha",
+    "descrizione": "spazio prenotabile per riunioni e incontri di lavoro, dotato di posti a sedere e eventuali strumenti multimediali.",
+    "capacita": 15,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "attiva": true,
+    "tipo": 1
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 4,
+  "fields": {
+    "nome": "Stampante1 3D",
+    "descrizione": "dispositivo prenotabile per la realizzazione di oggetti tridimensionali tramite stampa additiva.",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "attiva": true,
+    "tipo": 2
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 5,
+  "fields": {
+    "nome": "Postazione2",
+    "descrizione": "spazio di lavoro individuale prenotabile per lo svolgimento delle attività quotidiane.",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "attiva": true,
+    "tipo": 3
+  }
+},
+{
+  "model": "Risorsa.tiporisorsa",
+  "pk": 1,
+  "fields": {
+    "nome": "Sala Riunioni",
+    "descrizione": "spazio prenotabile per riunioni e incontri di lavoro, dotato di posti a sedere e eventuali strumenti"
+  }
+},
+{
+  "model": "Risorsa.tiporisorsa",
+  "pk": 2,
+  "fields": {
+    "nome": "Attrezzatura",
+    "descrizione": "insieme di strumenti e dispositivi prenotabili per supportare le attività lavorative."
+  }
+},
+{
+  "model": "Risorsa.tiporisorsa",
+  "pk": 3,
+  "fields": {
+    "nome": "Postazione",
+    "descrizione": "spazio di lavoro individuale prenotabile per lo svolgimento delle attività quotidiane."
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$HvGUAhfleljhvu1jHAJAvl$Kw209qCazXZ6JTiaCW6EWaG0kdklppOj9rPs9V3Dpmk=",
+    "last_login": "2026-01-25T14:25:08.226Z",
+    "is_superuser": true,
+    "username": "Admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-12-28T17:56:52.620Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$hL8eJvwzONV5DPuGmdxurF$bEtymt6/ElVaBY9NHl+M1eVDwFsLyO0Ag83EjIVNbB4=",
+    "last_login": "2026-01-25T14:23:18.733Z",
+    "is_superuser": false,
+    "username": "mario.rossi",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-12-29T00:34:45Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$tZ3Em38XFfkqSmGsCzxqhp$ArbyG4wsKggopmkegp8BX4o/lduLCFUVL4g8Q6QffbE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "sara.neri",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-12-29T00:38:48Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

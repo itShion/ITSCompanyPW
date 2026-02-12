@@ -24,7 +24,7 @@ export class Login {
     
     this.isLoading = true;
     this.authService.login(this.credentials).subscribe({
-      next: () => this.router.navigate(['/risorse']),
+      next: () => this.router.navigate(['']),
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error?.error || 'Credenziali non valide';

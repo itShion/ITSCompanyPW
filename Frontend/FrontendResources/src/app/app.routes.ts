@@ -3,6 +3,7 @@ import { Prenotazionitab } from '../prenotazionitab/prenotazionitab';
 import { Login } from '../login/login';
 import { RegisterComponent } from '../register/register';
 import { Prenota } from '../prenota/prenota';
+import{RicercaPrenotazione} from '../ricerca-prenotazione/ricerca-prenotazione'
 
 export const routes: Routes = [
   { path: 'prenotazionitab', component: Prenotazionitab },
@@ -10,4 +11,5 @@ export const routes: Routes = [
   { path: 'login', component: Login},
   { path: 'register', component: RegisterComponent},
   {path: 'prenota/:id', component:Prenota},
+  {path: 'ricercaPrenotazione', component:RicercaPrenotazione},
 ];

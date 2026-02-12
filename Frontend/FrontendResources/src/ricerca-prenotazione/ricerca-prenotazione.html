@@ -1,0 +1,122 @@
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h3>Filtra Risorse</h3>
+
+    <label>Cerca</label>
+    <input type="text" placeholder="Tipo risorsa" />
+
+    <label>Periodo</label>
+    <input type="date" />
+
+    <div class="time-range">
+      <input type="time" />
+      <input type="time" />
+    </div>
+
+    <label>Tipo di Risorsa</label> <div class="checks"> 
+    <label><input type="checkbox" /> Postazioni Lavoro</label> 
+    <label><input type="checkbox" /> Sale Riunioni</label> 
+    <label><input type="checkbox" /> Macchinari</label> </div>
+    <button class="btn-primary">Applica Filtri</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+
+    <h1>Ricerca e Prenotazione</h1>
+    <p class="subtitle">Trova lo spazio perfetto per il tuo lavoro oggi</p>
+
+    <section class="cards">
+
+      @if (loading()) {
+        <p>Caricamento risorse...</p>
+      }
+
+      @if (error()) {
+        <p>{{ error() }}</p>
+      }
+
+      @if (!loading() && !error()) {
+
+        @for (r of risorse(); track r.id) {
+
+          <div class="card" (click)="openPrenotaModal(r)">
+
+            <div class="img"></div>
+
+            <div class="card-body">
+              <h3>{{ r.nome }}</h3>
+              <p>{{ r.descrizione }}</p>
+
+              <div class="tags">
+                <span>{{ r.tipo?.nome }}</span>
+                <span>Capienza {{ r.capacita }}</span>
+              </div>
+
+              @if (r.is_available) {
+                <button class="btn-primary">Prenota</button>
+              } @else {
+                <button class="btn-disabled">Non disponibile</button>
+              }
+
+            </div>
+
+          </div>
+
+        }
+
+      }
+
+    </section>
+
+  </main>
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+@if (showModal()) {
+
+<div class="modal-overlay">
+
+  <div class="modal">
+
+    <h2>Prenotazione</h2>
+
+    <label>Utente</label>
+    <input type="text" [value]="utente()?.username" disabled>
+
+    <label>Risorsa</label>
+    <input type="text" [value]="selectedRisorsa()?.nome" disabled>
+
+    <label>Data</label>
+    <input type="date" (input)="data.set($any($event.target).value)">
+
+    <div class="row">
+      <div>
+        <label>Da</label>
+        <input type="time" (input)="oraInizio.set($any($event.target).value)">
+      </div>
+
+      <div>
+        <label>A</label>
+        <input type="time" (input)="oraFine.set($any($event.target).value)">
+      </div>
+    </div>
+
+    <div class="modal-buttons">
+      <button class="btn-primary" (click)="confermaPrenotazione()">
+        Conferma Prenotazione
+      </button>
+
+      <button class="btn-secondary" (click)="closeModal()">
+        Annulla
+      </button>
+    </div>
+
+  </div>
+</div>
+
+}

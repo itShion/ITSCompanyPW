@@ -1,0 +1,116 @@
+/* BODY */
+body {
+  background-color: #fffefaed;
+  padding: 32px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* WRAPPER */
+.main-wrapper {
+  max-width: 920px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* HEADER */
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-text h1 { margin: 0; line-height: 1.2; }
+.header-text p { margin: 0; font-size: 14px; color: #64748b; }
+
+/* BOXES */
+#boxbox { display: flex; gap: 24px; }
+.box {
+  flex: 1;
+  height: 120px;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.box:hover { box-shadow: 0 12px 28px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.box h3 { margin: 0; font-size: 13px; font-weight: 600; color: #64748b; letter-spacing: 0.6px; }
+.box h1 { margin: 0; font-size: 36px; font-weight: 700; color: #0f172a; }
+
+/* FILTRI */
+.filters {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.filter-input {
+  position: relative;
+  flex: 1;
+}
+
+.filter-input input,
+.filter-input select {
+  width: 100%;
+  height: 42px;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #0f172a;
+  background-color: #fff;
+  appearance: none;
+}
+
+/* PLACEHOLDER */
+.filter-input input::placeholder { color: #94a3b8; }
+
+/* FOCUS */
+.filter-input input:focus,
+.filter-input select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* ICONE */
+.filter-input .icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.filter-input .search-icon { left: 14px; stroke: coral; fill: none; }
+.filter-input .calendar-icon { left: 14px; stroke: coral; fill: coral; } /* rettangolini pieni */
+.filter-input .select-start-icon { left: 14px; fill: coral; } /* linee menu */
+.filter-input .select-arrow { right: 14px; width: 12px; height: 12px; stroke: #94a3b8; fill: none; }
+
+/* Date picker indicator */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  cursor: pointer;
+  filter: invert(0%);
+}
+
+/* Search clear button */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  display: none;
+}

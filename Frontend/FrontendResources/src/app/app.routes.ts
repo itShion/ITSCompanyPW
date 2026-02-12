@@ -5,6 +5,7 @@ import { Login } from '../login/login';
 import { RegisterComponent } from '../register/register';
 import { Prenota } from '../prenota/prenota';
 import{RicercaPrenotazione} from '../ricerca-prenotazione/ricerca-prenotazione'
+import { MiePrenotazioni } from '../mie-prenotazioni/mie-prenotazioni';
 
 export const routes: Routes = [
   { path: 'prenotazionitab', component: Prenotazionitab },
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   {path: 'prenota/:id', component:Prenota},
   {path: 'ricercaPrenotazione', component:RicercaPrenotazione},
+  {path: 'miePrenotazioni', component:MiePrenotazioni},
 ];

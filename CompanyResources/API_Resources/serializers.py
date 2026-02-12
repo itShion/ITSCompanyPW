@@ -11,7 +11,7 @@ from CompanyResources.Prenotazione.models import Prenotazione
 class TipoRisorsaSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoRisorsa
-        fields = ['id', 'nome', 'descrizione']
+        fields = ['id', 'nome', 'descrizione', 'immagine_url']
         read_only_fields = ['id']
 
 
@@ -23,8 +23,7 @@ class RisorsaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Risorsa
         fields = [
-            'id', 'nome', 'descrizione', 'capacita',
-            'tipo',
+            'id', 'nome', 'descrizione', 'capacita','tipo',
             'orario_apertura', 'orario_chiusura',
             'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica',
             'attiva',

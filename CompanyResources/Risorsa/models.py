@@ -6,6 +6,7 @@ from datetime import time
 class TipoRisorsa(models.Model):
     nome = models.CharField(max_length=100)
     descrizione = models.CharField(max_length=100)
+    immagine_url = models.CharField(max_length=500, default="")
 
     def __str__(self):
         return f"{self.nome} (id: {self.pk})"

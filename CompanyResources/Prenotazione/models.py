@@ -65,7 +65,7 @@ class Prenotazione(models.Model):
         if durata_ore > DURATA_MAX_ORE:
             raise ValidationError(f"Durata massima: {DURATA_MAX_ORE} ore")
 
-        DURATA_MIN_MINUTI = 60
+        DURATA_MIN_MINUTI = 30
         if durata_ore * 60 < DURATA_MIN_MINUTI:
             raise ValidationError(f"Durata minima: {DURATA_MIN_MINUTI} minuti")
 

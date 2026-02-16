@@ -15,10 +15,12 @@
       <input type="time" />
     </div>
 
-    <label>Tipo di Risorsa</label> <div class="checks"> 
-    <label><input type="checkbox" /> Postazioni Lavoro</label> 
-    <label><input type="checkbox" /> Sale Riunioni</label> 
-    <label><input type="checkbox" /> Macchinari</label> </div>
+    <label>Tipo di Risorsa</label>
+    <div class="checks"> 
+      <label><input type="checkbox" /> Postazioni Lavoro</label> 
+      <label><input type="checkbox" /> Sale Riunioni</label> 
+      <label><input type="checkbox" /> Macchinari</label>
+    </div>
     <button class="btn-primary">Applica Filtri</button>
   </aside>
 
@@ -28,6 +30,15 @@
     <h1>Ricerca e Prenotazione</h1>
     <p class="subtitle">Trova lo spazio perfetto per il tuo lavoro oggi</p>
 
+    <div class="date-picker">
+  <label for="dataSelezionata">Seleziona Data:</label>
+  <input type="date" 
+         [min]="oggi" 
+         [value]="dataSelezionata()" 
+         (input)="dataSelezionata.set($any($event.target).value)" />
+  </div>
+
+
     <section class="cards">
 
       @if (loading()) {
@@ -35,15 +46,12 @@
       }
 
       @if (error()) {
-        <p>{{ error() }}</p>
+        <p class="error">{{ error() }}</p>
       }
 
       @if (!loading() && !error()) {
-
         @for (r of risorse(); track r.id) {
-
-          <div class="card" (click)="openPrenotaModal(r)">
-
+          <div class="card">
             <div class="img"></div>
 
             <div class="card-body">
@@ -55,68 +63,64 @@
                 <span>Capienza {{ r.capacita }}</span>
               </div>
 
-              @if (r.is_available) {
-                <button class="btn-primary">Prenota</button>
+              @if (isDisponibile(r)) {
+                <button class="btn-primary" (click)="openPrenotaModal(r); $event.stopPropagation()">Prenota</button>
               } @else {
-                <button class="btn-disabled">Non disponibile</button>
+                <button class="btn-disabled" disabled>Non disponibile</button>
               }
-
             </div>
-
           </div>
-
         }
-
       }
-
     </section>
 
   </main>
 </div>
 
-
 <!-- ================= MODAL ================= -->
-
 @if (showModal()) {
+  <div class="modal-overlay">
+    <div class="modal">
 
-<div class="modal-overlay">
+      <h2>Prenotazione {{ selectedRisorsa()?.nome }}</h2>
 
-  <div class="modal">
+      @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
 
-    <h2>Prenotazione</h2>
+      @if (successMessage()) {
+        <p class="success">{{ successMessage() }}</p>
+      }
 
-    <label>Utente</label>
-    <input type="text" [value]="utente()?.username" disabled>
+      <label for="data">Data</label>
+      <input type="date" 
+             [value]="dataSelezionata()" 
+             (input)="dataSelezionata.set($any($event.target).value)">
 
-    <label>Risorsa</label>
-    <input type="text" [value]="selectedRisorsa()?.nome" disabled>
+      <label for="oraInizio">Ora Inizio</label>
+      <select [value]="oraInizio()" (change)="oraInizio.set($any($event.target).value)">
+        <option *ngFor="let ora of orariDisponibiliBase" [value]="ora">{{ ora }}</option>
+      </select>
 
-    <label>Data</label>
-    <input type="date" (input)="data.set($any($event.target).value)">
+      <label for="oraFine">Ora Fine</label>
+      <select [value]="oraFine()" (change)="oraFine.set($any($event.target).value)">
+        <option *ngFor="let ora of getOrariFineDisponibili()" [value]="ora">{{ ora }}</option>
+      </select>
 
-    <div class="row">
-      <div>
-        <label>Da</label>
-        <input type="time" (input)="oraInizio.set($any($event.target).value)">
-      </div>
+      <label for="motivo">Motivo (opzionale)</label>
+      <textarea [value]="motivo()" 
+                (input)="motivo.set($any($event.target).value)" 
+                rows="2"></textarea>
 
-      <div>
-        <label>A</label>
-        <input type="time" (input)="oraFine.set($any($event.target).value)">
+      <div class="modal-buttons">
+        <button class="btn-primary" (click)="confermaPrenotazione()" [disabled]="loading() || !oraInizio() || !oraFine()">
+          {{ loading() ? 'Prenotando...' : 'Prenota' }}
+        </button>
+
+        <button class="btn-secondary" (click)="closeModal()">
+          Annulla
+        </button>
       </div>
     </div>
-
-    <div class="modal-buttons">
-      <button class="btn-primary" (click)="confermaPrenotazione()">
-        Conferma Prenotazione
-      </button>
-
-      <button class="btn-secondary" (click)="closeModal()">
-        Annulla
-      </button>
-    </div>
-
   </div>
-</div>
-
 }

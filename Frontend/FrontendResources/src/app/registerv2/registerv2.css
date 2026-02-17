@@ -1,3 +1,5 @@
+/* src/app/registerv2/registerv2.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
@@ -21,7 +23,7 @@ html {
 
 body {
     min-height: 100vh;
-    background-image: url(office.jpg);
+    background-image: url(/assets/office.jpg);
     background-size: cover;
     background-position: right;
     overflow: hidden;
@@ -62,7 +64,6 @@ form > div {
     justify-content: center;
 }
 
-/* Riga con firstname e surname affiancati */
 form > div.row {
     width: 100%;
     display: flex;
@@ -138,13 +139,19 @@ form button {
     transition: 150ms ease;
 }
 
-form button:hover {
+form button:hover:not(:disabled) {
     background-color: var(--text-color);
 }
 
 form button:focus {
     outline: none;
     background-color: var(--text-color);
+}
+
+form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 a {
@@ -171,6 +178,19 @@ form div.incorrect input {
     border-color: #f06272;
 }
 
+/* Messaggio di errore */
+.error-message {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffe6e6;
+    color: #d32f2f;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Mobile: firstname e surname in colonna, larghezza piena */
 @media(max-width: 500px) {
     form > div.row {
         flex-direction: column;

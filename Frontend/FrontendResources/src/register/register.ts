@@ -21,7 +21,8 @@ export class RegisterComponent {
     password: '',
     telefono: '',
     first_name: '',
-    last_name: ''
+    last_name: '',
+    repeatPassword: '',
   };
   
   errorMessage = '';

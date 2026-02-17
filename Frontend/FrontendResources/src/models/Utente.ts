@@ -16,6 +16,7 @@ export interface RegisterDTO {
   telefono: string;
   first_name?: string;
   last_name?: string;
+  repeatPassword?: string;
 }
 export interface DjangoUserResponse {
   id: number;

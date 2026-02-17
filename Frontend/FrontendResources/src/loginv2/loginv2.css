@@ -20,7 +20,7 @@ html {
 
 body {
     min-height: 100vh;
-    background-image: url(office.jpg);
+    background-image: url(/assets/office.jpg);
     background-size: cover;
     background-position: right;
     overflow: hidden;
@@ -152,4 +152,15 @@ form div.incorrect label {
 
 form div.incorrect input {
     border-color: #f06272;
+}
+
+.error-message {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffe6e6;
+    color: #d32f2f;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 5px;
 }

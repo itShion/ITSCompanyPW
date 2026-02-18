@@ -34,7 +34,7 @@ export class registerv2 {
     
     this.isLoading = true;
     this.authService.register(this.userData).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => this.router.navigate(['']),
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error?.error || 'Errore nella registrazione';

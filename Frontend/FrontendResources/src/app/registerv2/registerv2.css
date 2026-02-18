@@ -23,7 +23,7 @@ html {
 
 body {
     min-height: 100vh;
-    background-image: url(/assets/office.jpg);
+    background-image: url(office.jpg);
     background-size: cover;
     background-position: right;
     overflow: hidden;
@@ -178,7 +178,6 @@ form div.incorrect input {
     border-color: #f06272;
 }
 
-/* Messaggio di errore */
 .error-message {
     width: 100%;
     padding: 12px;
@@ -190,7 +189,23 @@ form div.incorrect input {
     margin-top: 5px;
 }
 
-/* Mobile: firstname e surname in colonna, larghezza piena */
+app-root {
+    display: block;
+    height: 100vh;
+}
+
+app-loginv2 {
+    display: block;
+    height: 100vh;
+}
+
+.wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Mobile */
 @media(max-width: 500px) {
     form > div.row {
         flex-direction: column;

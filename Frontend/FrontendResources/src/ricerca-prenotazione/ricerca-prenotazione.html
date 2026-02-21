@@ -51,7 +51,12 @@
       @if (!loading() && !error()) {
         @for (r of risorse(); track r.id) {
           <div class="card">
-            <div class="img"></div>
+<div class="img">
+  <img 
+    [src]="getImmagineRisorsa(r)" 
+    [alt]="r.nome"
+  />
+</div>
 
             <div class="card-body">
               <h3>{{ r.nome }}</h3>

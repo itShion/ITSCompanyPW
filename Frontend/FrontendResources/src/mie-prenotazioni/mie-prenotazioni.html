@@ -20,7 +20,6 @@
   </div>
 
   <div class="filters">
-
     <div class="filter-input">
       <input type="search" placeholder="Cerca per nome risorsa..." />
       <svg class="icon search-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
@@ -30,7 +29,6 @@
         <line x1="16.5" y1="16.5" x2="21" y2="21" />
       </svg>
     </div>
-
 
     <div class="filter-input">
       <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
@@ -47,7 +45,6 @@
       </svg>
     </div>
 
-
     <div class="filter-input">
       <input type="date" />
       <svg class="icon calendar-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
@@ -63,47 +60,62 @@
   <p *ngIf="loading()">Caricamento prenotazioni...</p>
   <p *ngIf="!loading() && prenotazioni().length === 0">Non hai ancora prenotazioni.</p>
 
-<div class="prenotazioni-table-wrapper">
-  <table class="prenotazioni-table">
-    <thead>
-      <tr>
-        <th>Risorsa</th>
-        <th>Data</th>
-        <th>Orario</th>
-        <th>Stato</th>
-        <th>Azioni</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let p of prenotazioni()">
-        <td>{{ p.risorsa.nome }}</td>
-        <td>{{ p.data_inizio | date:'dd/MM/yyyy' }}</td>
-        <td>{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</td>
-        <td>
-          <span class="stato-badge"
-            [ngClass]="{
-              pending: p.stato === 'PENDING',
-              confermata: p.stato === 'CONFERMATA',
-              annullata: p.stato === 'ANNULLATA'
-            }">
-            {{ p.stato_display }}
-          </span>
-        </td>
-        <td>
-          <button 
-            class="btn-danger"
-            *ngIf="p.stato === 'PENDING' || p.stato === 'CONFERMATA'"
-            (click)="annullaPrenotazione(p)"
-            [disabled]="loading()">
-            Annulla Prenotazione
-          </button>
-        </td>
-      </tr>
-      <tr *ngIf="!loading() && prenotazioni().length === 0">
-        <td colspan="6" class="no-data">Non ci sono prenotazioni.</td>
-      </tr>
-    </tbody>
-  </table>
-  <p *ngIf="loading()" class="loading-text">Caricamento prenotazioni...</p>
+  <div class="prenotazioni-table-wrapper">
+    <table class="prenotazioni-table">
+      <thead>
+        <tr>
+          <th>Risorsa</th>
+          <th>Data</th>
+          <th>Orario</th>
+          <th>Stato</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of prenotazioni()">
+          <td>{{ p.risorsa.nome }}</td>
+          <td>{{ p.data_inizio | date:'dd/MM/yyyy' }}</td>
+          <td>{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</td>
+          <td>
+            <span class="stato-badge"
+              [ngClass]="{
+                pending: p.stato === 'PENDING',
+                confermata: p.stato === 'CONFERMATA',
+                annullata: p.stato === 'ANNULLATA'
+              }">
+              {{ p.stato_display }}
+            </span>
+          </td>
+          <td>
+            <button 
+              class="btn-danger"
+              *ngIf="p.stato === 'PENDING' || p.stato === 'CONFERMATA'"
+              (click)="openAnnullaModal(p)"
+              [disabled]="loading()">
+              Annulla Prenotazione
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!loading() && prenotazioni().length === 0">
+          <td colspan="6" class="no-data">Non ci sono prenotazioni.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="loading()" class="loading-text">Caricamento prenotazioni...</p>
+  </div>
 </div>
+
+<div class="modal-overlay" *ngIf="showAnnullaModal() && prenotazioneSelezionata() as p">
+  <div class="modal">
+    <h2>Sei sicuro di voler annullare la prenotazione?</h2>
+    <p>
+      Risorsa: {{ p.risorsa?.nome }}<br>
+      Data: {{ p.data_inizio | date:'dd/MM/yyyy' }}<br>
+      Orario: {{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}
+    </p>
+    <div class="modal-buttons">
+      <button class="btn-danger" (click)="confirmAnnullaPrenotazione()">Annulla Prenotazione</button>
+      <button class="btn-secondary" (click)="closeAnnullaModal()">Chiudi</button>
+    </div>
+  </div>
 </div>

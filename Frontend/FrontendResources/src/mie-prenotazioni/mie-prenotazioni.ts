@@ -18,10 +18,12 @@ export class MiePrenotazioni implements OnInit {
   private prenotaService = inject(PrenotaService);
   private statoService = inject(StatoPrenotazioneService);
 
-  // Contatori
   confermate = signal(0);
   inAttesa = signal(0);
   annullate = signal(0);
+
+  showAnnullaModal = signal(false);
+  prenotazioneSelezionata = signal<Prenotazione | null>(null);
 
   ngOnInit(): void {
     this.caricaPrenotazioni();
@@ -48,32 +50,39 @@ export class MiePrenotazioni implements OnInit {
     this.annullate.set(prenotazioni.filter(p => p.stato === 'ANNULLATA').length);
   }
 
-  /**
-   * Aggiorna lo stato della prenotazione a ANNULLATA
-   */
+  openAnnullaModal(p: Prenotazione) {
+    this.prenotazioneSelezionata.set(p);
+    this.showAnnullaModal.set(true);
+  }
+
+  closeAnnullaModal() {
+    this.showAnnullaModal.set(false);
+  }
+
+  confirmAnnullaPrenotazione() {
+    const p = this.prenotazioneSelezionata();
+    if (!p) return;
+    this.showAnnullaModal.set(false);
+    this.annullaPrenotazione(p);
+  }
+
   annullaPrenotazione(p: Prenotazione) {
-  if (!p.id) return;
-
-  this.loading.set(true);
-
-  this.prenotaService.annullaPrenotazione(p.id).subscribe({
-    next: (updatedPrenotazione: Prenotazione) => {
-      // Aggiorna la prenotazione nello state
-      const updated = this.prenotazioni().map(pr =>
-        pr.id === updatedPrenotazione.id ? updatedPrenotazione : pr
-      );
-      this.prenotazioni.set(updated);
-
-      // Aggiorna contatori
-      this.aggiornaContatori(updated);
-
-      this.loading.set(false);
-    },
-    error: (err) => {
-      console.error('Errore annullamento prenotazione:', err);
-      this.loading.set(false);
-      alert('Errore durante l\'annullamento della prenotazione.');
-    }
-  });
-}
+    if (!p.id) return;
+    this.loading.set(true);
+    this.prenotaService.annullaPrenotazione(p.id).subscribe({
+      next: (updatedPrenotazione: Prenotazione) => {
+        const updated = this.prenotazioni().map(pr =>
+          pr.id === updatedPrenotazione.id ? updatedPrenotazione : pr
+        );
+        this.prenotazioni.set(updated);
+        this.aggiornaContatori(updated);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Errore annullamento prenotazione:', err);
+        this.loading.set(false);
+        alert('Errore durante l\'annullamento della prenotazione.');
+      }
+    });
+  }
 }

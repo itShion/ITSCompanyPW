@@ -20,7 +20,7 @@
   </div>
 
   <div class="filters">
-    <!-- SEARCH -->
+
     <div class="filter-input">
       <input type="search" placeholder="Cerca per nome risorsa..." />
       <svg class="icon search-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
@@ -31,7 +31,7 @@
       </svg>
     </div>
 
-    <!-- SELECT -->
+
     <div class="filter-input">
       <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 -960 960 960" width="24px" fill="currentColor">
@@ -47,7 +47,7 @@
       </svg>
     </div>
 
-    <!-- DATE -->
+
     <div class="filter-input">
       <input type="date" />
       <svg class="icon calendar-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
@@ -63,24 +63,47 @@
   <p *ngIf="loading()">Caricamento prenotazioni...</p>
   <p *ngIf="!loading() && prenotazioni().length === 0">Non hai ancora prenotazioni.</p>
 
-  <div class="prenotazione-card" *ngFor="let p of prenotazioni()">
-    <div class="card-top">
-      <h2 class="nome-risorsa">{{ p.risorsa.nome }}</h2>
-
-      <span class="stato-badge"
-        [ngClass]="{
-          pending: p.stato === 'PENDING',
-          confermata: p.stato === 'CONFERMATA',
-          annullata: p.stato === 'ANNULLATA'
-        }">
-        {{ p.stato_display }}
-      </span>
-    </div>
-
-    <div class="card-info">
-      <p><strong>Data:</strong> {{ p.data_inizio | date:'dd/MM/yyyy' }}</p>
-      <p><strong>Orario:</strong> {{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</p>
-      <p *ngIf="p.motivo"><strong>Motivo:</strong> {{ p.motivo }}</p>
-    </div>
-  </div>
+<div class="prenotazioni-table-wrapper">
+  <table class="prenotazioni-table">
+    <thead>
+      <tr>
+        <th>Risorsa</th>
+        <th>Data</th>
+        <th>Orario</th>
+        <th>Stato</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of prenotazioni()">
+        <td>{{ p.risorsa.nome }}</td>
+        <td>{{ p.data_inizio | date:'dd/MM/yyyy' }}</td>
+        <td>{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</td>
+        <td>
+          <span class="stato-badge"
+            [ngClass]="{
+              pending: p.stato === 'PENDING',
+              confermata: p.stato === 'CONFERMATA',
+              annullata: p.stato === 'ANNULLATA'
+            }">
+            {{ p.stato_display }}
+          </span>
+        </td>
+        <td>
+          <button 
+            class="btn-danger"
+            *ngIf="p.stato === 'PENDING' || p.stato === 'CONFERMATA'"
+            (click)="annullaPrenotazione(p)"
+            [disabled]="loading()">
+            Annulla Prenotazione
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!loading() && prenotazioni().length === 0">
+        <td colspan="6" class="no-data">Non ci sono prenotazioni.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="loading()" class="loading-text">Caricamento prenotazioni...</p>
+</div>
 </div>

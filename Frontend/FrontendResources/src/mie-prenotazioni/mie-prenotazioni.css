@@ -114,67 +114,86 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   display: none;
 }
-
-/* LISTA PRENOTAZIONI COMPATTA */
-.prenotazioni-list {
+.prenotazioni-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 16px;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.prenotazione-card {
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  width: 80%;
   justify-content: center;
-  margin-inline: auto;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  padding-left: 130px;
 }
 
-.prenotazione-card:hover {
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-  transform: translateY(-1px);
-}
-
-.card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.nome-risorsa {
-  margin: 0;
+.prenotazioni-table {
+  margin: 0 auto;
+  width: 80%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
   font-size: 14px;
+}
+
+.prenotazioni-table thead th {
+  text-align: left;
   font-weight: 600;
+  color: #64748b;
+  padding: 12px 16px;
+}
+
+.prenotazioni-table tbody tr {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+
+.prenotazioni-table td {
+  padding: 12px 16px;
   color: #0f172a;
 }
 
 .stato-badge {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 9999px;
-  color: #fff;
   text-transform: capitalize;
 }
 
-.stato-badge.pending { background-color: #facc15; color: #0f172a; } /* giallo */
-.stato-badge.confermata { background-color: #22c55e; } /* verde */
-.stato-badge.annullata { background-color: #ef4444; } /* rosso */
+.stato-badge.pending { background-color: #facc15; color: #0f172a; }
+.stato-badge.confermata { background-color: #22c55e; color: #fff; }
+.stato-badge.annullata { background-color: #ef4444; color: #fff; }
 
-.card-info p {
-  margin: 2px 0;
+.btn-danger {
+  background-color: #aaa8a89e;
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
   font-size: 13px;
-  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.card-info strong {
-  color: #0f172a;
+.btn-danger:hover:not(:disabled) {
+  background-color: #2a28288a;
+  transform: translateY(-1px);
+}
+
+.btn-danger:disabled {
+  background-color: #f87171;
+  cursor: not-allowed;
+}
+
+.no-data {
+  text-align: center;
+  color: #94a3b8;
+  padding: 16px;
+}
+
+.loading-text {
+  color: #2563eb;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 12px;
 }

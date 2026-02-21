@@ -114,3 +114,67 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   display: none;
 }
+
+/* LISTA PRENOTAZIONI COMPATTA */
+.prenotazioni-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.prenotazione-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  width: 80%;
+  justify-content: center;
+  margin-inline: auto;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.prenotazione-card:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.nome-risorsa {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.stato-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.stato-badge.pending { background-color: #facc15; color: #0f172a; } /* giallo */
+.stato-badge.confermata { background-color: #22c55e; } /* verde */
+.stato-badge.annullata { background-color: #ef4444; } /* rosso */
+
+.card-info p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: #334155;
+}
+
+.card-info strong {
+  color: #0f172a;
+}

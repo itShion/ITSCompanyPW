@@ -16,19 +16,28 @@ class TipoRisorsaSerializer(serializers.ModelSerializer):
 
 
 class RisorsaSerializer(serializers.ModelSerializer):
-    tipo = serializers.PrimaryKeyRelatedField(
-        queryset=TipoRisorsa.objects.all()
+    # 🔹 OUTPUT: oggetto completo
+    tipo = TipoRisorsaSerializer(read_only=True)
+
+    # 🔹 INPUT: accetta solo l'id
+    tipo_id = serializers.PrimaryKeyRelatedField(
+        queryset=TipoRisorsa.objects.all(),
+        source='tipo',
+        write_only=True
     )
 
     class Meta:
         model = Risorsa
         fields = [
-            'id', 'nome', 'descrizione', 'capacita','tipo',
+            'id', 'nome', 'descrizione', 'capacita',
+            'tipo',        # GET → oggetto
+            'tipo_id',     # POST/PUT → id
             'orario_apertura', 'orario_chiusura',
-            'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica',
+            'lunedi', 'martedi', 'mercoledi', 'giovedi',
+            'venerdi', 'sabato', 'domenica',
             'attiva',
         ]
-        read_only_fields = ['id', 'created_at']
+        read_only_fields = ['id']
 
 # ============== UTENTE ==============
 class UtenteSerializer(serializers.ModelSerializer):

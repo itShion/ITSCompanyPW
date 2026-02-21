@@ -23,13 +23,6 @@ export class RicercaPrenotazione implements OnInit {
   private router = inject(Router);
 
 
-// Mappa dei tipi di risorsa con immagini
-
-readonly immaginiTipo: Record<number, string> = {
-  1: 'https://images.unsplash.com/photo-1571624436279-b272aff752b5?q=80&w=1172&auto=format&fit=crop',
-  2: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1172&auto=format&fit=crop',
-  3: 'https://images.unsplash.com/photo-1610641563856-4ec0223d7084?q=80&w=1170&auto=format&fit=crop'
-};
 
   // ===== DATA =====
   risorse = signal<Risorsa[]>([]);

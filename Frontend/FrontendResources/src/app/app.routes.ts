@@ -7,6 +7,7 @@ import{RicercaPrenotazione} from '../ricerca-prenotazione/ricerca-prenotazione'
 import { MiePrenotazioni } from '../mie-prenotazioni/mie-prenotazioni';
 
 export const routes: Routes = [
+   { path: 'mie-prenotazioni', component: MiePrenotazioni },
   { path: 'prenotazionitab', component: Prenotazionitab },
   { path: '', redirectTo: '/prenotazionitab', pathMatch: 'full' },
   { path: 'login', component: Login},

@@ -31,13 +31,12 @@
     <p class="subtitle">Trova lo spazio perfetto per il tuo lavoro oggi</p>
 
     <div class="date-picker">
-  <label for="dataSelezionata">Seleziona Data:</label>
-  <input type="date" 
-         [min]="oggi" 
-         [value]="dataSelezionata()" 
-         (input)="dataSelezionata.set($any($event.target).value)" />
-  </div>
-
+      <label for="dataSelezionata">Seleziona Data:</label>
+      <input type="date" 
+             [min]="oggi" 
+             [value]="dataSelezionata()" 
+             (input)="dataSelezionata.set($any($event.target).value)" />
+    </div>
 
     <section class="cards">
 
@@ -77,7 +76,7 @@
   </main>
 </div>
 
-<!-- ================= MODAL ================= -->
+<!-- ================= MODAL DI PRENOTAZIONE ================= -->
 @if (showModal()) {
   <div class="modal-overlay">
     <div class="modal">
@@ -119,6 +118,26 @@
 
         <button class="btn-secondary" (click)="closeModal()">
           Annulla
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ================= MODAL DI SUCCESSO ================= -->
+@if (prenotazioneEffettuata()) {
+  <div class="modal-overlay">
+    <div class="modal">
+
+      <h2>Prenotazione Effettuata con Successo!</h2>
+      <p>La tua prenotazione è stata registrata correttamente.</p>
+
+      <div class="modal-buttons">
+        <button class="btn-primary" (click)="goToMiePrenotazioni()">
+          Vai alle mie prenotazioni
+        </button>
+        <button class="btn-secondary" (click)="closeSuccessModal()">
+          Chiudi
         </button>
       </div>
     </div>

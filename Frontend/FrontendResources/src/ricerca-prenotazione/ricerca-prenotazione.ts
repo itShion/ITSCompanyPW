@@ -6,7 +6,7 @@ import { Risorsa } from '../models/Risorsa';
 import { PrenotaService } from '../app/services/prenota-service';
 import { ActivatedRoute } from '@angular/router';
 import { PrenotazioneDTO } from '../models/Prenotazione';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-ricerca-prenotazione',
   standalone: true,
@@ -20,6 +20,7 @@ export class RicercaPrenotazione implements OnInit {
   private authService = inject(AuthService);
   private prenotaService = inject(PrenotaService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   // ===== DATA =====
   risorse = signal<Risorsa[]>([]);
@@ -30,6 +31,7 @@ export class RicercaPrenotazione implements OnInit {
 
   // ===== MODAL =====
   showModal = signal(false);
+  prenotazioneSuccesso = signal(false); 
   selectedRisorsa = signal<Risorsa | null>(null);
   utente = signal(this.authService.getCurrentUser());
   oggi = signal<string>(new Date().toISOString().split('T')[0]);
@@ -80,6 +82,20 @@ export class RicercaPrenotazione implements OnInit {
     this.showModal.set(false);
   }
 
+  // ===== MODAL SUCCESSO =====
+  prenotazioneEffettuata() {
+    return this.prenotazioneSuccesso();
+  }
+
+  closeSuccessModal() {
+    this.prenotazioneSuccesso.set(false);
+  }
+
+  goToMiePrenotazioni() {
+   this.router.navigate(['/mie-prenotazioni']);
+  }
+  
+
   confermaPrenotazione() {
     const risorsaVal = this.selectedRisorsa();
     if (!risorsaVal) {
@@ -119,8 +135,12 @@ export class RicercaPrenotazione implements OnInit {
         this.successMessage.set('Prenotazione creata con successo!');
         this.loading.set(false);
 
-        this.closeModal();
+        this.closeModal(); // chiude il modal principale
 
+        // MOSTRA IL MODAL DI SUCCESSO
+        this.prenotazioneSuccesso.set(true);
+
+        // Reset dei campi
         setTimeout(() => {
           this.motivo.set('');
           this.oraInizio.set('09:00');
@@ -185,19 +205,19 @@ export class RicercaPrenotazione implements OnInit {
   }
 
   isDisponibile(r: Risorsa): boolean {
-  if (!r.attiva) return false;
+    if (!r.attiva) return false;
 
-  const giorno = new Date(this.dataSelezionata()).getDay(); // 0 = domenica ... 6 = sabato
-  switch (giorno) {
-    case 0: return r.domenica;
-    case 1: return r.lunedi;
-    case 2: return r.martedi;
-    case 3: return r.mercoledi;
-    case 4: return r.giovedi;
-    case 5: return r.venerdi;
-    case 6: return r.sabato;
-    default: return false;
+    const giorno = new Date(this.dataSelezionata()).getDay(); // 0 = domenica ... 6 = sabato
+    switch (giorno) {
+      case 0: return r.domenica;
+      case 1: return r.lunedi;
+      case 2: return r.martedi;
+      case 3: return r.mercoledi;
+      case 4: return r.giovedi;
+      case 5: return r.venerdi;
+      case 6: return r.sabato;
+      default: return false;
+    }
   }
-}
 
 }

@@ -315,6 +315,100 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* ================= MODAL OVERLAY ================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* ================= MODAL ================= */
+.modal {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modal-fade-in 0.2s ease;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= MODAL HEADERS ================= */
+.modal h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #0f172a;
+  text-align: center;
+}
+
+.modal p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+}
+
+/* ================= BUTTONS ================= */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modal-buttons .btn-primary {
+  background-color: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-buttons .btn-primary:hover {
+  background-color: #16a34a;
+  transform: translateY(-1px);
+}
+
+.modal-buttons .btn-secondary {
+  background-color: #e5e7eb;
+  color: #0f172a;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-buttons .btn-secondary:hover {
+  background-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+/* Optional: per pulsanti disabilitati */
+.modal-buttons .btn-primary:disabled,
+.modal-buttons .btn-secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
   .layout {

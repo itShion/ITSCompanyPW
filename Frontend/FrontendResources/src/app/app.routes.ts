@@ -5,6 +5,10 @@ import { RegisterComponent } from '../register/register';
 import { Prenota } from '../prenota/prenota';
 import { registerv2 } from './registerv2/registerv2';
 import { Loginv2 } from '../loginv2/loginv2';
+import { Supporto } from './supporto/supporto';
+import { SupportoRisorse } from './supporto/supporto-risorse/supporto-risorse';
+import { SupportoUtenti } from './supporto/supporto-utenti/supporto-utenti';
+import { SupportoSidebar } from './supporto/supporto-sidebar/supporto-sidebar';
 
 export const routes: Routes = [
   { path: 'prenotazionitab', component: Prenotazionitab },
@@ -13,6 +17,15 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   {path: 'prenota/:id', component: Prenota},
   {path: 'registerv2', component: registerv2},
-  {path: 'prenota/:id', component:Prenota},
   {path: 'loginv2', component:Loginv2},
+  { 
+    path: 'supporto',
+    component: SupportoSidebar,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: Supporto },
+      { path: 'utenti', component: SupportoUtenti },
+      { path: 'risorse', component: SupportoRisorse },
+    ]
+  }
 ];

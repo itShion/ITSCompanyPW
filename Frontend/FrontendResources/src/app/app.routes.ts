@@ -9,6 +9,7 @@ import { Supporto } from './supporto/supporto';
 import { SupportoRisorse } from './supporto/supporto-risorse/supporto-risorse';
 import { SupportoUtenti } from './supporto/supporto-utenti/supporto-utenti';
 import { SupportoSidebar } from './supporto/supporto-sidebar/supporto-sidebar';
+import { SupportoPrenotazioni } from './supporto/supporto-prenotazioni/supporto-prenotazioni';
 
 export const routes: Routes = [
   { path: 'prenotazionitab', component: Prenotazionitab },
@@ -26,6 +27,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: Supporto },
       { path: 'utenti', component: SupportoUtenti },
       { path: 'risorse', component: SupportoRisorse },
+      { path: 'prenotazioni', component: SupportoPrenotazioni}
     ]
   }
 ];

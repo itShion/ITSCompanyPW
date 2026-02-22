@@ -22,4 +22,12 @@ export class PrenotaService {
   annullaPrenotazione(id: number): Observable<Prenotazione> {
     return this.http.post<Prenotazione>(`${this.apiUrl}${id}/annulla/`, {});
   }
+
+  approvaPrenotazione(id: number): Observable<Prenotazione> {
+  return this.http.post<Prenotazione>(`${this.apiUrl}${id}/approva/`, {});
+}
+
+rifiutaPrenotazione(id: number): Observable<Prenotazione> {
+  return this.http.post<Prenotazione>(`${this.apiUrl}${id}/rifiuta/`, {});
+}
 }

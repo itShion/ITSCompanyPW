@@ -6,6 +6,9 @@ from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa
 from CompanyResources.Prenotazione.models import Prenotazione
 from CompanyResources.Utente.models import Utente
 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 __all__ = [
     "RisorsaAPIViewSet",
     "TipoRisorsaAPIViewSet",
@@ -21,7 +24,7 @@ __all__ = [
     partial_update=extend_schema(tags=['Risorse']),
     destroy=extend_schema(tags=['Risorse']),
 )
-
+@method_decorator(csrf_exempt, name='dispatch')
 class RisorsaAPIViewSet(viewsets.ModelViewSet):
     queryset = Risorsa.objects.all()
     serializer_class = RisorsaSerializer
@@ -37,6 +40,7 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(tags=['Tipi Risorsa']),
     destroy=extend_schema(tags=['Tipi Risorsa']),
 )
+@method_decorator(csrf_exempt, name='dispatch')
 class TipoRisorsaAPIViewSet(viewsets.ModelViewSet):
     queryset = TipoRisorsa.objects.all()
     serializer_class = TipoRisorsaSerializer

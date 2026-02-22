@@ -1,2 +1,84 @@
-<h1>Dashboard</h1>
-<p>Qui i widget, grafici, ecc...</p>
+<div class="dashboard">
+  <div class="header">
+    <h1>Panoramica Sistema</h1>
+    <p class="subtitle">Bentornato, ecco lo stato attuale delle risorse aziendali.</p>
+  </div>
+
+  
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Utenti Totali</div>
+      <div class="stat-value">1,240</div>
+      <div class="stat-trend positive">+12%</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Prenotazioni Attive</div>
+      <div class="stat-value">340</div>
+      <div class="stat-trend positive">+5%</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Risorse Disponibili</div>
+      <div class="stat-value">85%</div>
+      <div class="stat-trend negative">-2%</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Richieste in Attesa</div>
+      <div class="stat-value">12</div>
+      <div class="stat-note">da approvare</div>
+    </div>
+  </div>
+
+  <div class="actions-section">
+    <h2 class="section-title">Azioni Rapide</h2>
+    <div class="actions-grid">
+      <div class="action-card">
+        <div class="action-icon blue">👤</div>
+        <div class="action-info">
+          <h3>Aggiungi Utente</h3>
+          <p>Crea nuovo account</p>
+        </div>
+      </div>
+
+      <div class="action-card" (click)="openNewRisorsaModal()">
+        <div class="action-icon green">🖥️</div>
+        <div class="action-info">
+          <h3>Nuova Risorsa</h3>
+          <p>Aggiungi risorsa</p>
+        </div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-icon purple">📊</div>
+        <div class="action-info">
+          <h3>Vedi Report</h3>
+          <p>Analisi dettagliata</p>
+        </div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-icon orange">🔧</div>
+        <div class="action-info">
+          <h3>Manutenzione</h3>
+          <p>Programma interventi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- POPUP NUOVA RISORSA - AGGIUNGI QUESTO -->
+    <app-supporto-new-risorsa 
+    [isOpen]="isNewRisorsaModalOpen"
+    (close)="closeNewRisorsaModal()"
+    (save)="saveNewRisorsa($event)"
+    ></app-supporto-new-risorsa>
+
+  <div class="components-container">
+    <!-- Andamento Prenotazioni -->
+    <!-- Risorse più popolari -->
+    <!-- Notifiche Sistema -->
+  </div>
+</div>

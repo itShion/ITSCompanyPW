@@ -15,7 +15,7 @@
 
     <div class="stat-card">
       <div class="stat-label">Prenotazioni Attive</div>
-      <div class="stat-value">340</div>
+      <div class="stat-value">{{ prenotazioniAttive() }}</div>
       <div class="stat-trend positive">+5%</div>
     </div>
 
@@ -27,7 +27,7 @@
 
     <div class="stat-card">
       <div class="stat-label">Richieste in Attesa</div>
-      <div class="stat-value">12</div>
+      <div class="stat-value">{{ prenotazioniPending() }}</div>
       <div class="stat-note">da approvare</div>
     </div>
   </div>

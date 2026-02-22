@@ -17,7 +17,7 @@ export class UtilsReportService {
   }
 
   getAllPrenotazioniAttive(): Observable<Prenotazione[]> {
-    return this.http.get<Prenotazione[]>(`${this.apiUrl}/prenotazioni/`);
+    return this.http.get<Prenotazione[]>(`${this.apiUrl}/prenotazioni/attive`);
   }
 
   getAllRisorseDisponibili(): Observable<Risorsa[]> {

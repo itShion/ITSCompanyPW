@@ -17,6 +17,8 @@ export class Supporto implements OnInit {
   utilsService = inject(UtilsReportService);
 
   utentiTotali = signal(0);
+  prenotazioniAttive = signal(0);
+  prenotazioniPending = signal(0);
 
   ngOnInit() {
     this.caricaStatistiche();
@@ -25,14 +27,24 @@ export class Supporto implements OnInit {
   caricaStatistiche() {
     this.utilsService.getAllUtenti().subscribe({
       next: (utenti) => {
-        this.utentiTotali.set(utenti.length);  // <-- AGGIORNA IL SIGNAL
-        console.log('Utenti totali:', this.utentiTotali());
+        this.utentiTotali.set(utenti.length);
       },
       error: (err) => {
         console.error('Errore:', err);
         this.utentiTotali.set(1240);
       }
     });
+    this.utilsService.getAllPrenotazioniAttive().subscribe({
+      next: (prenotazioni) => {
+        this.prenotazioniAttive.set(prenotazioni.length);
+        console.log('Prenotazioni attive:', this.prenotazioniAttive());
+      }
+    });
+    this.utilsService.getAllPendingPrenotazioni().subscribe({
+      next: (prenotazioni) => {
+        this.prenotazioniPending.set(prenotazioni.length);
+      }
+    })
   }
 
   constructor(private risorsaService: RisorsaService) { }

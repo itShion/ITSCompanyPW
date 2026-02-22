@@ -9,6 +9,11 @@ from CompanyResources.Utente.models import Utente
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+
+from rest_framework.decorators import action 
+from django.utils import timezone
+from rest_framework.response import Response
+
 __all__ = [
     "RisorsaAPIViewSet",
     "TipoRisorsaAPIViewSet",
@@ -90,5 +95,55 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
                 'telefono': ''  # Valore di default
             }
         )
-        print(f"DEBUG - Utente: {utente.id}, User: {self.request.user.id}")
         serializer.save(utente=utente)
+        
+    @action(detail=False, methods=['get'])
+    def attive(self, request):
+        """Restituisce solo le prenotazioni attive (confermate e con data_inizio >= oggi)"""
+        try:
+            utente = Utente.objects.get(user=self.request.user)
+            oggi = timezone.now().date()
+            
+            prenotazioni = Prenotazione.objects.filter(
+                utente=utente,
+                stato='confermata',
+                data_inizio__gte=oggi 
+            ).order_by('data_inizio', 'data_fine')
+            
+            serializer = self.get_serializer(prenotazioni, many=True)
+            return Response(serializer.data)
+        except Utente.DoesNotExist:
+            return Response([])
+
+    @action(detail=False, methods=['get'])
+    def pending(self, request):
+        """Restituisce solo le prenotazioni in attesa di approvazione"""
+        try:
+            utente = Utente.objects.get(user=self.request.user)
+            
+            prenotazioni = Prenotazione.objects.filter(
+                utente=utente,
+                stato='pending'
+            ).order_by('-data_inizio', '-data_fine')
+            
+            serializer = self.get_serializer(prenotazioni, many=True)
+            return Response(serializer.data)
+        except Utente.DoesNotExist:
+            return Response([])
+
+    @action(detail=False, methods=['get'])
+    def storiche(self, request):
+        """Restituisce le prenotazioni passate"""
+        try:
+            utente = Utente.objects.get(user=self.request.user)
+            oggi = timezone.now().date()
+            
+            prenotazioni = Prenotazione.objects.filter(
+                utente=utente,
+                data_inizio__lt=oggi
+            ).order_by('-data_inizio', '-data_fine')
+            
+            serializer = self.get_serializer(prenotazioni, many=True)
+            return Response(serializer.data)
+        except Utente.DoesNotExist:
+            return Response([])

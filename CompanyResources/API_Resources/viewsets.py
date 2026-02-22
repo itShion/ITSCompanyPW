@@ -83,6 +83,8 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         try:
             utente = Utente.objects.get(user=self.request.user)
+            if utente.ruolo == 'Admin':
+                return Prenotazione.objects.all()
             return Prenotazione.objects.filter(utente=utente)
         except Utente.DoesNotExist:
             return Prenotazione.objects.none()
@@ -147,3 +149,29 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         except Utente.DoesNotExist:
             return Response([])
+        
+    # AZIONI di HR
+    
+    @action(detail=True, methods=['post'])
+    def approva(self, request, pk=None):
+        prenotazione = self.get_object()
+        prenotazione.stato = 'CONFERMATA'
+        prenotazione.save()
+        return Response(self.get_serializer(prenotazione).data)
+
+    @action(detail=True, methods=['post'])
+    def rifiuta(self, request, pk=None):
+        prenotazione = self.get_object()
+        prenotazione.stato = 'ANNULLATA'
+        prenotazione.save()
+        return Response(self.get_serializer(prenotazione).data)
+
+    @action(detail=True, methods=['post'])
+    def annulla(self, request, pk=None):
+        prenotazione = self.get_object()
+        utente = Utente.objects.get(user=request.user)
+        if prenotazione.utente != utente:
+            return Response({'error': 'Non autorizzato'}, status=403)
+        prenotazione.stato = 'ANNULLATA'
+        prenotazione.save()
+        return Response(self.get_serializer(prenotazione).data)

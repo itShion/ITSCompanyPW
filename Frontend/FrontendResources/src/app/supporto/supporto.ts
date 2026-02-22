@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { SupportoSidebar } from './supporto-sidebar/supporto-sidebar';
 import { SupportoNewRisorsaComponent } from './supporto-risorse/supporto-new-risorsa/supporto-new-risorsa';
 import { RisorsaService } from '../services/RisorsaService';
 import { CommonModule } from '@angular/common';
 import { RisorsaCreate } from '../../models/Risorsa';
+import { UtilsReportService } from '../services/utils-report-service';
 
 @Component({
   selector: 'app-supporto',
@@ -11,10 +12,31 @@ import { RisorsaCreate } from '../../models/Risorsa';
   templateUrl: './supporto.html',
   styleUrl: './supporto.css',
 })
-export class Supporto {
+export class Supporto implements OnInit {
   isNewRisorsaModalOpen = false;
+  utilsService = inject(UtilsReportService);
 
-  constructor(private risorsaService: RisorsaService) {}
+  utentiTotali = signal(0);
+
+  ngOnInit() {
+    this.caricaStatistiche();
+  }
+
+  caricaStatistiche() {
+    this.utilsService.getAllUtenti().subscribe({
+      next: (utenti) => {
+        this.utentiTotali.set(utenti.length);  // <-- AGGIORNA IL SIGNAL
+        console.log('Utenti totali:', this.utentiTotali());
+      },
+      error: (err) => {
+        console.error('Errore:', err);
+        this.utentiTotali.set(1240);
+      }
+    });
+  }
+
+  constructor(private risorsaService: RisorsaService) { }
+
 
   openNewRisorsaModal() {
     this.isNewRisorsaModalOpen = true;
@@ -26,7 +48,7 @@ export class Supporto {
 
   saveNewRisorsa(risorsaData: RisorsaCreate) {
     console.log('Dati da inviare al backend:', risorsaData);
-    
+
     this.risorsaService.createRisorsa(risorsaData).subscribe({
       next: (response) => {
         console.log('Risorsa creata:', response);

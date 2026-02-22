@@ -28,7 +28,6 @@ export class SupportoPrenotazioni implements OnInit {
     return this.prenotazioni().filter((p) => p.stato === 'ANNULLATA').length;
   }
 
-  // Paginazione
   paginaCorrente = signal(1);
   perPagina = 5;
   get totalPages() {

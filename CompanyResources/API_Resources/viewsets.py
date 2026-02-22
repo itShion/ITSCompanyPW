@@ -121,10 +121,8 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     def pending(self, request):
         """Restituisce solo le prenotazioni in attesa di approvazione"""
         try:
-            utente = Utente.objects.get(user=self.request.user)
             
             prenotazioni = Prenotazione.objects.filter(
-                utente=utente,
                 stato='pending'
             ).order_by('-data_inizio', '-data_fine')
             

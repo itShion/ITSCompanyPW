@@ -24,7 +24,7 @@ export interface RisorsaCreate {
   nome: string;
   descrizione: string;
   capacita: number;
-  tipo: number;  // Solo ID!
+  tipo_id: number;
   orario_apertura: string;
   orario_chiusura: string;
   lunedi: boolean;

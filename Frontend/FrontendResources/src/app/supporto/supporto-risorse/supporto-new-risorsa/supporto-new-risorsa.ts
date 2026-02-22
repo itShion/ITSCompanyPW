@@ -48,11 +48,6 @@ export class SupportoNewRisorsaComponent implements OnInit {
       },
       error: (err) => {
         console.error('Errore nel caricare i tipi', err);
-        this.tipiRisorsa = [
-          { id: 1, nome: 'Sala Riunioni', descrizione: 'spazio prenotabile per riunioni e incontri' },
-          { id: 2, nome: 'Attrezzatura', descrizione: 'strumenti e dispositivi prenotabili' },
-          { id: 3, nome: 'Postazione', descrizione: 'spazio di lavoro individuale' }
-        ];
       }
     });
   }
@@ -72,7 +67,7 @@ export class SupportoNewRisorsaComponent implements OnInit {
       nome: this.nuovaRisorsa.nome,
       descrizione: this.nuovaRisorsa.descrizione,
       capacita: this.nuovaRisorsa.capacita,
-      tipo: this.nuovaRisorsa.tipoObj.id,
+      tipo_id: this.nuovaRisorsa.tipoObj.id,
       orario_apertura: this.nuovaRisorsa.orario_apertura + ':00',
       orario_chiusura: this.nuovaRisorsa.orario_chiusura + ':00',
       lunedi: this.nuovaRisorsa.lunedi,

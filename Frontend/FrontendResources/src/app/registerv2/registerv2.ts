@@ -1,17 +1,18 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../app/services/auth.service';
-import { RegisterDTO } from '../models/Utente';
+import { AuthService } from '../services/auth.service';
+import { RegisterDTO } from '../../models/Utente';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-registerv2',
   imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './register.html',
-  styleUrl: './register.css',
+  templateUrl: './registerv2.html',
+  styleUrl: './registerv2.css',
+  encapsulation: ViewEncapsulation.None
 })
-export class RegisterComponent {
+export class registerv2 {
   private authService = inject(AuthService);
   private router = inject(Router);
   
@@ -33,7 +34,7 @@ export class RegisterComponent {
     
     this.isLoading = true;
     this.authService.register(this.userData).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => this.router.navigate(['']),
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error?.error || 'Errore nella registrazione';

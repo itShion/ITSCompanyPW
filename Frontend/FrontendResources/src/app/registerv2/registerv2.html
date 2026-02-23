@@ -1,0 +1,122 @@
+<!-- src/app/registerv2/registerv2.html -->
+
+<div class="wrapper">
+    <h1>Sign Up</h1>
+
+    <form (ngSubmit)="onSubmit()">
+
+      <!-- USERNAME -->
+      <div>
+        <label for="username-input">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
+          </svg>
+        </label>
+        <input
+          type="text"
+          id="username-input"
+          [(ngModel)]="userData.username"
+          name="username"
+          placeholder="Username"
+          required
+        >
+      </div>
+
+      <!-- FIRSTNAME + SURNAME affiancati -->
+      <div class="row">
+        <div class="half">
+          <label for="firstname-input">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+              <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
+            </svg>
+          </label>
+          <input
+            type="text"
+            id="firstname-input"
+            [(ngModel)]="userData.first_name"
+            name="first_name"
+            placeholder="Firstname"
+          >
+        </div>
+        <div class="half">
+          <label for="surname-input">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+              <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
+            </svg>
+          </label>
+          <input
+            type="text"
+            id="surname-input"
+            [(ngModel)]="userData.last_name"
+            name="last_name"
+            placeholder="Surname"
+          >
+        </div>
+      </div>
+
+      <!-- EMAIL -->
+      <div>
+        <label for="email-input">
+          <span>@</span>
+        </label>
+        <input
+          type="email"
+          id="email-input"
+          [(ngModel)]="userData.email"
+          name="email"
+          placeholder="Email"
+          required
+        >
+      </div>
+
+      <!-- PASSWORD -->
+      <div>
+        <label for="password-input">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+            <path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/>
+          </svg>
+        </label>
+        <input
+          type="password"
+          id="password-input"
+          [(ngModel)]="userData.password"
+          name="password"
+          placeholder="Password"
+          required
+        >
+      </div>
+
+      <!-- REPEAT PASSWORD -->
+      <div>
+        <label for="repeat-password-input">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+            <path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/>
+          </svg>
+        </label>
+        <input
+          type="password"
+          id="repeat-password-input"
+          [(ngModel)]="userData.repeatPassword"
+          name="repeatPassword"
+          placeholder="Repeat Password"
+          required
+        >
+      </div>
+
+      <!-- MESSAGGIO DI ERRORE -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <!-- BOTTONE SIGNUP -->
+      <button
+        type="submit"
+        [disabled]="isLoading || !userData.username || !userData.email || !userData.password || !userData.repeatPassword"
+      >
+        {{ isLoading ? 'Caricamento...' : 'Signup' }}
+      </button>
+
+    </form>
+
+    <p>Already have an Account? <a routerLink="/loginv2">Login</a></p>
+  </div>

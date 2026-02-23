@@ -26,10 +26,11 @@ class RisorsaSerializer(serializers.ModelSerializer):
             'id', 'nome', 'descrizione', 'capacita',
             'tipo', 'tipo_id',
             'orario_apertura', 'orario_chiusura',
-            'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica',
+            'lunedi', 'martedi', 'mercoledi', 'giovedi',
+            'venerdi', 'sabato', 'domenica',
             'attiva',
         ]
-        read_only_fields = ['id', 'created_at']
+        read_only_fields = ['id']
 
 # ============== UTENTE ==============
 class UtenteSerializer(serializers.ModelSerializer):

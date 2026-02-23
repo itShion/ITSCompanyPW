@@ -9,7 +9,8 @@ import { TipoRisorsa } from '../../models/TipoRisorsa';
 })
 export class RisorsaService {
   private http = inject(HttpClient);
-  private apiUrl = 'api/v1';
+  private apiUrl = 'http://localhost:8000/api/v1';
+
 
   getRisorse(): Observable<Risorsa[]> {
     return this.http.get<Risorsa[]>(`${this.apiUrl}/risorse/`);

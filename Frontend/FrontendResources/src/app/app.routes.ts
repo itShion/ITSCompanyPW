@@ -5,6 +5,7 @@ import { RegisterComponent } from '../register/register';
 import { Prenota } from '../prenota/prenota';
 import { registerv2 } from './registerv2/registerv2';
 import { Loginv2 } from '../loginv2/loginv2';
+import { Navbarv2 } from './navbarv2/navbarv2';
 
 export const routes: Routes = [
   { path: 'prenotazionitab', component: Prenotazionitab },
@@ -15,4 +16,5 @@ export const routes: Routes = [
   {path: 'registerv2', component: registerv2},
   {path: 'prenota/:id', component:Prenota},
   {path: 'loginv2', component:Loginv2},
+  {path: 'navbarv2', component:Navbarv2}
 ];

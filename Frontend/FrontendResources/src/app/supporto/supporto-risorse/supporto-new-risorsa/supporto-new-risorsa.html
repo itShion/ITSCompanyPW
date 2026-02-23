@@ -1,0 +1,93 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h2>➕ Nuova Risorsa</h2>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label>Nome Risorsa <span class="required">*</span></label>
+        <input type="text" [(ngModel)]="nuovaRisorsa.nome" placeholder="es. Sala Riunioni Alpha, Postazione1, ...">
+      </div>
+
+      <div class="form-group">
+        <label>Descrizione <span class="required">*</span></label>
+        <textarea [(ngModel)]="nuovaRisorsa.descrizione" rows="3"
+          placeholder="Breve descrizione della risorsa..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Capacità</label>
+          <input type="number" [(ngModel)]="nuovaRisorsa.capacita" min="1">
+        </div>
+
+        <div class="form-group half">
+          <label>Tipo Risorsa <span class="required">*</span></label>
+          <select [(ngModel)]="nuovaRisorsa.tipoObj" [compareWith]="compareTipi">
+            <option [ngValue]="null">Seleziona tipo</option>
+            <option *ngFor="let tipo of tipiRisorsa" [ngValue]="tipo">
+              {{ tipo.nome }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Orario Apertura</label>
+          <input type="time" [(ngModel)]="nuovaRisorsa.orario_apertura">
+        </div>
+
+        <div class="form-group half">
+          <label>Orario Chiusura</label>
+          <input type="time" [(ngModel)]="nuovaRisorsa.orario_chiusura">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Giorni disponibili</label>
+        <div class="giorni-grid">
+          <label class="giorno-checkbox">
+            <input type="checkbox" [(ngModel)]="nuovaRisorsa.lunedi"> Lunedì
+          </label>
+          <label class="giorno-checkbox">
+            <input type="checkbox" [(ngModel)]="nuovaRisorsa.martedi"> Martedì
+          </label>
+          <label class="giorno-checkbox">
+            <input type="checkbox" [(ngModel)]="nuovaRisorsa.mercoledi"> Mercoledì
+          </label>
+          <label class="giorno-checkbox">
+            <input type="checkbox" [(ngModel)]="nuovaRisorsa.giovedi"> Giovedì
+          </label>
+          <label class="giorno-checkbox">
+            <input type="checkbox" [(ngModel)]="nuovaRisorsa.venerdi"> Venerdì
+          </label>
+          <label class="giorno-checkbox">
+            <input type="checkbox" [(ngModel)]="nuovaRisorsa.sabato"> Sabato
+          </label>
+          <label class="giorno-checkbox">
+            <input type="checkbox" [(ngModel)]="nuovaRisorsa.domenica"> Domenica
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group checkbox">
+        <label>
+          <input type="checkbox" [(ngModel)]="nuovaRisorsa.attiva">
+          Risorsa attiva (disponibile per prenotazioni)
+        </label>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeModal()">Annulla</button>
+      <button class="btn-primary" (click)="onSubmit()">Crea Risorsa</button>
+    </div>
+
+  </div>
+</div>

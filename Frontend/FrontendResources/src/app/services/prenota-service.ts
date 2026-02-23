@@ -28,4 +28,12 @@ export class PrenotaService {
       stato: 'ANNULLATA',
     });
   }
+
+  approvaPrenotazione(id: number): Observable<Prenotazione> {
+  return this.http.post<Prenotazione>(`${this.apiUrl}${id}/approva/`, {});
+}
+
+rifiutaPrenotazione(id: number): Observable<Prenotazione> {
+  return this.http.post<Prenotazione>(`${this.apiUrl}${id}/rifiuta/`, {});
+}
 }

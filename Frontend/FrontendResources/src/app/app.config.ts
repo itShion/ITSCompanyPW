@@ -8,7 +8,7 @@ import { authInterceptor } from '../Core/Interceptor/auth.interceptor';
 export const appConfig: ApplicationConfig = {
 providers: [
   provideBrowserGlobalErrorListeners(),
-  provideRouter(routes, withHashLocation()),
+  provideRouter(routes),
   provideHttpClient(
     withInterceptors([authInterceptor])
   )

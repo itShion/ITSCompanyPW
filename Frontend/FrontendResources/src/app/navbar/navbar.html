@@ -1,3 +1,5 @@
+<!-- src/app/navbar/navbar.html -->
+
 <div class="navbar">
     <input type="checkbox" id="sidebar-active">
 
@@ -21,47 +23,46 @@
         </label>
 
         <a class="home-link" href="#">Home</a>
-         <a routerLink="/prenotazionitab">Prenota Postazione</a>
+        <a routerLink="/prenotazionitab">Prenota Postazione</a>
         <a href="#">Le Mie Prenotazioni</a>
         <a href="#">Supporto</a>
         
-    <!-- Login Utente -->
+        <!-- Login Utente -->
         <div class="user-dropdown">
-        <a class="dropdown-trigger">
-            <div class="user-icon">
-            {{ currentUser?.username.charAt(0) || 'U' }}
-            </div>
-            <span>{{ currentUser?.username || 'Utente' }}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
-            <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
-            </svg>
-        </a>
-        
+            <a class="dropdown-trigger">
+                <div class="user-icon">
+                    {{ (currentUser?.username || 'U').charAt(0) }}
+                </div>
+                <span>{{ currentUser?.username || 'Utente' }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
+                    <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
+                </svg>
+            </a>
+            
             <div class="dropdown-menu">
                 <div class="dropdown-header">
-                <small>Accesso come: {{ currentUser?.username }}</small>
+                    <small>Accesso come: {{ currentUser?.username }}</small>
                 </div>
                 
                 <div class="dropdown-divider"></div>
                 
                 <a class="dropdown-item">
-                <i class="bi bi-person"></i>
-                <span>Profilo</span>
+                    <i class="bi bi-person"></i>
+                    <span>Profilo</span>
                 </a>
                 
                 <a class="dropdown-item">
-                <i class="bi bi-gear"></i>
-                <span>Impostazioni</span>
+                    <i class="bi bi-gear"></i>
+                    <span>Impostazioni</span>
                 </a>
                 
                 <div class="dropdown-divider"></div>
                 
                 <a class="dropdown-item logout" (click)="logout()">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
                 </a>
             </div>
         </div>
     </div>
-
 </div>

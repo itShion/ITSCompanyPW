@@ -1,30 +1,33 @@
+// src/app/app.component.ts
+
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterModule } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Navbar } from './navbar/navbar';
 import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterModule],
+  imports: [RouterOutlet, CommonModule, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit{
-
+export class AppComponent implements OnInit {
   private authService = inject(AuthService);
-  
-  isAuthenticated = false;
-  currentUser: any = null;
+  private router = inject(Router);
+
+  isLoggedIn = false;
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
-      this.isAuthenticated = !!user;
+    // Controlla lo stato di login ad ogni cambio di pagina
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isLoggedIn = this.authService.isAuthenticated();
+      }
     });
-  }
 
-  logout(): void {
-    this.authService.logout();
+    // Controlla anche all'avvio
+    this.isLoggedIn = this.authService.isAuthenticated();
   }
-
 }

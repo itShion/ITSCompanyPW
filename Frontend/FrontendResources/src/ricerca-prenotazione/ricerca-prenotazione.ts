@@ -223,8 +223,4 @@ export class RicercaPrenotazione implements OnInit {
   }
 
 
-  getImmagineRisorsa(r: any): string {
-  return this.immaginiTipo[r.tipo] ?? '';
-}
-
 }

@@ -116,6 +116,23 @@
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-body .btn-primary,
+.card-body .btn-disabled {
+  margin-top: auto;
+}
+
+.card {
   background: #ffffff;
   border-radius: 14px;
   overflow: hidden;

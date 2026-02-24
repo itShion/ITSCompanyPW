@@ -1,30 +1,35 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterModule } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, RouterModule, NavigationEnd, Router } from '@angular/router';
+import { navbarv2 } from "./navbarv2/navbarv2";
+import { filter } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterModule],
+  imports: [RouterOutlet, RouterModule, navbarv2, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit{
+export class App implements OnInit {
 
-  private authService = inject(AuthService);
-  
-  isAuthenticated = false;
-  currentUser: any = null;
+  showNavbar = true;
+  private hiddenNavbarRoutes = [
+    '/loginv2',
+    '/register',
+    '/registerv2'
+  ];
 
-  ngOnInit(): void {
-    this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
-      this.isAuthenticated = !!user;
-    });
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.showNavbar = !this.hiddenNavbarRoutes.includes(
+          event.urlAfterRedirects
+        );
+      });
   }
-
-  logout(): void {
-    this.authService.logout();
+  ngOnInit(): void {
   }
 
 }

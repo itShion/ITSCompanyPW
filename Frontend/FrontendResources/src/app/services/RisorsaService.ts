@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Risorsa } from '../../models/Risorsa';
+import { Risorsa, RisorsaCreate } from '../../models/Risorsa';
 import { TipoRisorsa } from '../../models/TipoRisorsa';
 
 @Injectable({
@@ -9,7 +9,8 @@ import { TipoRisorsa } from '../../models/TipoRisorsa';
 })
 export class RisorsaService {
   private http = inject(HttpClient);
-  private apiUrl = 'api/v1';
+  private apiUrl = 'http://localhost:8000/api/v1';
+
 
   getRisorse(): Observable<Risorsa[]> {
     return this.http.get<Risorsa[]>(`${this.apiUrl}/risorse/`);
@@ -21,5 +22,9 @@ export class RisorsaService {
   
   getTipiRisorsa(): Observable<TipoRisorsa[]> {
     return this.http.get<TipoRisorsa[]>(`${this.apiUrl}/tipo-risorse/`);
+  }
+
+  createRisorsa(risorsa: RisorsaCreate): Observable<Risorsa> {
+    return this.http.post<Risorsa>(`${this.apiUrl}/risorse/`, risorsa);
   }
 }

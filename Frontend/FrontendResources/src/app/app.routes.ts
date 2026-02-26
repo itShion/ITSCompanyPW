@@ -8,6 +8,7 @@ import { MiePrenotazioni } from '../mie-prenotazioni/mie-prenotazioni';
 import { registerv2 } from './registerv2/registerv2';
 import { Loginv2 } from '../loginv2/loginv2';
 import { Supporto } from './supporto/supporto';
+import { Forgotpassword } from './forgotpassword/forgotpassword';
 import { SupportoRisorse } from './supporto/supporto-risorse/supporto-risorse';
 import { SupportoUtenti } from './supporto/supporto-utenti/supporto-utenti';
 import { SupportoSidebar } from './supporto/supporto-sidebar/supporto-sidebar';
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'prenota/:id', component: Prenota },
   { path: 'registerv2', component: registerv2 },
   { path: 'loginv2', component: Loginv2 },
+  { path: 'forgotpassword', component: Forgotpassword },
   { path: 'ricercaPrenotazione', component: RicercaPrenotazione },
   { path: 'miePrenotazioni', component: MiePrenotazioni },
   {

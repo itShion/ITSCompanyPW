@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
     'CompanyResources.Risorsa',
     'CompanyResources.Utente',
+    'CompanyResources.Notifica',
     'CompanyResources.Prenotazione',
 
     #API

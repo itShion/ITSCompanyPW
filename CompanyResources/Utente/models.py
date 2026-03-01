@@ -10,3 +10,6 @@ class Utente(models.Model):
 
     class Meta:
         db_table = 'Utente'
+
+    def notifiche_non_lette(self):
+        return self.notifiche.filter(letta=False).count()

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterModule, NavigationEnd, Router } from '@angular/router';
-import { navbarv2 } from "./navbarv2/navbarv2";
+import { Navbarv2 } from "./navbarv2/navbarv2";
 import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, navbarv2, CommonModule],
+  imports: [RouterOutlet, RouterModule, Navbarv2, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

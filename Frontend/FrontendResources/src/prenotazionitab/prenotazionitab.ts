@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { RisorsaService } from '../app/services/RisorsaService';
 import { Risorsa } from '../models/Risorsa';
 import { RouterLink } from "@angular/router";
-import { navbarv2 } from '../app/navbarv2/navbarv2';
+import { Navbarv2 } from '../app/navbarv2/navbarv2';
 
 
 @Component({
   selector: 'app-prenotazionitab',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, navbarv2],
+  imports: [CommonModule, FormsModule, RouterLink, Navbarv2],
   templateUrl: './prenotazionitab.html',
   styleUrl: './prenotazionitab.css',
 })

@@ -14,6 +14,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import pymysql
 
+# JWT
+from datetime import timedelta
+
 pymysql.install_as_MySQLdb()
 pymysql.version_info = (2, 2, 1, "final", 0)  # FINGE di essere mysqlclient 2.2.1
 
@@ -31,6 +34,8 @@ ALLOWED_HOSTS = [
     'django',
     'localhost',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -58,6 +63,7 @@ INSTALLED_APPS = [
 
     # Le mie app:
 
+    'CompanyResources',
     'CompanyResources.Risorsa',
     'CompanyResources.Utente',
     'CompanyResources.Prenotazione',
@@ -181,8 +187,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-# JWT
-from datetime import timedelta
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),

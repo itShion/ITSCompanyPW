@@ -25,6 +25,36 @@
         <a routerLink="/miePrenotazioni">Le Mie Prenotazioni</a>
 
         <a *ngIf="showSupport$ | async" routerLink="/supporto">Supporto</a>
+        <a class="home-link" href="#">Home</a>
+         <a routerLink="/ricercaPrenotazione">Prenota Postazione</a>
+        <a href="/miePrenotazioni">Le Mie Prenotazioni</a>
+        <a href="/supporto">Supporto</a>
+        
+
+<!-- Notifiche -->
+<div class="notifiche-container">
+  <button class="bell-btn" (click)="togglePopup()">
+    🔔
+    <span *ngIf="unreadCount() > 0" class="badge">
+      {{ unreadCount() }}
+    </span>
+  </button>
+
+  <!-- Popup notifiche -->
+  <div class="popup" *ngIf="popupAperto()">
+    <ul>
+      <li *ngFor="let notifica of notifiche()">
+        <div class="titolo">{{ notifica.titolo }}</div>
+        <div class="messaggio">{{ notifica.messaggio }}</div>
+        <button *ngIf="!notifica.letta" (click)="segnaComeLetta(notifica)">
+          Segna come letta
+        </button>
+      </li>
+      <li *ngIf="notifiche().length === 0">Nessuna notifica</li>
+    </ul>
+  </div>
+</div>
+
 
     <!-- Login Utente -->
         <div class="user-dropdown" *ngIf="currentUser; else loginButton">

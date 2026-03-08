@@ -12,7 +12,7 @@ class Utente(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    ruolo = models.CharField(max_length=120)
+    ruolo = models.CharField(max_length=120, choices=RUOLI)
     telefono = models.CharField(max_length=10)
 
     class Meta:

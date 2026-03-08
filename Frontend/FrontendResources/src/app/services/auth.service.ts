@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
 export interface User {
@@ -18,7 +18,8 @@ export interface User {
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api';
 
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  //private currentUserSubject = new BehaviorSubject<User | null>(null);
+  private currentUserSubject = new ReplaySubject<any>(1);
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {

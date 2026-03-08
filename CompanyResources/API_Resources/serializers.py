@@ -63,6 +63,15 @@ class PrenotazionePartecipanteSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'stato']
         read_only_fields = ['id', 'stato']
 
+# ============== PRENOTAZIONE PARTECIPANTE ==============
+class PrenotazionePartecipanteSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='utente.user.username', read_only=True)
+
+    class Meta:
+        model = PrenotazionePartecipante
+        fields = ['id', 'username', 'stato']
+        read_only_fields = ['id', 'stato']
+
 # ============== PRENOTAZIONE ==============
 class PrenotazioneSerializer(serializers.ModelSerializer):
     risorsa = RisorsaSerializer(read_only=True)
@@ -79,6 +88,16 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
     utente_ruolo = serializers.CharField(source='utente.get_ruolo_display', read_only=True)
 
     stato_display = serializers.CharField(source='get_stato_display', read_only=True)
+
+    # Lista username dei partecipanti in input
+    partecipanti_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Utente.objects.all(),
+        many=True,
+        write_only=True,
+        required=False
+    )
+    # Lista partecipanti in output
+    partecipanti = PrenotazionePartecipanteSerializer(many=True, read_only=True)
 
     # Lista username dei partecipanti in input
     partecipanti_ids = serializers.PrimaryKeyRelatedField(

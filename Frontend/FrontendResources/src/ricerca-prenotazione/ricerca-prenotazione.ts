@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RisorsaService } from '../app/services/RisorsaService';
 import { AuthService } from '../app/services/auth.service';
@@ -7,6 +7,9 @@ import { PrenotaService } from '../app/services/prenota-service';
 import { ActivatedRoute } from '@angular/router';
 import { PrenotazioneDTO } from '../models/Prenotazione';
 import { Router } from '@angular/router';
+import { UtilsReportService } from '../app/services/utils-report-service';
+import { Utente } from '../models/Utente';
+
 @Component({
   selector: 'app-ricerca-prenotazione',
   standalone: true,
@@ -19,9 +22,9 @@ export class RicercaPrenotazione implements OnInit {
   private risorsaService = inject(RisorsaService);
   private authService = inject(AuthService);
   private prenotaService = inject(PrenotaService);
+  private utilsService = inject(UtilsReportService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-
 
 
   // ===== DATA =====
@@ -33,7 +36,7 @@ export class RicercaPrenotazione implements OnInit {
 
   // ===== MODAL =====
   showModal = signal(false);
-  prenotazioneSuccesso = signal(false); 
+  prenotazioneSuccesso = signal(false);
   selectedRisorsa = signal<Risorsa | null>(null);
   utente = signal(this.authService.getCurrentUser());
   oggi = signal<string>(new Date().toISOString().split('T')[0]);
@@ -44,11 +47,34 @@ export class RicercaPrenotazione implements OnInit {
   motivo = signal<string>('');
   orariDisponibiliBase = this.generateTimeSlots(8, 18);
 
+  // ===== PARTECIPANTI =====
+  tuttiGliUtenti = signal<Utente[]>([]);
+  partecipantiSelezionati = signal<Utente[]>([]);
+  searchQuery = signal<string>('');
+  showDropdown = signal<boolean>(false);
+
+  suggerimenti = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    const selezionati = this.partecipantiSelezionati();
+    const currentUser = this.authService.getCurrentUser();
+
+    if (!query || query.length < 2) return [];
+
+    return this.tuttiGliUtenti().filter(u =>
+      u.username.toLowerCase().includes(query) &&
+      !selezionati.find(s => s.id === u.id) &&  // già selezionato
+      u.id !== currentUser?.id                   // non se stesso
+    ).slice(0, 5); // max 5 suggerimenti
+  });
+
   // ===== INIT =====
   ngOnInit(): void {
     this.loadRisorse();
     const oggi = new Date().toISOString().split('T')[0];
     this.dataSelezionata.set(oggi);
+    this.utilsService.getAllUtenti().subscribe(utenti => {
+      this.tuttiGliUtenti.set(utenti);
+    });
   }
 
   loadRisorse() {
@@ -76,12 +102,41 @@ export class RicercaPrenotazione implements OnInit {
     this.motivo.set('');
     this.errorMessage.set('');
     this.successMessage.set('');
+    this.partecipantiSelezionati.set([]);  // reset partecipanti
+    this.searchQuery.set('');
+    this.showDropdown.set(false);
 
     this.showModal.set(true);
   }
 
   closeModal() {
     this.showModal.set(false);
+  }
+
+  // ===== PARTECIPANTI ACTIONS =====
+  onSearchInput(event: Event) {
+    const val = (event.target as HTMLInputElement).value;
+    this.searchQuery.set(val);
+    this.showDropdown.set(val.length >= 2);
+  }
+
+  selezionaPartecipante(utente: Utente) {
+    const risorsa = this.selectedRisorsa();
+
+    // Controllo capienza: +1 per il creatore
+    if (risorsa && this.partecipantiSelezionati().length + 1 >= risorsa.capacita) {
+      this.errorMessage.set(`Capacità massima raggiunta (${risorsa.capacita} persone)`);
+      return;
+    }
+
+    this.partecipantiSelezionati.update(list => [...list, utente]);
+    this.searchQuery.set('');
+    this.showDropdown.set(false);
+    this.errorMessage.set('');
+  }
+
+  rimuoviPartecipante(utente: Utente) {
+    this.partecipantiSelezionati.update(list => list.filter(u => u.id !== utente.id));
   }
 
   // ===== MODAL SUCCESSO =====
@@ -94,9 +149,9 @@ export class RicercaPrenotazione implements OnInit {
   }
 
   goToMiePrenotazioni() {
-   this.router.navigate(['/mie-prenotazioni']);
+    this.router.navigate(['/mie-prenotazioni']);
   }
-  
+
 
   confermaPrenotazione() {
     const risorsaVal = this.selectedRisorsa();
@@ -124,7 +179,11 @@ export class RicercaPrenotazione implements OnInit {
       risorsa_id: risorsaVal.id,
       data_inizio: dataInizio,
       data_fine: dataFine,
-      motivo: this.motivo() || undefined
+      motivo: this.motivo() || undefined,
+      // Partecipanti solo se capacita > 1
+      ...(risorsaVal.capacita > 1 && {
+        partecipanti_ids: this.partecipantiSelezionati().map(u => u.id)
+      })
     };
 
     this.loading.set(true);
@@ -133,13 +192,8 @@ export class RicercaPrenotazione implements OnInit {
 
     this.prenotaService.createPrenotazione(dto).subscribe({
       next: (response) => {
-        console.log('Prenotazione creata:', response);
-        this.successMessage.set('Prenotazione creata con successo!');
         this.loading.set(false);
-
-        this.closeModal(); // chiude il modal principale
-
-        // MOSTRA IL MODAL DI SUCCESSO
+        this.closeModal();
         this.prenotazioneSuccesso.set(true);
 
         // Reset dei campi
@@ -147,6 +201,7 @@ export class RicercaPrenotazione implements OnInit {
           this.motivo.set('');
           this.oraInizio.set('09:00');
           this.oraFine.set('10:00');
+          this.partecipantiSelezionati.set([]);
         }, 3000);
       },
       error: (err) => {
@@ -154,7 +209,7 @@ export class RicercaPrenotazione implements OnInit {
         let errorMsg = 'Errore durante la prenotazione';
         if (err.error?.error) errorMsg = err.error.error;
         else if (err.error?.detail) errorMsg = err.error.detail;
-        else if (err.status === 400) errorMsg = 'Dati non validi';
+        else if (typeof err.error === 'string') errorMsg = err.error;
         this.errorMessage.set(errorMsg);
         this.loading.set(false);
       }
@@ -208,8 +263,7 @@ export class RicercaPrenotazione implements OnInit {
 
   isDisponibile(r: Risorsa): boolean {
     if (!r.attiva) return false;
-
-    const giorno = new Date(this.dataSelezionata()).getDay(); // 0 = domenica ... 6 = sabato
+    const giorno = new Date(this.dataSelezionata()).getDay();
     switch (giorno) {
       case 0: return r.domenica;
       case 1: return r.lunedi;

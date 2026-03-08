@@ -107,15 +107,69 @@
     <label for="motivo">Motivo (opzionale)</label>
     <textarea [value]="motivo()" (input)="motivo.set($any($event.target).value)" rows="2"></textarea>
 
+    <!-- ===== PARTECIPANTI (solo se capacita > 1) ===== -->
+    @if ((selectedRisorsa()?.capacita ?? 1) > 1) {
+    <div class="partecipanti-section">
+      <label>
+        Partecipanti
+        <span class="capacita-info">
+          {{ partecipantiSelezionati().length + 1 }} / {{ selectedRisorsa()?.capacita }}
+        </span>
+      </label>
+
+      <!-- Tag partecipanti selezionati -->
+      @if (partecipantiSelezionati().length > 0) {
+      <div class="tags-container">
+        @for (p of partecipantiSelezionati(); track p.id) {
+        <span class="tag">
+          @{{ p.username }}
+          <button class="tag-remove" (click)="rimuoviPartecipante(p)">✕</button>
+        </span>
+        }
+      </div>
+      }
+
+      <!-- Input mention -->
+      <div class="mention-wrapper">
+        <input
+          type="text"
+          class="mention-input"
+          placeholder="Cerca utente... (min. 2 caratteri)"
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          (blur)="showDropdown.set(false)"
+        />
+
+        <!-- Dropdown suggerimenti -->
+        @if (showDropdown() && suggerimenti().length > 0) {
+        <div class="mention-dropdown">
+          @for (u of suggerimenti(); track u.id) {
+          <div class="mention-item" (mousedown)="selezionaPartecipante(u)">
+            <span class="mention-avatar">{{ u.username[0] | uppercase }}</span>
+            <span class="mention-username">{{ u.username }}</span>
+          </div>
+          }
+        </div>
+        }
+
+        <!-- Nessun risultato -->
+        @if (showDropdown() && searchQuery().length >= 2 && suggerimenti().length === 0) {
+        <div class="mention-dropdown">
+          <div class="mention-empty">Nessun utente trovato</div>
+        </div>
+        }
+      </div>
+    </div>
+    }
+    <!-- ===== FINE PARTECIPANTI ===== -->
+
     <div class="modal-buttons">
       <button class="btn-primary" (click)="confermaPrenotazione()" [disabled]="loading() || !oraInizio() || !oraFine()">
         {{ loading() ? 'Prenotando...' : 'Prenota' }}
       </button>
-
-      <button class="btn-secondary" (click)="closeModal()">
-        Annulla
-      </button>
+      <button class="btn-secondary" (click)="closeModal()">Annulla</button>
     </div>
+
   </div>
 </div>
 }

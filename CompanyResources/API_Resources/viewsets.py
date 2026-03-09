@@ -8,6 +8,7 @@ from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRi
 from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa
 from CompanyResources.Prenotazione.models import Prenotazione
 from CompanyResources.Utente.models import Utente
+from CompanyResources.ActivityLog.models import ActivityLog
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -103,7 +104,6 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
         self.permission_classes = [IsAuthenticated, IsResponsabileOrAdmin]
         return super().get_permissions()
 
-
 #--------------- PRENOTAZIONE ----------------------
 @extend_schema_view(
     list=extend_schema(tags=['Prenotazione']),
@@ -148,14 +148,20 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
                 models.Q(utente=utente) |
                 models.Q(partecipanti__utente=utente)
             ).distinct()
-
+            
         except Utente.DoesNotExist:
             return Prenotazione.objects.none()
 
     def perform_create(self, serializer):
 
         utente = self.request.user.utente
-        serializer.save(utente=utente)
+        prenotazione = serializer.save(utente=utente)  # fix: assegnato
+        ActivityLog.objects.create(
+            azione='CREATA',
+            utente=utente,
+            prenotazione=prenotazione,
+            descrizione=f"{utente.user.username} ha creato una prenotazione #{prenotazione.id}"
+        )
 
     # ---- AZIONI DIPENDENTE ----
 
@@ -172,11 +178,16 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
 
         prenotazione.stato = 'ANNULLATA'
         prenotazione.save()
+        ActivityLog.objects.create(
+            azione='ANNULLATA',
+            utente=utente,
+            prenotazione=prenotazione,
+            descrizione=f"{utente.user.username} ha annullato la prenotazione #{prenotazione.id}"
+        )
         return Response(self.get_serializer(prenotazione).data)
 
     @action(detail=True, methods=['post'])
     def rifiuta_partecipazione(self, request, pk=None):
-        """Il partecipante rifiuta la sua partecipazione"""
         prenotazione = self.get_object()
         utente = Utente.objects.get(user=request.user)
 
@@ -191,20 +202,21 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
         if partecipante.stato == 'RIFIUTATO':
             return Response({'error': 'Hai già rifiutato'}, status=400)
 
-        # Il creatore non può rifiutare la sua stessa prenotazione
         if prenotazione.utente == utente:
-            return Response(
-                {'error': 'Sei il creatore, usa annulla invece'},
-                status=400
-            )
+            return Response({'error': 'Sei il creatore, usa annulla invece'}, status=400)
 
         partecipante.stato = 'RIFIUTATO'
         partecipante.save()
+        ActivityLog.objects.create(
+            azione='PARTECIPANTE_RIFIUTATO',
+            utente=utente,
+            prenotazione=prenotazione,
+            descrizione=f"{utente.user.username} ha rifiutato la partecipazione alla prenotazione #{prenotazione.id}"
+        )
         return Response(self.get_serializer(prenotazione).data)
 
     @action(detail=True, methods=['post'])
     def accetta_partecipazione(self, request, pk=None):
-        """Il partecipante accetta la sua partecipazione"""
         prenotazione = self.get_object()
         utente = Utente.objects.get(user=request.user)
 
@@ -221,6 +233,12 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
 
         partecipante.stato = 'ACCETTATO'
         partecipante.save()
+        ActivityLog.objects.create(
+            azione='PARTECIPANTE_ACCETTATO',
+            utente=utente,
+            prenotazione=prenotazione,
+            descrizione=f"{utente.user.username} ha accettato la partecipazione alla prenotazione #{prenotazione.id}"
+        )
         return Response(self.get_serializer(prenotazione).data)
 
     # ---- AZIONI HR ----
@@ -228,6 +246,7 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def approva(self, request, pk=None):
         prenotazione = self.get_object()
+        utente = Utente.objects.get(user=request.user)  # fix: aggiunto
 
         if prenotazione.stato != 'PENDING':
             return Response(
@@ -237,11 +256,18 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
 
         prenotazione.stato = 'CONFERMATA'
         prenotazione.save()
+        ActivityLog.objects.create(
+            azione='CONFERMATA',
+            utente=utente,
+            prenotazione=prenotazione,
+            descrizione=f"{utente.user.username} ha confermato la prenotazione #{prenotazione.id}"
+        )
         return Response(self.get_serializer(prenotazione).data)
 
     @action(detail=True, methods=['post'])
     def rifiuta(self, request, pk=None):
         prenotazione = self.get_object()
+        utente = Utente.objects.get(user=request.user)  # fix: aggiunto
 
         if prenotazione.stato != 'PENDING':
             return Response(
@@ -251,6 +277,12 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
 
         prenotazione.stato = 'ANNULLATA'
         prenotazione.save()
+        ActivityLog.objects.create(
+            azione='RIFIUTATA',
+            utente=utente,
+            prenotazione=prenotazione,
+            descrizione=f"{utente.user.username} ha rifiutato la prenotazione #{prenotazione.id}"
+        )
         return Response(self.get_serializer(prenotazione).data)
 
     # ---- FILTRI ----
@@ -270,7 +302,6 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def pending(self, request):
-        """Solo HR"""
         prenotazioni = Prenotazione.objects.filter(
             stato='PENDING'
         ).order_by('-data_inizio')
@@ -288,3 +319,14 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
         ).distinct().order_by('-data_inizio')
 
         return Response(self.get_serializer(prenotazioni, many=True).data)
+
+#--------------- ACTIVITY LOG ----------------------
+class ActivityLogViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ActivityLogSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return ActivityLog.objects.select_related(
+            'utente__user',
+            'prenotazione__risorsa'
+        ).all()[:50]

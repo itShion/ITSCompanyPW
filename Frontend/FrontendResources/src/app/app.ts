@@ -1,24 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, RouterModule, NavigationEnd, Router } from '@angular/router';
+import { Component, inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet, RouterLink, RouterModule, NavigationEnd, Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 import { navbarv2 } from "./navbarv2/navbarv2";
 import { filter } from 'rxjs';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, navbarv2, CommonModule],
+  imports: [RouterOutlet, RouterLink, RouterModule, navbarv2, CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App implements OnInit {
 
-  showNavbar = true;
+  private authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
   private hiddenNavbarRoutes = [
     '/loginv2',
     '/register',
     '/registerv2'
   ];
+
+  showNavbar = true;
+  isAuthenticated = false;
+  currentUser: any = null;
 
   constructor(private router: Router) {
     this.router.events
@@ -29,7 +36,17 @@ export class App implements OnInit {
         );
       });
   }
+
   ngOnInit(): void {
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      this.isAuthenticated = !!user;
+      this.cdr.detectChanges();
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
 }

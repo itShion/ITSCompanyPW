@@ -30,7 +30,7 @@ export class navbarv2 implements OnInit {
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
-      console.log('Utente aggiornato: ', user);
+      //console.log('Utente aggiornato: ', user);
       this.currentUser = user;
     });
   }

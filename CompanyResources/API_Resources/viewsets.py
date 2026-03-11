@@ -136,9 +136,9 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
         try:
             utente = user.utente
             if utente.ruolo in ['RESPONSABILE', 'ADMIN'] or user.is_superuser:
-                return Prenotazione.objects.all()
+                return Prenotazione.objects.select_related('utente__user', 'risorsa__tipo').all()
             else:
-                return Prenotazione.objects.filter(utente=utente)
+                return Prenotazione.objects.select_related('utente__user', 'risorsa__tipo').filter(utente=utente)
         except:
             return Prenotazione.objects.none()
 

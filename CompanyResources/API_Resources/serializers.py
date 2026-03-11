@@ -66,8 +66,8 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
     )
 
     utente_id = serializers.IntegerField(source='utente.id', read_only=True)
-    utente_nome = serializers.CharField(source='utente.username', read_only=True)
-    utente_email = serializers.EmailField(source='utente.email', read_only=True)
+    utente_nome = serializers.CharField(source='utente.user.username', read_only=True)
+    utente_email = serializers.EmailField(source='utente.user.email', read_only=True)
     utente_ruolo = serializers.CharField(source='utente.get_ruolo_display', read_only=True)
 
     stato_display = serializers.CharField(source='get_stato_display', read_only=True)

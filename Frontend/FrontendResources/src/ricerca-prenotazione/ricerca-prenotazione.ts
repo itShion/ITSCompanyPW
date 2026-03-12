@@ -7,6 +7,7 @@ import { PrenotaService } from '../app/services/prenota-service';
 import { ActivatedRoute } from '@angular/router';
 import { PrenotazioneDTO } from '../models/Prenotazione';
 import { Router } from '@angular/router';
+import { NotificationService } from '../app/services/notification.service';
 @Component({
   selector: 'app-ricerca-prenotazione',
   standalone: true,
@@ -21,6 +22,7 @@ export class RicercaPrenotazione implements OnInit {
   private prenotaService = inject(PrenotaService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private notifiche = inject(NotificationService);
 
 
 
@@ -58,9 +60,7 @@ export class RicercaPrenotazione implements OnInit {
         this.risorse.set(data);
         this.loading.set(false);
       },
-      error: (err) => {
-        console.error(err);
-        this.error.set("Errore caricamento risorse");
+      error: () => {
         this.loading.set(false);
       }
     });
@@ -132,31 +132,24 @@ export class RicercaPrenotazione implements OnInit {
     this.successMessage.set('');
 
     this.prenotaService.createPrenotazione(dto).subscribe({
-      next: (response) => {
-        console.log('Prenotazione creata:', response);
-        this.successMessage.set('Prenotazione creata con successo!');
+      next: () => {
         this.loading.set(false);
-
-        this.closeModal(); // chiude il modal principale
-
-        // MOSTRA IL MODAL DI SUCCESSO
+        this.closeModal();
         this.prenotazioneSuccesso.set(true);
-
-        // Reset dei campi
-        setTimeout(() => {
-          this.motivo.set('');
-          this.oraInizio.set('09:00');
-          this.oraFine.set('10:00');
-        }, 3000);
+        this.notifiche.successo('Prenotazione creata con successo!');
+        this.motivo.set('');
+        this.oraInizio.set('09:00');
+        this.oraFine.set('10:00');
       },
       error: (err) => {
-        console.error('Errore prenotazione:', err);
-        let errorMsg = 'Errore durante la prenotazione';
-        if (err.error?.error) errorMsg = err.error.error;
-        else if (err.error?.detail) errorMsg = err.error.detail;
-        else if (err.status === 400) errorMsg = 'Dati non validi';
-        this.errorMessage.set(errorMsg);
         this.loading.set(false);
+    
+        // Se il backend manda { errore: true, codice: 400, dettaglio: "..." }
+        if (err.error && err.error.dettaglio) {
+          this.errorMessage.set(err.error.dettaglio);
+        } else {
+          this.errorMessage.set('Errore sconosciuto');
+        }
       }
     });
   }

@@ -1,6 +1,6 @@
 from django.utils import timezone
 from django.db import models
-from jsonschema import ValidationError
+from django.core.exceptions import ValidationError
 from datetime import date
 from CompanyResources.Risorsa.models import Risorsa
 from CompanyResources.Utente.models import Utente
@@ -104,7 +104,7 @@ class Prenotazione(models.Model):
             conflitto = conflitti.first()
             raise ValidationError(
                 f"Conflitto con prenotazione esistente: "
-                f"{conflitto.utente.username} ha già prenotato "
+                f"{conflitto.utente.user.username} ha già prenotato "
                 f"dalle {conflitto.data_inizio.strftime('%H:%M')} "
                 f"alle {conflitto.data_fine.strftime('%H:%M')}"
             )

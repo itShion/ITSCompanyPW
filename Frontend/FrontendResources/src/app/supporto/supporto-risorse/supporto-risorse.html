@@ -1,1 +1,269 @@
-<p>supporto-risorse works!</p>
+<div class="page">
+    <div class="header">
+        <div>
+            <h1>Gestione Risorse</h1>
+            <p>Definisci, modifica e gestisci le risorse aziendali prenotabili.</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-secondary" (click)="openModalTipo()">+ Nuovo Tipo Risorsa</button>
+            <button class="btn-primary" (click)="openModalRisorsa()">+ Nuova Risorsa</button>
+        </div>
+    </div>
+
+    @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+    }
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>RISORSA</th>
+                    <th>TIPO</th>
+                    <th>CAPACITÀ</th>
+                    <th>ORARI</th>
+                    <th>STATO</th>
+                    <th>AZIONI</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (loading()) {
+                <tr>
+                    <td colspan="6" class="loading-cell">Caricamento...</td>
+                </tr>
+                }
+                @for (r of risorsePaginate; track r.id) {
+                <tr class="row-clickable" (click)="openDettaglio(r)">
+                    <td>
+                        <div class="risorsa-cell">
+                            <img [src]="r.tipo.immagine_url" [alt]="r.nome" class="risorsa-img" />
+                            <div>
+                                <div class="name">{{ r.nome }}</div>
+                                <div class="sub">{{ r.descrizione }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ r.tipo.nome }}</td>
+                    <td>
+                        <span class="capacita">
+                            {{ r.capacita === 1 ? '1 Persona' : r.capacita + ' Persone' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="name">{{ r.orario_apertura }} - {{ r.orario_chiusura }}</div>
+                    </td>
+                    <td>
+                        <span class="badge" [ngClass]="getBadgeClass(r.stato)">
+                            {{ r.stato_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="azioni" (click)="$event.stopPropagation()">
+                            @if (r.stato !== 'ATTIVA') {
+                            <button class="btn-attiva" (click)="setAttiva(r)" title="Attiva">✓</button>
+                            }
+                            @if (r.stato !== 'MANUTENZIONE') {
+                            <button class="btn-manutenzione" (click)="setManutenzione(r)" title="Manutenzione">
+                                🔧
+                            </button>
+                            }
+                            @if (r.stato !== 'DISATTIVA') {
+                            <button class="btn-disattiva" (click)="setDisattiva(r)" title="Disattiva">
+                                ✕
+                            </button>
+                            }
+                            <button class="btn-elimina" (click)="apriPopupCancella(r)" title="Elimina">
+                                🗑
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <span>
+                Visualizzati {{ (paginaCorrente() - 1) * perPagina + 1 }}-{{
+                min(paginaCorrente() * perPagina, risorse().length)
+                }}
+                di {{ risorse().length }} risorse
+            </span>
+            <div>
+                <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>
+                <button (click)="paginaSuccessiva()" [disabled]="paginaCorrente() === totalPages">
+                    Successivo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL NUOVA RISORSA ===== -->
+<app-supporto-new-risorsa [isOpen]="modalRisorsaAperto()" (close)="closeModalRisorsa()"
+    (save)="onSaveRisorsa($event)" />
+
+<!-- ===== MODAL DETTAGLIO/MODIFICA ===== -->
+@if (modalDettaglioAperto() && risorsaSelezionata()) {
+<div class="modal-overlay" (click)="closeDettaglio()">
+    <div class="modal modal-dettaglio" (click)="$event.stopPropagation()">
+        <div class="modal-hero">
+            <img [src]="risorsaSelezionata()?.tipo?.immagine_url" [alt]="risorsaSelezionata()?.nome"
+                class="modal-hero-img" />
+            <div class="modal-hero-overlay">
+                <div>
+                    <h2>{{ risorsaSelezionata()?.nome }}</h2>
+                    <p class="hero-descrizione">{{ risorsaSelezionata()?.descrizione }}</p>
+                </div>
+                <span class="badge" [ngClass]="getBadgeClass(risorsaSelezionata()!.stato)">
+                    {{ risorsaSelezionata()?.stato_display }}
+                </span>
+            </div>
+            <button class="close-btn-hero" (click)="closeDettaglio()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            @if (errorMessage()) {
+            <p class="error">{{ errorMessage() }}</p>
+            }
+
+            <div class="tipo-row">
+                <div>
+                    <span class="field-label">TIPO</span>
+                    <span class="field-value">{{ risorsaSelezionata()?.tipo?.nome }}</span>
+                </div>
+                <button class="btn-edit-tipo" (click)="apriModificaTipo()">✏️ Modifica tipo</button>
+            </div>
+
+            <label>Nome *</label>
+            <input type="text" [(ngModel)]="risorsaInModifica.nome" />
+
+            <label>Descrizione</label>
+            <textarea [(ngModel)]="risorsaInModifica.descrizione" rows="2"></textarea>
+
+            <label>Tipo *</label>
+            <select [(ngModel)]="risorsaInModifica.tipo_id">
+                @for (t of tipiRisorsa(); track t.id) {
+                <option [value]="t.id">{{ t.nome }}</option>
+                }
+            </select>
+
+            <label>Capacità</label>
+            <input type="number" [(ngModel)]="risorsaInModifica.capacita" min="1" />
+
+            <div class="orari-row">
+                <div>
+                    <label>Orario apertura</label>
+                    <input type="time" [(ngModel)]="risorsaInModifica.orario_apertura" />
+                </div>
+                <div>
+                    <label>Orario chiusura</label>
+                    <input type="time" [(ngModel)]="risorsaInModifica.orario_chiusura" />
+                </div>
+            </div>
+
+            <label>Giorni disponibili</label>
+            <div class="giorni-grid">
+                <label><input type="checkbox" [(ngModel)]="risorsaInModifica.lunedi" /> Lun</label>
+                <label><input type="checkbox" [(ngModel)]="risorsaInModifica.martedi" /> Mar</label>
+                <label><input type="checkbox" [(ngModel)]="risorsaInModifica.mercoledi" /> Mer</label>
+                <label><input type="checkbox" [(ngModel)]="risorsaInModifica.giovedi" /> Gio</label>
+                <label><input type="checkbox" [(ngModel)]="risorsaInModifica.venerdi" /> Ven</label>
+                <label><input type="checkbox" [(ngModel)]="risorsaInModifica.sabato" /> Sab</label>
+                <label><input type="checkbox" [(ngModel)]="risorsaInModifica.domenica" /> Dom</label>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" (click)="closeDettaglio()">Annulla</button>
+                <button class="btn-primary" (click)="salvaModifica()">Salva modifiche</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<!-- ===== MODAL MODIFICA TIPO ===== -->
+@if (modalModificaTipoAperto() && tipoInModifica) {
+<div class="modal-overlay" (click)="chiudiModificaTipo()">
+    <div class="modal small" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Modifica Tipo Risorsa</h2>
+            <button class="close-btn" (click)="chiudiModificaTipo()">✕</button>
+        </div>
+
+        @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+        }
+
+        @if (tipoInModifica.immagine_url) {
+        <div class="tipo-preview">
+            <img [src]="tipoInModifica.immagine_url" alt="preview" class="tipo-preview-img" />
+        </div>
+        }
+
+        <label>Nome *</label>
+        <input type="text" [(ngModel)]="tipoInModifica.nome" />
+
+        <label>Descrizione</label>
+        <input type="text" [(ngModel)]="tipoInModifica.descrizione" />
+
+        <label>URL Immagine</label>
+        <input type="text" [(ngModel)]="tipoInModifica.immagine_url" placeholder="https://..." />
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="chiudiModificaTipo()">Annulla</button>
+            <button class="btn-primary" (click)="salvaModificaTipo()">Salva</button>
+        </div>
+    </div>
+</div>
+}
+
+<!-- ===== POPUP CONFERMA CANCELLAZIONE ===== -->
+@if (popupCancellaAperto()) {
+<div class="modal-overlay" (click)="chiudiPopupCancella()">
+    <div class="modal small" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Elimina risorsa</h2>
+            <button class="close-btn" (click)="chiudiPopupCancella()">✕</button>
+        </div>
+        <p style="font-size: 14px; color: #374151; margin: 8px 0 16px">
+            Sei sicuro di voler eliminare <strong>{{ risorsaDaCancellare()?.nome }}</strong>? Questa azione è
+            irreversibile.
+        </p>
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="chiudiPopupCancella()">Annulla</button>
+            <button class="btn-danger" (click)="confermaCancella()">Elimina</button>
+        </div>
+    </div>
+</div>
+}
+
+<!-- ===== MODAL NUOVO TIPO RISORSA ===== -->
+@if (modalTipoAperto()) {
+<div class="modal-overlay" (click)="closeModalTipo()">
+    <div class="modal small" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Nuovo Tipo Risorsa</h2>
+            <button class="close-btn" (click)="closeModalTipo()">✕</button>
+        </div>
+
+        @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+        }
+
+        <label>Nome *</label>
+        <input type="text" [(ngModel)]="nuovoTipo.nome" placeholder="Es. Sala Riunioni" />
+
+        <label>Descrizione</label>
+        <input type="text" [(ngModel)]="nuovoTipo.descrizione" placeholder="Descrizione tipo..." />
+
+        <label>URL Immagine</label>
+        <input type="text" [(ngModel)]="nuovoTipo.immagine_url" placeholder="https://..." />
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeModalTipo()">Annulla</button>
+            <button class="btn-primary" (click)="creaTipo()">Crea</button>
+        </div>
+    </div>
+</div>
+}

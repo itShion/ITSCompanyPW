@@ -28,6 +28,7 @@ export class RicercaPrenotazione implements OnInit {
   private router = inject(Router);
 
 
+
   // ===== DATA =====
   risorse = signal<Risorsa[]>([]);
   loading = signal(true);

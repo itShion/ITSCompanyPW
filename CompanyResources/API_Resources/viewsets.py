@@ -52,6 +52,42 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
         else:
             self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
+    
+    @action(detail=True, methods=['post'])
+    def attiva(self, request, pk=None):
+        risorsa = self.get_object()
+        risorsa.stato = 'ATTIVA'
+        risorsa.save()
+        return Response(self.get_serializer(risorsa).data)
+
+    @action(detail=True, methods=['post'])
+    def manutenzione(self, request, pk=None):
+        risorsa = self.get_object()
+        risorsa.stato = 'MANUTENZIONE'
+        risorsa.save()
+        return Response(self.get_serializer(risorsa).data)
+
+    @action(detail=True, methods=['post'])
+    def disattiva(self, request, pk=None):
+        risorsa = self.get_object()
+        risorsa.stato = 'DISATTIVA'
+        risorsa.save()
+        return Response(self.get_serializer(risorsa).data)
+    
+    def destroy(self, request, *args, **kwargs):
+        risorsa = self.get_object()
+        prenotazioni_attive = Prenotazione.objects.filter(
+            risorsa=risorsa,
+            stato__in=['PENDING', 'CONFERMATA']
+        ).exists()
+
+        if prenotazioni_attive:
+            return Response(
+                {'error': 'Impossibile eliminare: la risorsa ha prenotazioni attive'},
+                status=400
+            )
+
+        return super().destroy(request, *args, **kwargs)
 
 
 #--------------- TIPO-RISORSE ----------------------

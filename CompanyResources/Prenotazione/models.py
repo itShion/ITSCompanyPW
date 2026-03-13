@@ -104,7 +104,7 @@ class Prenotazione(models.Model):
             conflitto = conflitti.first()
             raise ValidationError(
                 f"Conflitto con prenotazione esistente: "
-                f"{conflitto.utente.username} ha già prenotato "
+                f"{conflitto.utente.user.username} ha già prenotato "
                 f"dalle {conflitto.data_inizio.strftime('%H:%M')} "
                 f"alle {conflitto.data_fine.strftime('%H:%M')}"
             )

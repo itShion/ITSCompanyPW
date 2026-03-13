@@ -207,9 +207,9 @@ export class RicercaPrenotazione implements OnInit {
   }
 
   isDisponibile(r: Risorsa): boolean {
-    if (!r.attiva) return false;
+    if (r.stato !== 'ATTIVA') return false;  // era: if (!r.attiva)
 
-    const giorno = new Date(this.dataSelezionata()).getDay(); // 0 = domenica ... 6 = sabato
+    const giorno = new Date(this.dataSelezionata()).getDay();
     switch (giorno) {
       case 0: return r.domenica;
       case 1: return r.lunedi;

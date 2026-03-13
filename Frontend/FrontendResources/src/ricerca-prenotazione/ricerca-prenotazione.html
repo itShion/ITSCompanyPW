@@ -1,0 +1,141 @@
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h3>Filtra Risorse</h3>
+
+    <label>Cerca</label>
+    <input type="text" placeholder="Tipo risorsa" />
+
+    <label>Periodo</label>
+    <input type="date" />
+
+    <div class="time-range">
+      <input type="time" />
+      <input type="time" />
+    </div>
+
+    <label>Tipo di Risorsa</label>
+    <div class="checks">
+      <label><input type="checkbox" /> Postazioni Lavoro</label>
+      <label><input type="checkbox" /> Sale Riunioni</label>
+      <label><input type="checkbox" /> Macchinari</label>
+    </div>
+    <button class="btn-primary">Applica Filtri</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+
+    <h1>Ricerca e Prenotazione</h1>
+    <p class="subtitle">Trova lo spazio perfetto per il tuo lavoro oggi</p>
+
+    <div class="date-picker">
+      <label for="dataSelezionata">Seleziona Data:</label>
+      <input type="date" [min]="oggi" [value]="dataSelezionata()"
+        (input)="dataSelezionata.set($any($event.target).value)" />
+    </div>
+
+    <section class="cards">
+
+      @if (loading()) {
+      <p>Caricamento risorse...</p>
+      }
+
+      @if (error()) {
+      <p class="error">{{ error() }}</p>
+      }
+
+      @if (!loading() && !error()) {
+      @for (r of risorse(); track r.id) {
+      <div class="card">
+        <div class="img">
+          <img [src]="r.tipo.immagine_url" [alt]="r.nome" />
+        </div>
+
+        <div class="card-body">
+          <h3>{{ r.nome }}</h3>
+          <p>{{ r.descrizione }}</p>
+
+          <div class="tags">
+            <span>{{ r.tipo?.nome }}</span>
+            <span>Capienza {{ r.capacita }}</span>
+          </div>
+
+          @if (isDisponibile(r)) {
+          <button class="btn-primary" (click)="openPrenotaModal(r); $event.stopPropagation()">Prenota</button>
+          } @else {
+          <button class="btn-disabled" disabled>Non disponibile</button>
+          }
+        </div>
+      </div>
+      }
+      }
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= MODAL DI PRENOTAZIONE ================= -->
+@if (showModal()) {
+<div class="modal-overlay">
+  <div class="modal">
+
+    <h2>Prenotazione {{ selectedRisorsa()?.nome }}</h2>
+
+    @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+    }
+
+    @if (successMessage()) {
+    <p class="success">{{ successMessage() }}</p>
+    }
+
+    <label for="data">Data</label>
+    <input type="date" [value]="dataSelezionata()" (input)="dataSelezionata.set($any($event.target).value)">
+
+    <label for="oraInizio">Ora Inizio</label>
+    <select [value]="oraInizio()" (change)="oraInizio.set($any($event.target).value)">
+      <option *ngFor="let ora of orariDisponibiliBase" [value]="ora">{{ ora }}</option>
+    </select>
+
+    <label for="oraFine">Ora Fine</label>
+    <select [value]="oraFine()" (change)="oraFine.set($any($event.target).value)">
+      <option *ngFor="let ora of getOrariFineDisponibili()" [value]="ora">{{ ora }}</option>
+    </select>
+
+    <label for="motivo">Motivo (opzionale)</label>
+    <textarea [value]="motivo()" (input)="motivo.set($any($event.target).value)" rows="2"></textarea>
+
+    <div class="modal-buttons">
+      <button class="btn-primary" (click)="confermaPrenotazione()" [disabled]="loading() || !oraInizio() || !oraFine()">
+        {{ loading() ? 'Prenotando...' : 'Prenota' }}
+      </button>
+
+      <button class="btn-secondary" (click)="closeModal()">
+        Annulla
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- ================= MODAL DI SUCCESSO ================= -->
+@if (prenotazioneEffettuata()) {
+<div class="modal-overlay">
+  <div class="modal">
+
+    <h2>Prenotazione Effettuata con Successo!</h2>
+    <p>La tua prenotazione è stata registrata correttamente.</p>
+
+    <div class="modal-buttons">
+      <button class="btn-primary" (click)="goToMiePrenotazioni()">
+        Vai alle mie prenotazioni
+      </button>
+      <button class="btn-secondary" (click)="closeSuccessModal()">
+        Chiudi
+      </button>
+    </div>
+  </div>
+</div>
+}

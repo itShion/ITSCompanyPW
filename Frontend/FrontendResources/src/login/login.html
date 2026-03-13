@@ -1,0 +1,71 @@
+<!-- src/app/features/auth/login/login.component.html -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="text-center mb-4">Accedi</h2>
+          
+          <form (submit)="onSubmit(); $event.preventDefault()">
+            <!-- Username -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input 
+                type="text" 
+                id="username"
+                [(ngModel)]="credentials.username"
+                name="username"
+                class="form-control"
+                placeholder="Inserisci il tuo username"
+                required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input 
+                type="password" 
+                id="password"
+                [(ngModel)]="credentials.password"
+                name="password"
+                class="form-control"
+                placeholder="Inserisci la tua password"
+                required>
+            </div>
+
+            <!-- Error Message -->
+            @if (errorMessage) {
+              <div class="alert alert-danger alert-dismissible fade show">
+                {{ errorMessage }}
+                <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+              </div>
+            }
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="!credentials.username || !credentials.password || isLoading">
+                @if (!isLoading) {
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Accedi
+                } @else {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Accesso in corso...
+                }
+              </button>
+            </div>
+
+            <!-- Register Link -->
+            <div class="text-center mt-4">
+              <p class="mb-2">Non hai ancora un account?</p>
+              <a routerLink="/register" class="btn btn-outline-secondary">
+                <i class="bi bi-person-plus me-2"></i>Registrati
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

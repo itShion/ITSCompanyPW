@@ -1,0 +1,8 @@
+.prenotazioni {
+    max-width: 1200px;
+    width: 100%;
+    text-align: left;           /* forza tutto a sinistra */
+    font-family: 'Playfair Display', serif;
+    color: var(--text-color);
+    margin-top: 20px;           /* spazio sopra il contenuto */
+}

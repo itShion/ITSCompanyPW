@@ -1,0 +1,123 @@
+<div class="page">
+
+  <div class="header">
+    <div>
+      <h1>Gestione Prenotazioni</h1>
+      <p>Visualizza, modifica e gestisci le richieste di prenotazione delle risorse aziendali.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary">↓ Export Report</button>
+      <button class="btn-primary" (click)="openModal()">+ Nuova Prenotazione</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-top"><span>In Attesa</span><span>⏳</span></div>
+      <div class="stat-value">{{ inAttesa }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span>Approvate</span><span>✅</span></div>
+      <div class="stat-value">{{ approvate }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span>Rifiutate</span><span>❌</span></div>
+      <div class="stat-value">{{ rifiutate }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span>Totale</span><span>📋</span></div>
+      <div class="stat-value">{{ prenotazioni().length }}</div>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th><input type="checkbox" /></th>
+          <th>RICHIEDENTE</th>
+          <th>RISORSA</th>
+          <th>DATA E ORA</th>
+          <th>STATO</th>
+          <th>AZIONI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of prenotazioniPaginate">
+          <td><input type="checkbox" /></td>
+          <td>
+            <div class="user-cell">
+              <div class="avatar">{{ p.utente_nome?.[0] | uppercase }}</div>
+              <div class="name">{{ p.utente_nome }}</div>
+            </div>
+          </td>
+          <td>
+            <div class="name">{{ p.risorsa.nome }}</div>
+            <div class="sub">{{ p.risorsa.tipo.nome }}</div>
+          </td>
+          <td>
+            <div class="name">{{ p.data_inizio | date:'dd MMM yyyy' }}</div>
+            <div class="sub">{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</div>
+          </td>
+          <td><span class="badge" [ngClass]="getBadgeClass(p.stato)">{{ p.stato_display }}</span></td>
+          <td>
+            <div class="azioni" *ngIf="p.stato === 'PENDING'">
+              <button class="btn-approva" (click)="apriPopup(p.id, 'approva')">✓</button>
+              <button class="btn-rifiuta" (click)="apriPopup(p.id, 'rifiuta')">✕</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <span>Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}-{{ min(paginaCorrente()*perPagina, prenotazioni().length) }} di {{ prenotazioni().length }} risultati</span>
+      <div>
+        <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>
+        <button (click)="paginaSuccessiva()" [disabled]="paginaCorrente() === totalPages">Successivo</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal nuova prenotazione -->
+<div class="modal-overlay" *ngIf="modalAperto()" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Nuova Prenotazione</h2>
+      <button class="close-btn" (click)="closeModal()">✕</button>
+    </div>
+    <form (ngSubmit)="creaPrenotazione()">
+      <label>Risorsa</label>
+      <select [(ngModel)]="nuova.risorsa_id" name="risorsa_id" required>
+        <option [value]="0" disabled>Seleziona risorsa...</option>
+        <option *ngFor="let r of risorse()" [value]="r.id">{{ r.nome }}</option>
+      </select>
+      <label>Data e ora inizio</label>
+      <input type="datetime-local" [(ngModel)]="nuova.data_inizio" name="data_inizio" required />
+      <label>Data e ora fine</label>
+      <input type="datetime-local" [(ngModel)]="nuova.data_fine" name="data_fine" required />
+      <label>Motivo</label>
+      <textarea [(ngModel)]="nuova.motivo" name="motivo" rows="3" placeholder="Descrivi il motivo..."></textarea>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="closeModal()">Annulla</button>
+        <button type="submit" class="btn-primary">Crea</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Popup conferma azione -->
+<div class="modal-overlay" *ngIf="popupAperto()" (click)="chiudiPopup()">
+  <div class="modal small" (click)="$event.stopPropagation()">
+    <h2>Sei sicuro?</h2>
+    <p>Vuoi {{ azioneCorrente() === 'approva' ? 'approvare' : 'rifiutare' }} questa prenotazione?</p>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="chiudiPopup()">Annulla</button>
+      <button [class]="azioneCorrente() === 'approva' ? 'btn-primary' : 'btn-danger'" (click)="confermaAzione()">
+        {{ azioneCorrente() === 'approva' ? 'Approva' : 'Rifiuta' }}
+      </button>
+    </div>
+  </div>
+</div>

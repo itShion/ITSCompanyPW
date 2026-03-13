@@ -22,6 +22,7 @@ class RisorsaSerializer(serializers.ModelSerializer):
         source='tipo',
         write_only=True
     )
+    stato_display = serializers.CharField(source='get_stato_display', read_only=True)
 
     class Meta:
         model = Risorsa
@@ -31,9 +32,9 @@ class RisorsaSerializer(serializers.ModelSerializer):
             'orario_apertura', 'orario_chiusura',
             'lunedi', 'martedi', 'mercoledi', 'giovedi',
             'venerdi', 'sabato', 'domenica',
-            'attiva',
+            'stato', 'stato_display',
         ]
-        read_only_fields = ['id', 'created_at']
+        read_only_fields = ['id', 'stato_display']
 
 # ============== UTENTE ==============
 class UtenteSerializer(serializers.ModelSerializer):

@@ -16,7 +16,7 @@ export interface Prenotazione {
     stato: 'PENDING' | 'CONFERMATA' | 'ANNULLATA';
     stato_display: string;
     motivo?: string;
-    partecipanti: Partecipante[];   // aggiunto
+    partecipanti: Partecipante[];
     created_at: string;
     updated_at: string;
 }
@@ -26,5 +26,5 @@ export interface PrenotazioneDTO {
     data_inizio: string;
     data_fine: string;
     motivo?: string;
-    partecipanti_ids?: number[];    // aggiunto, opzionale
+    partecipanti_ids?: number[];
 }

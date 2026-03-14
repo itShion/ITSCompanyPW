@@ -4,7 +4,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 
 from CompanyResources.API_Resources.permissions import IsUtente, IsResponsabile, IsAdmin, IsResponsabileOrAdmin, IsOwnerOrResponsabile
-from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer, PrenotazioneSerializer
+from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer, PrenotazioneSerializer, ActivityLogSerializer
 from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa
 from CompanyResources.Prenotazione.models import Prenotazione
 from CompanyResources.Utente.models import Utente

@@ -97,15 +97,24 @@ export class RicercaPrenotazione implements OnInit {
     if (!this.isDisponibile(r)) return;
 
     this.selectedRisorsa.set(r);
-    this.oraInizio.set('09:00');
-    this.oraFine.set('10:00');
+
+    // Setta oraInizio all'apertura della risorsa
+    const oraApertura = r.orario_apertura.substring(0, 5); // "08:00"
+    this.oraInizio.set(oraApertura);
+
+    const inizioMinuti = this.timeToMinutes(oraApertura);
+    const disponibili = this.orariDisponibiliBase.filter(ora => {
+      const fineMinuti = this.timeToMinutes(ora);
+      return fineMinuti > inizioMinuti && fineMinuti <= inizioMinuti + 480;
+    });
+    this.oraFine.set(disponibili[0] ?? '');
+
     this.motivo.set('');
     this.errorMessage.set('');
     this.successMessage.set('');
-    this.partecipantiSelezionati.set([]);  // reset partecipanti
+    this.partecipantiSelezionati.set([]);
     this.searchQuery.set('');
     this.showDropdown.set(false);
-
     this.showModal.set(true);
   }
 
@@ -172,6 +181,12 @@ export class RicercaPrenotazione implements OnInit {
       return;
     }
 
+    const offset = new Date().getTimezoneOffset();
+    const offsetOre = -offset / 60;
+    const offsetStr = offsetOre >= 0
+      ? `+${offsetOre.toString().padStart(2, '0')}:00`
+      : `-${Math.abs(offsetOre).toString().padStart(2, '0')}:00`;
+
     const dataInizio = `${this.dataSelezionata()}T${this.oraInizio()}:00`;
     const dataFine = `${this.dataSelezionata()}T${this.oraFine()}:00`;
 
@@ -180,7 +195,6 @@ export class RicercaPrenotazione implements OnInit {
       data_inizio: dataInizio,
       data_fine: dataFine,
       motivo: this.motivo() || undefined,
-      // Partecipanti solo se capacita > 1
       ...(risorsaVal.capacita > 1 && {
         partecipanti_ids: this.partecipantiSelezionati().map(u => u.id)
       })
@@ -191,12 +205,11 @@ export class RicercaPrenotazione implements OnInit {
     this.successMessage.set('');
 
     this.prenotaService.createPrenotazione(dto).subscribe({
-      next: (response) => {
+      next: () => {
         this.loading.set(false);
         this.closeModal();
         this.prenotazioneSuccesso.set(true);
 
-        // Reset dei campi
         setTimeout(() => {
           this.motivo.set('');
           this.oraInizio.set('09:00');
@@ -239,14 +252,26 @@ export class RicercaPrenotazione implements OnInit {
 
     const disponibili = this.orariDisponibiliBase.filter(ora => {
       const fineMinuti = this.timeToMinutes(ora);
-      return fineMinuti > inizioMinuti && fineMinuti <= inizioMinuti + 240;
+      return fineMinuti > inizioMinuti && fineMinuti <= inizioMinuti + 480; // 8 ore max
     });
 
-    if (!disponibili.includes(this.oraFine())) {
+    if (disponibili.length > 0 && !disponibili.includes(this.oraFine())) {
       this.oraFine.set(disponibili[0]);
     }
 
     return disponibili;
+  }
+
+  onOraInizioChange(value: string) {
+    this.oraInizio.set(value);
+    const inizioMinuti = this.timeToMinutes(value);
+    const disponibili = this.orariDisponibiliBase.filter(ora => {
+      const fineMinuti = this.timeToMinutes(ora);
+      return fineMinuti > inizioMinuti && fineMinuti <= inizioMinuti + 480;
+    });
+    if (disponibili.length > 0) {
+      this.oraFine.set(disponibili[0]);
+    }
   }
 
   getDurata(): string {
@@ -263,7 +288,7 @@ export class RicercaPrenotazione implements OnInit {
 
   isDisponibile(r: Risorsa): boolean {
     if (!r.attiva) return false;
-    const giorno = new Date(this.dataSelezionata()).getDay();
+    const giorno = new Date(this.dataSelezionata() + 'T12:00:00').getDay();
     switch (giorno) {
       case 0: return r.domenica;
       case 1: return r.lunedi;

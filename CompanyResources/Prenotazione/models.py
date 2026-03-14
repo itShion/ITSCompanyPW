@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from jsonschema import ValidationError
-from datetime import date
+from datetime import date,datetime
 from CompanyResources.Risorsa.models import Risorsa
 from CompanyResources.Utente.models import Utente
 
@@ -84,7 +84,7 @@ class Prenotazione(models.Model):
             )
 
         # Non nel passato
-        if self.data_inizio < timezone.now():
+        if self.data_inizio < datetime.now():
             raise ValidationError("Non puoi prenotare nel passato")
 
         # Sovrapposizioni

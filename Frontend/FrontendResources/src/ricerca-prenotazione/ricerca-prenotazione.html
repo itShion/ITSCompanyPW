@@ -95,7 +95,7 @@
     <input type="date" [value]="dataSelezionata()" (input)="dataSelezionata.set($any($event.target).value)">
 
     <label for="oraInizio">Ora Inizio</label>
-    <select [value]="oraInizio()" (change)="oraInizio.set($any($event.target).value)">
+    <select [value]="oraInizio()" (change)="onOraInizioChange($any($event.target).value)">
       <option *ngFor="let ora of orariDisponibiliBase" [value]="ora">{{ ora }}</option>
     </select>
 
@@ -131,14 +131,8 @@
 
       <!-- Input mention -->
       <div class="mention-wrapper">
-        <input
-          type="text"
-          class="mention-input"
-          placeholder="Cerca utente... (min. 2 caratteri)"
-          [value]="searchQuery()"
-          (input)="onSearchInput($event)"
-          (blur)="showDropdown.set(false)"
-        />
+        <input type="text" class="mention-input" placeholder="Cerca utente... (min. 2 caratteri)"
+          [value]="searchQuery()" (input)="onSearchInput($event)" (blur)="showDropdown.set(false)" />
 
         <!-- Dropdown suggerimenti -->
         @if (showDropdown() && suggerimenti().length > 0) {

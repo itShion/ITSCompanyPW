@@ -4,6 +4,7 @@ from rest_framework import serializers
 from CompanyResources.Risorsa.models import Risorsa, TipoRisorsa
 from CompanyResources.Utente.models import Utente
 from CompanyResources.Prenotazione.models import Prenotazione, PrenotazionePartecipante
+from CompanyResources.ActivityLog.models import ActivityLog
 
 
 # ============== TIPO RISORSA ==============
@@ -63,6 +64,15 @@ class PrenotazionePartecipanteSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'stato']
         read_only_fields = ['id', 'stato']
 
+# ============== PRENOTAZIONE PARTECIPANTE ==============
+class PrenotazionePartecipanteSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='utente.user.username', read_only=True)
+
+    class Meta:
+        model = PrenotazionePartecipante
+        fields = ['id', 'username', 'stato']
+        read_only_fields = ['id', 'stato']
+
 # ============== PRENOTAZIONE ==============
 class PrenotazioneSerializer(serializers.ModelSerializer):
     risorsa = RisorsaSerializer(read_only=True)
@@ -79,6 +89,16 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
     utente_ruolo = serializers.CharField(source='utente.get_ruolo_display', read_only=True)
 
     stato_display = serializers.CharField(source='get_stato_display', read_only=True)
+
+    # Lista username dei partecipanti in input
+    partecipanti_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Utente.objects.all(),
+        many=True,
+        write_only=True,
+        required=False
+    )
+    # Lista partecipanti in output
+    partecipanti = PrenotazionePartecipanteSerializer(many=True, read_only=True)
 
     # Lista username dei partecipanti in input
     partecipanti_ids = serializers.PrimaryKeyRelatedField(
@@ -128,15 +148,14 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        partecipanti = validated_data.pop('partecipanti_ids', [])
+        partecipanti = validated_data.pop('partecipanti_ids', [])  # <- deve essere PRIMA
         risorsa = validated_data['risorsa']
         utente = validated_data['utente']
 
         validated_data['stato'] = 'CONFERMATA' if risorsa.capacita == 1 else 'PENDING'
 
-        prenotazione = Prenotazione.objects.create(**validated_data)
+        prenotazione = Prenotazione.objects.create(**validated_data)  # ora validated_data è pulito
 
-        # Crea i partecipanti SOLO per risorse con capacita > 1
         if risorsa.capacita > 1:
             PrenotazionePartecipante.objects.create(
                 prenotazione=prenotazione,
@@ -152,3 +171,25 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
                     )
 
         return prenotazione
+
+
+# ============== ACTIVITY LOG ==============
+class ActivityLogSerializer(serializers.ModelSerializer):
+    utente_nome = serializers.CharField(source='utente.user.username', read_only=True)
+    risorsa_nome = serializers.CharField(source='prenotazione.risorsa.nome', read_only=True)
+    data_inizio = serializers.DateTimeField(source='prenotazione.data_inizio', read_only=True)
+    data_fine = serializers.DateTimeField(source='prenotazione.data_fine', read_only=True)
+
+    class Meta:
+        model = ActivityLog
+        fields = [
+            'id',
+            'azione',
+            'utente_nome',
+            'descrizione',
+            'risorsa_nome',
+            'data_inizio',
+            'data_fine',
+            'created_at',
+        ]
+        read_only_fields = fields

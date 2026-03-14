@@ -9,6 +9,7 @@ import { PrenotazioneDTO } from '../models/Prenotazione';
 import { Router } from '@angular/router';
 import { UtilsReportService } from '../app/services/utils-report-service';
 import { Utente } from '../models/Utente';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-ricerca-prenotazione',
@@ -53,10 +54,12 @@ export class RicercaPrenotazione implements OnInit {
   searchQuery = signal<string>('');
   showDropdown = signal<boolean>(false);
 
+  currentUser = toSignal(this.authService.currentUser$);
+
   suggerimenti = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     const selezionati = this.partecipantiSelezionati();
-    const currentUser = this.authService.getCurrentUser();
+    const currentUser = this.currentUser();
 
     if (!query || query.length < 2) return [];
 

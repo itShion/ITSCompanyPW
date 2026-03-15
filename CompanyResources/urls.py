@@ -44,4 +44,6 @@ urlpatterns = [
 
     # ReDoc (Documentazione alternativa)
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+
+    path('api/notifiche/', include('CompanyResources.Notifica.urls')),
 ]

@@ -1,4 +1,4 @@
-﻿from django.db import models
+from django.db import models
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets, permissions, status
@@ -129,9 +129,19 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
 
     """"solo gli admin e i responsabili possono gestire gli utenti"""
 
-    queryset = Utente.objects.all()
+    # queryset = Utente.objects.all()
     serializer_class = UtenteSerializer
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        mostra_disabilitati = self.request.query_params.get('disabilitati') == 'true'
+        mostra_all = self.request.query_params.get('all') == 'true'
+
+        if mostra_all:
+            return Utente.objects.select_related('user').all()
+        if mostra_disabilitati:
+            return Utente.objects.select_related('user').filter(user__is_active=False)
+        return Utente.objects.select_related('user').filter(user__is_active=True)
 
     def get_permissions(self):
 
@@ -145,7 +155,7 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
         telefono = self.request.data.get('telefono', '')
         first_name = self.request.data.get('first_name', '')
         last_name = self.request.data.get('last_name', '')
-        ruolo = self.request.data.get('ruolo', 'UTENTE')
+        ruolo = self.request.data.get('ruolo', 'Dipendente')
 
         if User.objects.filter(username=username).exists():
             from rest_framework.exceptions import ValidationError
@@ -160,6 +170,28 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
         )
 
         serializer.save(user=user, ruolo=ruolo, telefono=telefono)
+
+    def destroy(self, request, *args, **kwargs):
+
+        """Disabilita l'utente invece di cancellarlo"""
+
+        utente = self.get_object()
+        utente.user.is_active = False
+        utente.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['post'])
+    def riabilita(self, request, pk=None):
+
+        """Riabilita un utente disabilitato"""
+
+        try:
+            utente = Utente.objects.select_related('user').get(pk=pk, user__is_active=False)
+            utente.user.is_active = True
+            utente.user.save()
+            return Response({'message': 'Utente riabilitato'}, status=status.HTTP_200_OK)
+        except Utente.DoesNotExist:
+            return Response({'error': 'Utente non trovato o già attivo'}, status=status.HTTP_404_NOT_FOUND)
 
 
 #--------------- PRENOTAZIONE ----------------------

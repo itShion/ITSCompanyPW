@@ -1,0 +1,33 @@
+<div class="activity-log">
+  <div class="log-header">
+    <h3>Activity Log</h3>
+    <span class="refresh-info">⟳ Aggiornamento ogni 30s</span>
+  </div>
+
+  @if (loading()) {
+    <div class="log-loading">Caricamento...</div>
+  }
+
+  @if (!loading() && logs().length === 0) {
+    <div class="log-empty">Nessuna attività recente</div>
+  }
+
+  @if (!loading() && logs().length > 0) {
+    <div class="log-list">
+      @for (log of logs(); track log.id) {
+        <div class="log-item">
+          <div class="log-left">
+            <span class="log-icon">{{ getIcon(log.azione) }}</span>
+            <div class="log-time">{{ formatOra(log.created_at) }}</div>
+          </div>
+          <div class="log-content">
+            <div class="log-descrizione">{{ log.descrizione }}</div>
+            <div class="log-sub">
+              {{ log.risorsa_nome }} · {{ formatData(log.data_inizio) }} {{ formatOrario(log.data_inizio, log.data_fine) }}
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

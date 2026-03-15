@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class PrenotaService {
   private apiUrl = 'http://localhost:8000/api/v1/prenotazioni/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getPrenotazioni(): Observable<Prenotazione[]> {
     return this.http.get<Prenotazione[]>(this.apiUrl);
@@ -19,9 +19,9 @@ export class PrenotaService {
     return this.http.post<Prenotazione>(this.apiUrl, prenotazione);
   }
 
-// annullaPrenotazione(id: number): Observable<Prenotazione> {
-// return this.http.post<Prenotazione>(`${this.apiUrl}${id}/annulla/`, {});
-//}
+  // annullaPrenotazione(id: number): Observable<Prenotazione> {
+  // return this.http.post<Prenotazione>(`${this.apiUrl}${id}/annulla/`, {});
+  //}
 
   annullaPrenotazione(id: number): Observable<Prenotazione> {
     return this.http.patch<Prenotazione>(`${this.apiUrl}${id}/`, {
@@ -30,10 +30,18 @@ export class PrenotaService {
   }
 
   approvaPrenotazione(id: number): Observable<Prenotazione> {
-  return this.http.post<Prenotazione>(`${this.apiUrl}${id}/approva/`, {});
-}
+    return this.http.post<Prenotazione>(`${this.apiUrl}${id}/approva/`, {});
+  }
 
-rifiutaPrenotazione(id: number): Observable<Prenotazione> {
-  return this.http.post<Prenotazione>(`${this.apiUrl}${id}/rifiuta/`, {});
-}
+  rifiutaPrenotazione(id: number): Observable<Prenotazione> {
+    return this.http.post<Prenotazione>(`${this.apiUrl}${id}/rifiuta/`, {});
+  }
+
+  accettaPartecipazione(id: number): Observable<Prenotazione> {
+    return this.http.post<Prenotazione>(`${this.apiUrl}${id}/accetta_partecipazione/`, {});
+  }
+
+  rifiutaPartecipazione(id: number): Observable<Prenotazione> {
+    return this.http.post<Prenotazione>(`${this.apiUrl}${id}/rifiuta_partecipazione/`, {});
+  }
 }

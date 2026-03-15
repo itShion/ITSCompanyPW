@@ -41,3 +41,11 @@ export interface CurrentUser{
   telefono: string;
   user_id: number;
 }
+
+export interface NuovoUtenteDTO {
+  username: string;
+  email?: string;
+  password?: string;
+  ruolo: string;
+  telefono?: string;
+ }

@@ -12,7 +12,6 @@ import { SupportoRisorse } from './supporto/supporto-risorse/supporto-risorse';
 import { SupportoUtenti } from './supporto/supporto-utenti/supporto-utenti';
 import { SupportoSidebar } from './supporto/supporto-sidebar/supporto-sidebar';
 import { SupportoPrenotazioni } from './supporto/supporto-prenotazioni/supporto-prenotazioni';
-import { SupportoActivitylog } from './supporto/supporto-activitylog/supporto-activitylog';
 
 export const routes: Routes = [
   { path: 'mie-prenotazioni', component: MiePrenotazioni },
@@ -32,8 +31,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: Supporto },
       { path: 'utenti', component: SupportoUtenti },
       { path: 'risorse', component: SupportoRisorse },
-      { path: 'prenotazioni', component: SupportoPrenotazioni },
-      { path: 'reportistica', component: SupportoActivitylog }
+      { path: 'prenotazioni', component: SupportoPrenotazioni }
     ]
   }
 ];

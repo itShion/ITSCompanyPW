@@ -1,14 +1,12 @@
-﻿from django.db import models
-from drf_spectacular.utils import extend_schema_view, extend_schema
+﻿from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 
 from CompanyResources.API_Resources.permissions import IsUtente, IsResponsabile, IsAdmin, IsResponsabileOrAdmin, IsOwnerOrResponsabile
-from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer, PrenotazioneSerializer, ActivityLogSerializer
+from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer, PrenotazioneSerializer
 from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa
 from CompanyResources.Prenotazione.models import Prenotazione
 from CompanyResources.Utente.models import Utente
-from CompanyResources.ActivityLog.models import ActivityLog
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -17,8 +15,6 @@ from django.utils.decorators import method_decorator
 from rest_framework.decorators import action
 from django.utils import timezone
 from rest_framework.response import Response
-
-from CompanyResources.Prenotazione.models import Prenotazione, PrenotazionePartecipante
 
 __all__ = [
     "RisorsaAPIViewSet",
@@ -52,42 +48,6 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
         else:
             self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
-    
-    @action(detail=True, methods=['post'])
-    def attiva(self, request, pk=None):
-        risorsa = self.get_object()
-        risorsa.stato = 'ATTIVA'
-        risorsa.save()
-        return Response(self.get_serializer(risorsa).data)
-
-    @action(detail=True, methods=['post'])
-    def manutenzione(self, request, pk=None):
-        risorsa = self.get_object()
-        risorsa.stato = 'MANUTENZIONE'
-        risorsa.save()
-        return Response(self.get_serializer(risorsa).data)
-
-    @action(detail=True, methods=['post'])
-    def disattiva(self, request, pk=None):
-        risorsa = self.get_object()
-        risorsa.stato = 'DISATTIVA'
-        risorsa.save()
-        return Response(self.get_serializer(risorsa).data)
-    
-    def destroy(self, request, *args, **kwargs):
-        risorsa = self.get_object()
-        prenotazioni_attive = Prenotazione.objects.filter(
-            risorsa=risorsa,
-            stato__in=['PENDING', 'CONFERMATA']
-        ).exists()
-
-        if prenotazioni_attive:
-            return Response(
-                {'error': 'Impossibile eliminare: la risorsa ha prenotazioni attive'},
-                status=400
-            )
-
-        return super().destroy(request, *args, **kwargs)
 
 
 #--------------- TIPO-RISORSE ----------------------
@@ -140,6 +100,7 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
         self.permission_classes = [IsAuthenticated, IsResponsabileOrAdmin]
         return super().get_permissions()
 
+
 #--------------- PRENOTAZIONE ----------------------
 @extend_schema_view(
     list=extend_schema(tags=['Prenotazione']),
@@ -169,200 +130,95 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def get_queryset(self):
+
+        user = self.request.user
+
         try:
-            utente = Utente.objects.get(user=self.request.user)
-
-            if utente.ruolo in ['Admin', 'RESPONSABILE'] or self.request.user.is_superuser:
-                return Prenotazione.objects.select_related(
-                    'utente__user', 'risorsa__tipo'
-                ).all()
-
-            # Dipendente vede le sue + quelle a cui partecipa
-            return Prenotazione.objects.select_related(
-                'utente__user', 'risorsa__tipo'
-            ).filter(
-                models.Q(utente=utente) |
-                models.Q(partecipanti__utente=utente)
-            ).distinct()
-            
-        except Utente.DoesNotExist:
+            utente = user.utente
+            if utente.ruolo in ['RESPONSABILE', 'ADMIN'] or user.is_superuser:
+                return Prenotazione.objects.select_related('utente__user', 'risorsa__tipo').all()
+            else:
+                return Prenotazione.objects.select_related('utente__user', 'risorsa__tipo').filter(utente=utente)
+        except:
             return Prenotazione.objects.none()
 
     def perform_create(self, serializer):
 
         utente = self.request.user.utente
-        prenotazione = serializer.save(utente=utente)  # fix: assegnato
-        ActivityLog.objects.create(
-            azione='CREATA',
-            utente=utente,
-            prenotazione=prenotazione,
-            descrizione=f"{utente.user.username} ha creato una prenotazione #{prenotazione.id}"
-        )
+        serializer.save(utente=utente)
 
-    # ---- AZIONI DIPENDENTE ----
-
-    @action(detail=True, methods=['post'])
-    def annulla(self, request, pk=None):
-        prenotazione = self.get_object()
-        utente = Utente.objects.get(user=request.user)
-
-        if prenotazione.utente != utente:
-            return Response({'error': 'Non autorizzato'}, status=403)
-
-        if prenotazione.stato == 'ANNULLATA':
-            return Response({'error': 'Prenotazione già annullata'}, status=400)
-
-        prenotazione.stato = 'ANNULLATA'
-        prenotazione.save()
-        ActivityLog.objects.create(
-            azione='ANNULLATA',
-            utente=utente,
-            prenotazione=prenotazione,
-            descrizione=f"{utente.user.username} ha annullato la prenotazione #{prenotazione.id}"
-        )
-        return Response(self.get_serializer(prenotazione).data)
-
-    @action(detail=True, methods=['post'])
-    def rifiuta_partecipazione(self, request, pk=None):
-        prenotazione = self.get_object()
-        utente = Utente.objects.get(user=request.user)
-
+    @action(detail=False, methods=['get'])
+    def attive(self, request):
+        """Restituisce solo le prenotazioni attive (confermate e con data_inizio >= oggi)"""
         try:
-            partecipante = PrenotazionePartecipante.objects.get(
-                prenotazione=prenotazione,
-                utente=utente
-            )
-        except PrenotazionePartecipante.DoesNotExist:
-            return Response({'error': 'Non sei un partecipante'}, status=404)
+            utente = Utente.objects.get(user=self.request.user)
+            oggi = timezone.now().date()
 
-        if partecipante.stato == 'RIFIUTATO':
-            return Response({'error': 'Hai già rifiutato'}, status=400)
+            prenotazioni = Prenotazione.objects.filter(
+                utente=utente,
+                stato='confermata',
+                data_inizio__gte=oggi
+            ).order_by('data_inizio', 'data_fine')
 
-        if prenotazione.utente == utente:
-            return Response({'error': 'Sei il creatore, usa annulla invece'}, status=400)
+            serializer = self.get_serializer(prenotazioni, many=True)
+            return Response(serializer.data)
+        except Utente.DoesNotExist:
+            return Response([])
 
-        partecipante.stato = 'RIFIUTATO'
-        partecipante.save()
-        ActivityLog.objects.create(
-            azione='PARTECIPANTE_RIFIUTATO',
-            utente=utente,
-            prenotazione=prenotazione,
-            descrizione=f"{utente.user.username} ha rifiutato la partecipazione alla prenotazione #{prenotazione.id}"
-        )
-        return Response(self.get_serializer(prenotazione).data)
-
-    @action(detail=True, methods=['post'])
-    def accetta_partecipazione(self, request, pk=None):
-        prenotazione = self.get_object()
-        utente = Utente.objects.get(user=request.user)
-
+    @action(detail=False, methods=['get'])
+    def pending(self, request):
+        """Restituisce solo le prenotazioni in attesa di approvazione"""
         try:
-            partecipante = PrenotazionePartecipante.objects.get(
-                prenotazione=prenotazione,
-                utente=utente
-            )
-        except PrenotazionePartecipante.DoesNotExist:
-            return Response({'error': 'Non sei un partecipante'}, status=404)
 
-        if partecipante.stato == 'ACCETTATO':
-            return Response({'error': 'Hai già accettato'}, status=400)
+            prenotazioni = Prenotazione.objects.filter(
+                stato='pending'
+            ).order_by('-data_inizio', '-data_fine')
 
-        partecipante.stato = 'ACCETTATO'
-        partecipante.save()
-        ActivityLog.objects.create(
-            azione='PARTECIPANTE_ACCETTATO',
-            utente=utente,
-            prenotazione=prenotazione,
-            descrizione=f"{utente.user.username} ha accettato la partecipazione alla prenotazione #{prenotazione.id}"
-        )
-        return Response(self.get_serializer(prenotazione).data)
+            serializer = self.get_serializer(prenotazioni, many=True)
+            return Response(serializer.data)
+        except Utente.DoesNotExist:
+            return Response([])
 
-    # ---- AZIONI HR ----
+    @action(detail=False, methods=['get'])
+    def storiche(self, request):
+        """Restituisce le prenotazioni passate"""
+        try:
+            utente = Utente.objects.get(user=self.request.user)
+            oggi = timezone.now().date()
+
+            prenotazioni = Prenotazione.objects.filter(
+                utente=utente,
+                data_inizio__lt=oggi
+            ).order_by('-data_inizio', '-data_fine')
+
+            serializer = self.get_serializer(prenotazioni, many=True)
+            return Response(serializer.data)
+        except Utente.DoesNotExist:
+            return Response([])
+
+    # AZIONI di HR
 
     @action(detail=True, methods=['post'])
     def approva(self, request, pk=None):
         prenotazione = self.get_object()
-        utente = Utente.objects.get(user=request.user)  # fix: aggiunto
-
-        if prenotazione.stato != 'PENDING':
-            return Response(
-                {'error': f'Impossibile approvare, stato attuale: {prenotazione.stato}'},
-                status=400
-            )
-
         prenotazione.stato = 'CONFERMATA'
         prenotazione.save()
-        ActivityLog.objects.create(
-            azione='CONFERMATA',
-            utente=utente,
-            prenotazione=prenotazione,
-            descrizione=f"{utente.user.username} ha confermato la prenotazione #{prenotazione.id}"
-        )
         return Response(self.get_serializer(prenotazione).data)
 
     @action(detail=True, methods=['post'])
     def rifiuta(self, request, pk=None):
         prenotazione = self.get_object()
-        utente = Utente.objects.get(user=request.user)  # fix: aggiunto
-
-        if prenotazione.stato != 'PENDING':
-            return Response(
-                {'error': f'Impossibile rifiutare, stato attuale: {prenotazione.stato}'},
-                status=400
-            )
-
         prenotazione.stato = 'ANNULLATA'
         prenotazione.save()
-        ActivityLog.objects.create(
-            azione='RIFIUTATA',
-            utente=utente,
-            prenotazione=prenotazione,
-            descrizione=f"{utente.user.username} ha rifiutato la prenotazione #{prenotazione.id}"
-        )
         return Response(self.get_serializer(prenotazione).data)
 
-    # ---- FILTRI ----
-
-    @action(detail=False, methods=['get'])
-    def attive(self, request):
+    @action(detail=True, methods=['post'])
+    def annulla(self, request, pk=None):
+        prenotazione = self.get_object()
         utente = Utente.objects.get(user=request.user)
-        oggi = timezone.now().date()
+        if prenotazione.utente != utente:
+            return Response({'error': 'Non autorizzato'}, status=403)
+        prenotazione.stato = 'ANNULLATA'
+        prenotazione.save()
+        return Response(self.get_serializer(prenotazione).data)
 
-        prenotazioni = Prenotazione.objects.filter(
-            models.Q(utente=utente) | models.Q(partecipanti__utente=utente),
-            stato='CONFERMATA',
-            data_inizio__gte=oggi
-        ).distinct().order_by('data_inizio')
-
-        return Response(self.get_serializer(prenotazioni, many=True).data)
-
-    @action(detail=False, methods=['get'])
-    def pending(self, request):
-        prenotazioni = Prenotazione.objects.filter(
-            stato='PENDING'
-        ).order_by('-data_inizio')
-
-        return Response(self.get_serializer(prenotazioni, many=True).data)
-
-    @action(detail=False, methods=['get'])
-    def storiche(self, request):
-        utente = Utente.objects.get(user=request.user)
-        oggi = timezone.now().date()
-
-        prenotazioni = Prenotazione.objects.filter(
-            models.Q(utente=utente) | models.Q(partecipanti__utente=utente),
-            data_inizio__lt=oggi
-        ).distinct().order_by('-data_inizio')
-
-        return Response(self.get_serializer(prenotazioni, many=True).data)
-
-#--------------- ACTIVITY LOG ----------------------
-class ActivityLogViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = ActivityLogSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        return ActivityLog.objects.select_related(
-            'utente__user',
-            'prenotazione__risorsa'
-        ).all()[:50]

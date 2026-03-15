@@ -4,7 +4,6 @@ import { Utente } from '../../models/Utente';
 import { Observable } from 'rxjs';
 import { Prenotazione } from '../../models/Prenotazione';
 import { Risorsa } from '../../models/Risorsa';
-import { ActivityLog } from '../../models/ActivityLog';
 
 @Injectable({
   providedIn: 'root',
@@ -28,8 +27,4 @@ export class UtilsReportService {
   getAllPendingPrenotazioni(): Observable<Prenotazione[]> {
     return this.http.get<Prenotazione[]>(`${this.apiUrl}/prenotazioni/pending/`);
   }
-  
-  getActivityLogs(): Observable<ActivityLog[]> {
-    return this.http.get<ActivityLog[]>(`${this.apiUrl}/activity-logs/`);
-}
 }

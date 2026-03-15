@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from jsonschema import ValidationError
-from datetime import date,datetime
+from datetime import date
 from CompanyResources.Risorsa.models import Risorsa
 from CompanyResources.Utente.models import Utente
 
@@ -84,7 +84,7 @@ class Prenotazione(models.Model):
             )
 
         # Non nel passato
-        if self.data_inizio < datetime.now():
+        if self.data_inizio < timezone.now():
             raise ValidationError("Non puoi prenotare nel passato")
 
         # Sovrapposizioni
@@ -104,7 +104,7 @@ class Prenotazione(models.Model):
             conflitto = conflitti.first()
             raise ValidationError(
                 f"Conflitto con prenotazione esistente: "
-                f"{conflitto.utente.user.username} ha già prenotato "
+                f"{conflitto.utente.username} ha già prenotato "
                 f"dalle {conflitto.data_inizio.strftime('%H:%M')} "
                 f"alle {conflitto.data_fine.strftime('%H:%M')}"
             )
@@ -125,14 +125,6 @@ class Prenotazione(models.Model):
                 f"Limite di {MAX_PRENOTAZIONI_GIORNO} prenotazioni al giorno raggiunto"
             )
 
-        # Controllo capienza solo per risorse con capacita > 1
-        if self.risorsa.capacita > 1 and self.pk:
-            partecipanti_attivi = self.partecipanti.exclude(stato='RIFIUTATO').count()
-            if partecipanti_attivi > self.risorsa.capacita:
-                raise ValidationError(
-                    f"Capacità massima: {self.risorsa.capacita} persone"
-                )
-
     def save(self, *args, **kwargs):
         """Sempre validare prima di salvare"""
         self.full_clean()
@@ -144,35 +136,3 @@ class Prenotazione(models.Model):
         if self.data_inizio and self.data_fine:
             return round((self.data_fine - self.data_inizio).total_seconds() / 3600, 2)
         return 0
-
-
-# Nuovo Model: PrenotazionePartecipante
-# A che mi serve: Serve per avere una gestione delle Prenotazioni con capienza > 1
-# Ad esempio le sale Riunioni o Conferenze...
-
-class PrenotazionePartecipante(models.Model):
-    STATI = [
-        ('INVITATO', 'Invitato'),
-        ('ACCETTATO', 'Accettato'),
-        ('RIFIUTATO', 'Rifiutato'),
-    ]
-
-    prenotazione = models.ForeignKey(
-        Prenotazione,
-        on_delete=models.CASCADE,
-        related_name='partecipanti'
-    )
-    utente = models.ForeignKey(
-        Utente,
-        on_delete=models.CASCADE,
-        related_name='partecipazioni'
-    )
-    stato = models.CharField(max_length=10, choices=STATI, default='INVITATO')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'PrenotazionePartecipante'
-        unique_together = ['prenotazione', 'utente']  # no duplicati
-
-    def __str__(self):
-        return f"{self.utente.user.username} - {self.prenotazione.id} ({self.stato})"

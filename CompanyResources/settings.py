@@ -67,7 +67,6 @@ INSTALLED_APPS = [
     'CompanyResources.Risorsa',
     'CompanyResources.Utente',
     'CompanyResources.Prenotazione',
-    'CompanyResources.ActivityLog',
 
     #API
     'CompanyResources.API_Resources'
@@ -173,11 +172,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Rome'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

@@ -5,21 +5,17 @@ import { Prenotazione, PrenotazioneDTO } from '../../../models/Prenotazione';
 import { Risorsa } from '../../../models/Risorsa';
 import { PrenotaService } from '../../services/prenota-service';
 import { RisorsaService } from '../../services/RisorsaService';
-import { SupportoPrenotazioneDettaglio } from "./supporto-prenotazioni-dettaglio/supporto-prenotazioni-dettaglio";
 
 @Component({
   selector: 'app-supporto-prenotazioni',
   standalone: true,
-  imports: [CommonModule, FormsModule, SupportoPrenotazioneDettaglio],
+  imports: [CommonModule, FormsModule],
   templateUrl: './supporto-prenotazioni.html',
   styleUrl: './supporto-prenotazioni.css',
 })
 export class SupportoPrenotazioni implements OnInit {
   prenotazioni = signal<Prenotazione[]>([]);
   risorse = signal<Risorsa[]>([]);
-
-  dettaglioAperto = signal(false);
-  prenotazioneDettaglio = signal<Prenotazione | null>(null);
 
   // Stats
   get inAttesa() {
@@ -75,7 +71,7 @@ export class SupportoPrenotazioni implements OnInit {
   constructor(
     private prenotaService: PrenotaService,
     private risorsaService: RisorsaService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadPrenotazioni();
@@ -125,29 +121,6 @@ export class SupportoPrenotazioni implements OnInit {
     chiamata.subscribe(() => {
       this.loadPrenotazioni();
       this.chiudiPopup();
-    });
-  }
-
-  openDettaglio(p: Prenotazione) {
-    this.prenotazioneDettaglio.set(p);
-    this.dettaglioAperto.set(true);
-  }
-
-  closeDettaglio() {
-    this.dettaglioAperto.set(false);
-    this.prenotazioneDettaglio.set(null);
-  }
-
-  onApprovaDettaglio(id: number) {
-    this.prenotaService.approvaPrenotazione(id).subscribe(() => {
-      this.loadPrenotazioni();
-      this.closeDettaglio();
-    });
-  }
-  onRifiutaDettaglio(id: number) {
-    this.prenotaService.rifiutaPrenotazione(id).subscribe(() => {
-      this.loadPrenotazioni();
-      this.closeDettaglio();
     });
   }
 }

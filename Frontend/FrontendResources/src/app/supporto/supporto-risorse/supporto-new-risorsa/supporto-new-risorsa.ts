@@ -30,6 +30,7 @@ export class SupportoNewRisorsaComponent implements OnInit {
     venerdi: true,
     sabato: false,
     domenica: false,
+    attiva: true
   };
 
   tipiRisorsa: TipoRisorsa[] = [];
@@ -76,6 +77,7 @@ export class SupportoNewRisorsaComponent implements OnInit {
       venerdi: this.nuovaRisorsa.venerdi,
       sabato: this.nuovaRisorsa.sabato,
       domenica: this.nuovaRisorsa.domenica,
+      attiva: this.nuovaRisorsa.attiva
     };
 
     this.save.emit(risorsaDaCreare);
@@ -95,6 +97,7 @@ export class SupportoNewRisorsaComponent implements OnInit {
       venerdi: true,
       sabato: false,
       domenica: false,
+      attiva: true
     };
   }
 

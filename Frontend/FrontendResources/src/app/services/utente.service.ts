@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Utente } from '../../models/Utente';
+import { Utente, NuovoUtenteDTO } from '../../models/Utente';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class UtenteService {
     return this.http.get<Utente>(`${this.apiUrl}/${id}/`);
   }
 
-  creaUtente(utente: Partial<Utente>): Observable<Utente> {
+  creaUtente(utente: NuovoUtenteDTO): Observable<Utente> {
     return this.http.post<Utente>(`${this.apiUrl}/`, utente);
   }
 

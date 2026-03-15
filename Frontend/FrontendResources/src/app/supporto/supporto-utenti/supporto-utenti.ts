@@ -14,6 +14,7 @@ import { Utente, NuovoUtenteDTO } from '../../../models/Utente';
 export class SupportoUtenti implements OnInit {
 
   utenti = signal<Utente[]>([]);
+  filtroStato: 'attivi' | 'disabilitati' | 'tutti' = 'attivi';
 
   // Filtri
   searchQuery = '';
@@ -21,9 +22,10 @@ export class SupportoUtenti implements OnInit {
 
   // Paginazione
   paginaCorrente = signal(1);
-  perPagina = 8;
+  perPagina = 5;
 
   get utentiFiltrati(): Utente[] {
+    //console.log('Ruoli utenti:', this.utenti().map(u => u.ruolo));
     return this.utenti().filter(u => {
       const matchSearch =
         !this.searchQuery ||
@@ -45,9 +47,14 @@ export class SupportoUtenti implements OnInit {
   }
 
   get paginaInfo(): string {
+    const total = this.utentiFiltrati.length;
+
+    if (total === 0)
+      return 'Nessun risultato';
+
     const start = (this.paginaCorrente() - 1) * this.perPagina + 1;
-    const end = Math.min(this.paginaCorrente() * this.perPagina, this.utentiFiltrati.length);
-    return `Visualizzati ${start}–${end} di ${this.utentiFiltrati.length} risultati`;
+    const end = Math.min(this.paginaCorrente() * this.perPagina, total);
+    return `Visualizzati ${start}–${end} di ${total} risultati`;
   }
 
   paginaPrecedente() {
@@ -60,6 +67,14 @@ export class SupportoUtenti implements OnInit {
 
   onFilterChange() {
     this.paginaCorrente.set(1);
+  }
+
+  cambiaFiltroStato() {
+    if (this.filtroStato === 'attivi') this.filtroStato = 'disabilitati';
+    else if (this.filtroStato === 'disabilitati') this.filtroStato = 'tutti';
+    else this.filtroStato = 'attivi';
+    this.paginaCorrente.set(1);
+    this.loadUtenti();
   }
 
   // Modal aggiungi utente
@@ -95,16 +110,28 @@ export class SupportoUtenti implements OnInit {
     this.utenteInModifica = {};
   }
 
-  // Popup elimina
-  popupEliminaAperto = signal(false);
+  // Popup disabilita
+  popupDisabilitaAperto = signal(false);
   utenteSelezionatoId = signal<number | null>(null);
 
-  apriEliminazione(id: number) {
+  apriDisabilitazione(id: number) {
     this.utenteSelezionatoId.set(id);
-    this.popupEliminaAperto.set(true);
+    this.popupDisabilitaAperto.set(true);
   }
-  chiudiEliminazione() {
-    this.popupEliminaAperto.set(false);
+  chiudiDisabilitazione() {
+    this.popupDisabilitaAperto.set(false);
+    this.utenteSelezionatoId.set(null);
+  }
+
+  // Popup riabilita
+  popupRiabilitaAperto = signal(false);
+
+  apriRiabilitazione(id: number) {
+    this.utenteSelezionatoId.set(id);
+    this.popupRiabilitaAperto.set(true);
+  }
+  chiudiRiabilitazione() {
+    this.popupRiabilitaAperto.set(false);
     this.utenteSelezionatoId.set(null);
   }
 
@@ -120,7 +147,7 @@ export class SupportoUtenti implements OnInit {
     const r = ruolo?.toLowerCase();
     if (r === 'admin') return 'Amministratore';
     if (r === 'responsabile') return 'Responsabile';
-    return 'Utilizzatore';
+    return 'Dipendente';
   }
 
   // Colore avatar
@@ -137,10 +164,19 @@ export class SupportoUtenti implements OnInit {
   }
 
   loadUtenti() {
-    this.utenteService.getUtenti().subscribe(data => {
-      this.utenti.set(data);
-      this.paginaCorrente.set(1);
-    });
+    if (this.filtroStato === 'disabilitati') {
+      this.utenteService.getUtentiDisabilitati().subscribe((data: Utente[]) => {
+        this.utenti.set(data); this.paginaCorrente.set(1);
+      });
+    } else if (this.filtroStato === 'tutti') {
+      this.utenteService.getAllUtenti().subscribe((data: Utente[]) => {
+        this.utenti.set(data); this.paginaCorrente.set(1);
+      });
+    } else {
+      this.utenteService.getUtenti().subscribe((data: Utente[]) => {
+        this.utenti.set(data); this.paginaCorrente.set(1);
+      });
+    }
   }
 
   creaUtente() {
@@ -159,12 +195,21 @@ export class SupportoUtenti implements OnInit {
     });
   }
 
-  confermaEliminazione() {
+  confermaDisabilitazione() {
     const id = this.utenteSelezionatoId();
     if (!id) return;
-    this.utenteService.eliminaUtente(id).subscribe(() => {
+    this.utenteService.disabilitaUtente(id).subscribe(() => {
       this.loadUtenti();
-      this.chiudiEliminazione();
+      this.chiudiDisabilitazione();
+    });
+  }
+
+  confermaRiabilitazione() {
+    const id = this.utenteSelezionatoId();
+    if (!id) return;
+    this.utenteService.riabilitaUtente(id).subscribe(() => {
+      this.loadUtenti();
+      this.chiudiRiabilitazione();
     });
   }
 }

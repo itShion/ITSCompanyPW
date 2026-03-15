@@ -29,3 +29,5 @@ class Utente(models.Model):
 
     def is_admin(self):
         return self.ruolo == 'ADMIN' or self.user.is_superuser
+    def notifiche_non_lette(self):
+        return self.notifiche.filter(letta=False).count()

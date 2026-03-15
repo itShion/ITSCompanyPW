@@ -28,7 +28,7 @@
   margin: 0;
 }
 
-/* ── BUTTONS ── */
+/* ── BUTTONI ── */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -72,7 +72,7 @@
 }
 .btn-danger:hover { background: #dc2626; }
 
-/* ── FILTERS ── */
+/* ── FILTRI ── */
 .filters-card {
   display: flex;
   align-items: center;
@@ -293,7 +293,7 @@ td {
   font-size: 14px;
 }
 
-/* ── PAGINATION ── */
+/* ── PAGINAZIONE ── */
 .pagination {
   display: flex;
   align-items: center;
@@ -445,7 +445,7 @@ td {
   line-height: 1.5;
 }
 
-/* ── RESPONSIVE ── */
+/* ── TABLET ── */
 @media (max-width: 768px) {
   .page {
     padding: 20px 16px;
@@ -481,6 +481,7 @@ td {
   }
 }
 
+/* ── MOBILE ── */
 @media (max-width: 480px) {
   .modal { border-radius: 10px; }
   .modal-header { padding: 16px 18px 0; }

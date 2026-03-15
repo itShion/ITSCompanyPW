@@ -2,7 +2,7 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UtenteService } from '../../services/utente.service';
-import { Utente } from '../../../models/Utente';
+import { Utente, NuovoUtenteDTO } from '../../../models/Utente';
 
 @Component({
   selector: 'app-supporto-utenti',
@@ -64,12 +64,22 @@ export class SupportoUtenti implements OnInit {
 
   // Modal aggiungi utente
   modalAperto = signal(false);
-  nuovoUtente: Partial<Utente> = {};
+  nuovoUtente: NuovoUtenteDTO = {
+    username: '',
+    ruolo: '',
+    email: '',
+    password: ''
+  };
 
   openModal() { this.modalAperto.set(true); }
   closeModal() {
     this.modalAperto.set(false);
-    this.nuovoUtente = {};
+    this.nuovoUtente = {
+      username: '',
+      ruolo: '',
+      email: '',
+      password: ''
+    };
   }
 
   // Modal modifica

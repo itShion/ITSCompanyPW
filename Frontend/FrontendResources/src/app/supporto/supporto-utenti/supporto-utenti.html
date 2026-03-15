@@ -124,6 +124,10 @@
     <form (ngSubmit)="creaUtente()">
       <label>Username</label>
       <input type="text" [(ngModel)]="nuovoUtente.username" name="username" placeholder="es. mario.rossi" required />
+      <label>Email</label>
+      <input type="email" [(ngModel)]="nuovoUtente.email" name="email" required />
+      <label>Password</label>
+      <input type="password" [(ngModel)]="nuovoUtente.password" name="password" required />
 
       <label>Ruolo</label>
       <select [(ngModel)]="nuovoUtente.ruolo" name="ruolo" required>

@@ -93,6 +93,7 @@
                 <button
                   *ngIf="u.is_active"
                   class="action-btn"
+                  title="Modifica"
                   (click)="apriModifica(u)"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -104,6 +105,7 @@
                 <button
                   *ngIf="u.is_active"
                   class="action-btn warning"
+                  title="Disabilita"
                   (click)="apriDisabilitazione(u.id)"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -115,6 +117,7 @@
                 <button
                   *ngIf="!u.is_active"
                   class="action-btn success"
+                  title="Riabilita"
                   (click)="apriRiabilitazione(u.id)"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">

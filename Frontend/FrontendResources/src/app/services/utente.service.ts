@@ -15,6 +15,14 @@ export class UtenteService {
     return this.http.get<Utente[]>(`${this.apiUrl}/`);
   }
 
+  getAllUtenti(): Observable<Utente[]> {
+    return this.http.get<Utente[]>(`${this.apiUrl}/?all=true`)
+  }
+
+  getUtentiDisabilitati(): Observable<Utente[]> {
+    return this.http.get<Utente[]>(`${this.apiUrl}/?disabilitati=true`);
+  }
+
   getUtente(id: number): Observable<Utente> {
     return this.http.get<Utente>(`${this.apiUrl}/${id}/`);
   }
@@ -27,7 +35,11 @@ export class UtenteService {
     return this.http.patch<Utente>(`${this.apiUrl}/${id}/`, utente);
   }
 
-  eliminaUtente(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}/`);
+  disabilitaUtente(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}/`);
+  }
+
+  riabilitaUtente(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${id}/riabilita/`, {});
   }
 }

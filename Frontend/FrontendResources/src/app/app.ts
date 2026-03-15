@@ -2,13 +2,13 @@ import { Component, inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef }
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterModule, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
-import { navbarv2 } from "./navbarv2/navbarv2";
+import { Navbarv2 } from "./navbarv2/navbarv2";
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterModule, navbarv2, CommonModule],
+  imports: [RouterOutlet, RouterLink, RouterModule, Navbarv2, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush

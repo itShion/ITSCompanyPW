@@ -37,7 +37,7 @@ export class Navbarv2 implements OnInit{
     this.authService.currentUser$.subscribe(user => {
       //console.log('Utente aggiornato: ', user);
      this.loadNotifiche();
-     setInterval(() => this.loadNotifiche(), 30000); // refresh ogni 30s
+     setInterval(() => this.loadNotifiche(), 5000); // refresh ogni 5s
     
       this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;

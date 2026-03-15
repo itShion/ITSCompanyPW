@@ -244,6 +244,7 @@ html {
 .login-link:hover {
     background-color: #34495e;
     border-radius: 4px;
+}
 .notifiche-container {
   position: relative;
   display: flex;

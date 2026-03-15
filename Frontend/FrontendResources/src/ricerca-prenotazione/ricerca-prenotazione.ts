@@ -29,6 +29,7 @@ export class RicercaPrenotazione implements OnInit {
   private notifiche = inject(NotificationService);
 
 
+
   // ===== DATA =====
   risorse = signal<Risorsa[]>([]);
   loading = signal(true);
@@ -300,7 +301,7 @@ export class RicercaPrenotazione implements OnInit {
   }
 
   isDisponibile(r: Risorsa): boolean {
-    if (!r.attiva) return false;
+    if (!r.stato || r.stato !== 'ATTIVA') return false;
     const giorno = new Date(this.dataSelezionata() + 'T12:00:00').getDay();
     switch (giorno) {
       case 0: return r.domenica;

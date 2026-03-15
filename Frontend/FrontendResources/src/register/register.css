@@ -1,0 +1,28 @@
+/* src/app/features/auth/register/register.component.css */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 600;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #4d9a2a 0%, #97d058 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(86, 171, 47, 0.4);
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+input.ng-valid.ng-touched {
+  border-color: #198754;
+}

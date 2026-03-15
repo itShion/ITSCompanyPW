@@ -1,0 +1,121 @@
+<div class="main-wrapper">
+  <div class="header-text">
+    <h1>Le mie prenotazioni</h1>
+    <p>Gestisci le tue prenotazioni per postazioni, sale riunioni e macchinari.</p>
+  </div>
+
+  <div id="boxbox">
+    <div class="box">
+      <h3>ATTIVE</h3>
+      <h1>{{ confermate() }}</h1>
+    </div>
+    <div class="box">
+      <h3>IN ATTESA</h3>
+      <h1>{{ inAttesa() }}</h1>
+    </div>
+    <div class="box">
+      <h3>ANNULLATE</h3>
+      <h1>{{ annullate() }}</h1>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filter-input">
+      <input type="search" placeholder="Cerca per nome risorsa..." />
+      <svg class="icon search-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7" />
+        <line x1="16.5" y1="16.5" x2="21" y2="21" />
+      </svg>
+    </div>
+
+    <div class="filter-input">
+      <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
+        viewBox="0 -960 960 960" width="24px" fill="currentColor">
+        <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" />
+      </svg>
+      <select>
+        <option>Tutti gli stati</option>
+      </select>
+      <svg class="icon select-arrow" xmlns="http://www.w3.org/2000/svg" height="24px"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9l6 6 6-6" />
+      </svg>
+    </div>
+
+    <div class="filter-input">
+      <input type="date" />
+      <svg class="icon calendar-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
+        viewBox="0 -960 960 960" width="24px" fill="currentColor">
+        <path
+          d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="prenotazioni-list">
+  <p *ngIf="loading()">Caricamento prenotazioni...</p>
+  <p *ngIf="!loading() && prenotazioni().length === 0">Non hai ancora prenotazioni.</p>
+
+  <div class="prenotazioni-table-wrapper">
+    <table class="prenotazioni-table">
+      <thead>
+        <tr>
+          <th>Risorsa</th>
+          <th>Data</th>
+          <th>Orario</th>
+          <th>Stato</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of prenotazioni()">
+          <td>{{ p.risorsa.nome }}</td>
+          <td>{{ p.data_inizio | date:'dd/MM/yyyy' }}</td>
+          <td>{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</td>
+          <td>
+            <span class="stato-badge"
+              [ngClass]="{
+                pending: p.stato === 'PENDING',
+                confermata: p.stato === 'CONFERMATA',
+                annullata: p.stato === 'ANNULLATA'
+              }">
+              {{ p.stato_display }}
+            </span>
+          </td>
+          <td>
+            <button 
+              class="btn-danger"
+              *ngIf="p.stato === 'PENDING' || p.stato === 'CONFERMATA'"
+              (click)="openAnnullaModal(p)"
+              [disabled]="loading()">
+              Annulla Prenotazione
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!loading() && prenotazioni().length === 0">
+          <td colspan="6" class="no-data">Non ci sono prenotazioni.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="loading()" class="loading-text">Caricamento prenotazioni...</p>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showAnnullaModal() && prenotazioneSelezionata() as p">
+  <div class="modal">
+    <h2>Sei sicuro di voler annullare la prenotazione?</h2>
+    <p>
+      Risorsa: {{ p.risorsa?.nome }}<br>
+      Data: {{ p.data_inizio | date:'dd/MM/yyyy' }}<br>
+      Orario: {{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}
+    </p>
+    <div class="modal-buttons">
+      <button class="btn-danger" (click)="confirmAnnullaPrenotazione()">Annulla Prenotazione</button>
+      <button class="btn-secondary" (click)="closeAnnullaModal()">Chiudi</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+<!-- src/app/features/auth/register/register.component.html -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="text-center mb-4">Crea Account</h2>
+          
+          <form (submit)="onSubmit(); $event.preventDefault()">
+            <div class="row">
+              <!-- Username -->
+              <div class="col-md-6 mb-3">
+                <label for="username" class="form-label">Username *</label>
+                <input 
+                  type="text" 
+                  id="username"
+                  [(ngModel)]="userData.username"
+                  name="username"
+                  class="form-control"
+                  placeholder="mario.rossi"
+                  required>
+                <div class="form-text">Sarà il tuo nome utente per l'accesso</div>
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input 
+                  type="email" 
+                  id="email"
+                  [(ngModel)]="userData.email"
+                  name="email"
+                  class="form-control"
+                  placeholder="mario@example.com"
+                  required>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Password -->
+              <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">Password *</label>
+                <input 
+                  type="password" 
+                  id="password"
+                  [(ngModel)]="userData.password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Minimo 8 caratteri"
+                  required>
+              </div>
+
+              <!-- Telefono -->
+              <div class="col-md-6 mb-3">
+                <label for="telefono" class="form-label">Telefono *</label>
+                <input 
+                  type="tel" 
+                  id="telefono"
+                  [(ngModel)]="userData.telefono"
+                  name="telefono"
+                  class="form-control"
+                  placeholder="3331234567"
+                  pattern="[0-9]{10}"
+                  required>
+                <div class="form-text">10 cifre senza spazi</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Nome -->
+              <div class="col-md-6 mb-3">
+                <label for="first_name" class="form-label">Nome</label>
+                <input 
+                  type="text" 
+                  id="first_name"
+                  [(ngModel)]="userData.first_name"
+                  name="first_name"
+                  class="form-control"
+                  placeholder="Mario">
+              </div>
+
+              <!-- Cognome -->
+              <div class="col-md-6 mb-3">
+                <label for="last_name" class="form-label">Cognome</label>
+                <input 
+                  type="text" 
+                  id="last_name"
+                  [(ngModel)]="userData.last_name"
+                  name="last_name"
+                  class="form-control"
+                  placeholder="Rossi">
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            @if (errorMessage) {
+              <div class="alert alert-danger alert-dismissible fade show">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                {{ errorMessage }}
+                <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+              </div>
+            }
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2 mt-3">
+              <button 
+                type="submit" 
+                class="btn btn-success btn-lg"
+                [disabled]="isLoading">
+                @if (!isLoading) {
+                  <i class="bi bi-person-check me-2"></i>Crea Account
+                } @else {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Registrazione in corso...
+                }
+              </button>
+            </div>
+
+            <!-- Login Link -->
+            <div class="text-center mt-4">
+              <p class="mb-2">Hai già un account?</p>
+              <a routerLink="/login" class="btn btn-outline-primary">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Accedi
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

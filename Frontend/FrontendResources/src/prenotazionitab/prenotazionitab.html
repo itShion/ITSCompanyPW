@@ -1,0 +1,29 @@
+<app-navbarv2></app-navbarv2>
+<section>
+  @if (risorse().length === 0) {
+    <p>Nessuna risorsa disponibile</p>}
+  @else {
+    @for (risorsa of risorse(); track risorsa.id) {
+  <table>
+    <thead>
+      <tr>
+        <th>NOME</th>
+        <th>TIPO</th>
+        <th>DESCRIZIONE</th>
+        <th>AZIONI</th>
+      </tr>
+    </thead>
+   
+    <tbody>
+        <tr>
+            <td>{{risorsa.nome}}</td>
+          <td>{{ risorsa.tipo.nome }}</td>
+          <td><div>{{ risorsa.descrizione }}</div></td>
+            <td><a [routerLink]="['/prenota', risorsa.id]">PRENOTA</a>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+    }
+  }
+</section>

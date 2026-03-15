@@ -1,0 +1,180 @@
+/* ===== RESET BASE ===== */
+body {
+  background-color: #f4f6f8;
+  margin: 0;
+  margin-top: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #333;
+}
+
+section {
+  background-color: #ffffff;
+  padding: 25px 30px;
+  margin: 0px auto 40px;
+  max-width: 1200px;
+}
+
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.top label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  gap: 6px;
+}
+
+.top input[type="text"] {
+  padding: 8px 12px;
+  width: 260px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.top input[type="text"]:focus {
+  outline: none;
+  border-color: #2f8f46;
+  box-shadow: 0 0 0 2px rgba(47, 143, 70, 0.15);
+}
+
+.top button {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid #aaa;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 30px;
+}
+
+tr:has(td button[disabled]) {
+  background-color: #e6f4ea !important;
+}
+
+
+.top button:hover {
+  background-color: #2f8f46;
+  color: white;
+  border-color: #2f8f46;
+}
+
+h3 {
+  margin: 15px 0;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  font-size: 17px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #eef2f4;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  text-align: center;
+}
+
+th {
+  font-weight: 700;
+  color: #444;
+}
+
+tbody tr {
+  transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+  background-color: #f3f7f5;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+
+td input[type="text"] {
+  width: 90%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+table button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 4px;
+  transition: transform 0.15s, color 0.15s;
+}
+
+table button:hover {
+  transform: scale(1.05);
+  color: #2f8f46;
+}
+
+tr td[colspan] {
+  font-weight: 600;
+  color: #b00020;
+}
+
+.section,
+div:last-of-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 25px;
+  font-size: 18px;
+}
+
+.section button,
+div:last-of-type button {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.section button:hover,
+div:last-of-type button:hover {
+  background-color: #2f8f46;
+  color: white;
+  border-color: #2f8f46;
+}
+
+select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+select:focus {
+  outline: none;
+  border-color: darkgreen;
+}

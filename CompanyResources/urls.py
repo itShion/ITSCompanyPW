@@ -15,8 +15,35 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_simplejwt.views import TokenRefreshView
+
+from CompanyResources.API_Resources.auth_views import LoginView, RegisterView, CurrentUserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Autenticazione
+    path('api-auth/', include('rest_framework.urls')),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    #JWT
+    path('api/token/', LoginView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/register/', RegisterView.as_view(), name='register'),
+    path('api/current-user/', CurrentUserView.as_view(), name='current_user'),
+
+    # Le tue API
+    path('api/v1/', include('CompanyResources.API_Resources.urls')),
+
+    # OpenAPI Schema (JSON)
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+
+    # Swagger UI (Documentazione interattiva)
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+
+    # ReDoc (Documentazione alternativa)
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+
+    path('api/notifiche/', include('CompanyResources.Notifica.urls')),
 ]

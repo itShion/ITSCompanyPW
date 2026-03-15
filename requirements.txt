@@ -2,3 +2,8 @@ PyMySQL
 pipenv
 django
 cryptography
+djangorestframework
+# CORS per Angular
+django-cors-headers==4.9.0
+drf-spectacular
+djangorestframework-simplejwt

@@ -14,6 +14,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import pymysql
 
+# JWT
+from datetime import timedelta
+
 pymysql.install_as_MySQLdb()
 pymysql.version_info = (2, 2, 1, "final", 0)  # FINGE di essere mysqlclient 2.2.1
 
@@ -27,12 +30,28 @@ SECRET_KEY = 'django-insecure-$u*q)3)w3y^#d-rg^2r5zpljvr%c5x9rmk*79ak2mbq5t)0*0*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'django',
+    'localhost',
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
 
 INSTALLED_APPS = [
+
+    #JWT
+    'rest_framework_simplejwt',
+
+    #DRF
+
+    'corsheaders',
+    'rest_framework',
+    'drf_spectacular',
+
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,21 +60,42 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 
+
     # Le mie app:
 
-    'Risorsa',
-    'Utente',
+    'CompanyResources',
+    'CompanyResources.Risorsa',
+    'CompanyResources.Utente',
+    'CompanyResources.Notifica',
+    'CompanyResources.Prenotazione',
+    'CompanyResources.ActivityLog',
+
+    #API
+    'CompanyResources.API_Resources'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'CompanyResources.urls'
 
@@ -134,12 +174,46 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Rome'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        
+
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'CompanyResources.API_Resources.error_handler.custom_exception_handler',
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Company Resources API',
+    'DESCRIPTION': 'API per la gestione delle risorse aziendali',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+
+    # Per Angular/TypeScript
+    'COMPONENT_SPLIT_REQUEST': True,
+    'ENUM_NAME_SUFFIX': 'Enum',
+    'TAGS': [
+        {'name': 'Risorse', 'description': 'Gestione risorse aziendali'},
+        {'name': 'Tipi Risorsa', 'description': 'Categorie delle risorse'},
+        {'name': 'Utente', 'description': 'Gestione utenti'},
+        {'name': 'Prenotazione', 'description': 'Gestione delle prenotazioni'},
+    ],
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -150,3 +224,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'dettagliato': {
+            'format': '[{asctime}] {levelname} | {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'dettagliato',
+        },
+    },
+    'loggers': {
+        'companyresources': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}

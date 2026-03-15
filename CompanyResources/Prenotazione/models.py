@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.db import models
 from jsonschema import ValidationError
 from datetime import date,datetime
+from django.core.exceptions import ValidationError
 from CompanyResources.Risorsa.models import Risorsa
 from CompanyResources.Utente.models import Utente
 from CompanyResources.Notifica.models import Notifica

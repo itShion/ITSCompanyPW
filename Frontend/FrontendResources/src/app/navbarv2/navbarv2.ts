@@ -19,8 +19,8 @@ export class navbarv2 implements OnInit {
   private router = inject(Router);
 
   currentUser: any = null;
+  isDropdownOpen = false;  
 
-  //Mostra la sezione supporto solo agli admin e ai responsabili
   showSupport$ = this.authService.currentUser$.pipe(
     map(user => {
     const ruolo = user?.ruolo?.toLowerCase();
@@ -35,9 +35,12 @@ export class navbarv2 implements OnInit {
     });
   }
 
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
   logout(): void {
     this.authService.logout();
-
   }
 
 }

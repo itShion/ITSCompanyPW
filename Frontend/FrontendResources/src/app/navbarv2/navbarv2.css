@@ -53,13 +53,16 @@ html {
 }
 
 .brand {
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  color: var(--text-color);
-  font-size: 1.35rem;
-  font-weight: 600;
-  letter-spacing: -0.2px;
   padding-left: 20px;
   display: none;
+}
+
+.brand img {
+  height: 40px;
+  max-height: 40px;
+  width: auto;
+  object-fit: contain;
+  content: url(logo.jpg);
 }
 
 .links-container {
@@ -76,7 +79,6 @@ html {
   box-shadow: -5px 0 12px rgba(0, 0, 0, 0.15);
   transition: right 0.75s ease-out;
 }
-
 
 .navbar a:hover {
   background-color: rgba(0, 106, 255, 0.08);
@@ -220,7 +222,6 @@ html {
   color: #dc2626;
 }
 
-/* Badge ruolo */
 .role-badge {
   background-color: rgba(0, 106, 255, 0.1);
   color: var(--accent-color);
@@ -231,22 +232,19 @@ html {
   margin-left: 8px;
 }
 
-
 .login-link {
   display: flex;
-   align-items: center;
-   padding: 0 1rem;
-   color: white;
-   text-decoration: none;
-   font-weight: 500;
+  align-items: center;
+  padding: 0 1rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
 }
 
 .login-link:hover {
     background-color: #34495e;
     border-radius: 4px;
 }
-
-
 
 @media (min-width: 769px) {
   .navbar {
@@ -286,5 +284,89 @@ html {
 
   #overlay {
     display: none;
+  }
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+  /* Logo centrato */
+  .brand {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+  }
+
+  .brand img {
+    height: 32px;
+    max-height: 32px;
+  }
+
+  /* User dropdown nell'ordine normale */
+  .user-dropdown {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdown-trigger {
+    width: 100%;
+    padding: 12px 30px;  /* ← Più compatto */
+    height: auto;
+    justify-content: space-between;
+    font-size: 0.95rem;  /* ← Testo più piccolo */
+  }
+
+  .user-icon {
+    width: 28px;  /* ← Più piccolo */
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  /* Dropdown menu collassabile */
+  .dropdown-menu {
+    position: static;
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+    background-color: transparent;
+  }
+
+  .dropdown-menu.show {
+    max-height: 300px;
+    opacity: 1;
+    visibility: visible;
+    padding: 0 0 8px 0;
+    background-color: rgba(0, 106, 255, 0.04);
+  }
+
+  .dropdown-header {
+    padding: 8px 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .dropdown-header small {
+    font-size: 0.75rem;
+  }
+
+  .dropdown-item {
+    padding: 8px 30px 8px 60px;
+    font-size: 0.85rem;
+  }
+
+  .dropdown-item i {
+    width: 16px;
+    font-size: 0.8rem;
   }
 }

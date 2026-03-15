@@ -4,6 +4,7 @@ export interface Utente {
   ruolo: string;
   telefono: string;
   user_id: number;
+  is_active?: boolean;
 }
 export interface LoginDTO {
   username: string;

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { UtilsReportService } from '../app/services/utils-report-service';
 import { Utente } from '../models/Utente';
 import { toSignal } from '@angular/core/rxjs-interop';
-
+import { NotificationService } from '../app/services/notification.service';
 @Component({
   selector: 'app-ricerca-prenotazione',
   standalone: true,
@@ -26,6 +26,7 @@ export class RicercaPrenotazione implements OnInit {
   private utilsService = inject(UtilsReportService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private notifiche = inject(NotificationService);
 
 
   // ===== DATA =====
@@ -87,9 +88,7 @@ export class RicercaPrenotazione implements OnInit {
         this.risorse.set(data);
         this.loading.set(false);
       },
-      error: (err) => {
-        console.error(err);
-        this.error.set("Errore caricamento risorse");
+      error: () => {
         this.loading.set(false);
       }
     });
@@ -220,14 +219,25 @@ export class RicercaPrenotazione implements OnInit {
           this.partecipantiSelezionati.set([]);
         }, 3000);
       },
+      // error: (err) => {
+      //   console.error('Errore prenotazione:', err);
+      //   let errorMsg = 'Errore durante la prenotazione';
+      //   if (err.error?.error) errorMsg = err.error.error;
+      //   else if (err.error?.detail) errorMsg = err.error.detail;
+      //   else if (typeof err.error === 'string') errorMsg = err.error;
+      //   this.errorMessage.set(errorMsg);
+      //   this.notifiche.successo('Prenotazione creata con successo!');
+      //   this.motivo.set('');
+      //   this.oraInizio.set('09:00');
+      //   this.oraFine.set('10:00');
+      // },
       error: (err) => {
-        console.error('Errore prenotazione:', err);
-        let errorMsg = 'Errore durante la prenotazione';
-        if (err.error?.error) errorMsg = err.error.error;
-        else if (err.error?.detail) errorMsg = err.error.detail;
-        else if (typeof err.error === 'string') errorMsg = err.error;
-        this.errorMessage.set(errorMsg);
         this.loading.set(false);
+            if (err.error && err.error.dettaglio) {
+          this.errorMessage.set(err.error.dettaglio);
+        } else {
+          this.errorMessage.set('Errore sconosciuto');
+        }
       }
     });
   }

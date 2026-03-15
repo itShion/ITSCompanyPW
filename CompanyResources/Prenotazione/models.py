@@ -5,7 +5,7 @@ from datetime import date,datetime
 from django.core.exceptions import ValidationError
 from CompanyResources.Risorsa.models import Risorsa
 from CompanyResources.Utente.models import Utente
-
+from CompanyResources.Notifica.models import Notifica
 
 # Create your models here.
 class Prenotazione(models.Model):
@@ -177,3 +177,12 @@ class PrenotazionePartecipante(models.Model):
 
     def __str__(self):
         return f"{self.utente.user.username} - {self.prenotazione.id} ({self.stato})"
+    def crea_notifica_approvazione(self):
+        from CompanyResources.Notifica.models import Notifica
+        Notifica.objects.create(
+            utente=self.utente,
+            titolo="Prenotazione approvata",
+            messaggio=f"La tua prenotazione per {self.risorsa.nome} è stata approvata.",
+            tipo="BOOKING_APPROVED"
+        )
+    

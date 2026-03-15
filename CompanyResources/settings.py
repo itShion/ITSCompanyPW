@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'CompanyResources',
     'CompanyResources.Risorsa',
     'CompanyResources.Utente',
+    'CompanyResources.Notifica',
     'CompanyResources.Prenotazione',
     'CompanyResources.ActivityLog',
 

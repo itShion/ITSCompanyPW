@@ -19,6 +19,7 @@ export class Navbarv2 implements OnInit{
   private router = inject(Router);
 
   currentUser: any = null;
+  isDropdownOpen = false;
   unreadCount = signal(0);
   notifiche = signal<any[]>([]);
   popupAperto = signal(false);
@@ -38,15 +39,18 @@ export class Navbarv2 implements OnInit{
       //console.log('Utente aggiornato: ', user);
      this.loadNotifiche();
      setInterval(() => this.loadNotifiche(), 5000); // refresh ogni 5s
-    
+
       this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });});
   }
 
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
   logout(): void {
     this.authService.logout();
-
   }
 
 loadNotifiche() {

@@ -50,6 +50,13 @@ export class RicercaPrenotazione implements OnInit {
   motivo = signal<string>('');
   orariDisponibiliBase = this.generateTimeSlots(8, 18);
 
+ // ===== FILTRI =====
+  filtroCerca = signal('');
+filtroData2 = signal(new Date().toISOString().split('T')[0]);
+filtroOraInizio = signal('');
+filtroOraFine = signal('');
+filtroTipi = signal<string[]>([]);
+
   // ===== PARTECIPANTI =====
   tuttiGliUtenti = signal<Utente[]>([]);
   partecipantiSelezionati = signal<Utente[]>([]);
@@ -314,6 +321,39 @@ export class RicercaPrenotazione implements OnInit {
       default: return false;
     }
   }
+
+  // ===== FILTRI =====
+   
+  risorseFiltrate = computed(() => {
+  const cerca = this.filtroCerca().toLowerCase().trim();
+  const tipi = this.filtroTipi();
+
+  return this.risorse().filter(r => {
+    const matchCerca = !cerca || r.nome?.toLowerCase().includes(cerca) 
+                               || r.tipo?.nome?.toLowerCase().includes(cerca);
+    const matchTipo = tipi.length === 0 || tipi.includes(r.tipo?.nome);
+    return matchCerca && matchTipo;
+  });
+});
+
+  toggleTipo(tipo: string, checked: boolean) {
+  this.filtroTipi.update(list =>
+    checked ? [...list, tipo] : list.filter(t => t !== tipo)
+    
+  );
+}
+
+applicaFiltri() {
+  this.dataSelezionata.set(this.filtroData2());
+}
+
+resetFiltriSidebar() {
+  this.filtroCerca.set('');
+  this.filtroData2.set(new Date().toISOString().split('T')[0]);
+  this.filtroOraInizio.set('');
+  this.filtroOraFine.set('');
+  this.filtroTipi.set([]);
+}
 
 
 }

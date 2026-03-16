@@ -26,13 +26,18 @@
 
     <div class="filter-group">
     <label>Tipo di Risorsa</label>
-    <div class="checks">
-      <label><input type="checkbox" (change)="toggleTipo('Postazione', $any($event.target).checked)" /> Postazioni Lavoro</label>
-      <label><input type="checkbox" (change)="toggleTipo('Sala Riunioni', $any($event.target).checked)" /> Sale Riunioni</label>
-      <label><input type="checkbox" (change)="toggleTipo('Attrezzatura', $any($event.target).checked)" /> Macchinari</label>
+<div class="checks">
+  @for (t of tipiRisorsa(); track t.id) {
+    <label>
+      <input type="checkbox"
+        [checked]="filtroTipi().includes(t.nome)"
+        (change)="toggleTipo(t.nome, $any($event.target).checked)" />
+      {{ t.nome }}
+    </label>
+  }
+</div>
     </div>
-    </div>
-    
+
     <button class="btn-primary" (click)="applicaFiltri()">Applica Filtri</button>
 <button class="btn-reset-sidebar"
     *ngIf="filtroCerca() || filtroTipi().length > 0 || filtroOraInizio() || filtroOraFine()"

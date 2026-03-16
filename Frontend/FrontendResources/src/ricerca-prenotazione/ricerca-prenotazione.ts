@@ -11,6 +11,7 @@ import { UtilsReportService } from '../app/services/utils-report-service';
 import { Utente } from '../models/Utente';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NotificationService } from '../app/services/notification.service';
+import { TipoRisorsa } from '../models/TipoRisorsa';
 @Component({
   selector: 'app-ricerca-prenotazione',
   standalone: true,
@@ -36,6 +37,7 @@ export class RicercaPrenotazione implements OnInit {
   error = signal<string | null>(null);
   errorMessage = signal<string>('');
   successMessage = signal<string>('');
+  tipiRisorsa = signal<TipoRisorsa[]>([]);
 
   // ===== MODAL =====
   showModal = signal(false);
@@ -86,6 +88,9 @@ filtroTipi = signal<string[]>([]);
     this.dataSelezionata.set(oggi);
     this.utilsService.getAllUtenti().subscribe(utenti => {
       this.tuttiGliUtenti.set(utenti);
+    });
+    this.risorsaService.getTipiRisorsa().subscribe(tipi => {
+      this.tipiRisorsa.set(tipi);
     });
   }
 
@@ -339,7 +344,7 @@ filtroTipi = signal<string[]>([]);
   toggleTipo(tipo: string, checked: boolean) {
   this.filtroTipi.update(list =>
     checked ? [...list, tipo] : list.filter(t => t !== tipo)
-    
+
   );
 }
 

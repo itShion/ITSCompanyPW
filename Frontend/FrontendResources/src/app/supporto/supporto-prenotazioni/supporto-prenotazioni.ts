@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Prenotazione, PrenotazioneDTO } from '../../../models/Prenotazione';
@@ -21,6 +21,12 @@ export class SupportoPrenotazioni implements OnInit {
   dettaglioAperto = signal(false);
   prenotazioneDettaglio = signal<Prenotazione | null>(null);
 
+ filtroCerca  = signal('');
+ filtroRisorsa = signal('');
+ filtroStato  = signal('');
+ filtroData   = signal('');
+
+
   // Stats
   get inAttesa() {
     return this.prenotazioni().filter((p) => p.stato === 'PENDING').length;
@@ -35,11 +41,11 @@ export class SupportoPrenotazioni implements OnInit {
   paginaCorrente = signal(1);
   perPagina = 5;
   get totalPages() {
-    return Math.ceil(this.prenotazioni().length / this.perPagina);
+    return Math.ceil(this.prenotazioniFiltrate().length / this.perPagina);
   }
   get prenotazioniPaginate() {
     const start = (this.paginaCorrente() - 1) * this.perPagina;
-    return this.prenotazioni().slice(start, start + this.perPagina);
+    return this.prenotazioniFiltrate().slice(start, start + this.perPagina);
   }
   paginaPrecedente() {
     if (this.paginaCorrente() > 1) this.paginaCorrente.update((p) => p - 1);
@@ -150,4 +156,36 @@ export class SupportoPrenotazioni implements OnInit {
       this.closeDettaglio();
     });
   }
+
+prenotazioniFiltrate = computed(() => {
+  const cerca  = this.filtroCerca().toLowerCase().trim();
+  const risorsa = this.filtroRisorsa();
+  const stato  = this.filtroStato();
+  const data   = this.filtroData();
+
+  return this.prenotazioni().filter(p => {
+    const matchCerca  = !cerca  || p.utente_nome?.toLowerCase().includes(cerca);
+    const matchRisorsa = !risorsa || String(p.risorsa?.id) === risorsa;
+    const matchStato  = !stato  || p.stato === stato;
+    const matchData   = !data   || p.data_inizio?.startsWith(data);
+    return matchCerca && matchRisorsa && matchStato && matchData;
+  });
+});
+
+
+onFiltroCerca(v: string)  { this.filtroCerca.set(v);  this.paginaCorrente.set(1); }
+onFiltroRisorsa(v: string) { this.filtroRisorsa.set(v); this.paginaCorrente.set(1); }
+onFiltroStato(v: string)  { this.filtroStato.set(v);  this.paginaCorrente.set(1); }
+onFiltroData(v: string)   { this.filtroData.set(v);   this.paginaCorrente.set(1); }
+
+resetFiltri() {
+  this.filtroCerca.set('');
+  this.filtroRisorsa.set('');
+  this.filtroStato.set('');
+  this.filtroData.set('');
+  this.paginaCorrente.set(1);
+}
+
+
+
 }

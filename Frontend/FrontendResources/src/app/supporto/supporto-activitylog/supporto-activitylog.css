@@ -94,3 +94,89 @@
   font-size: 13px;
   padding: 40px 0;
 }
+
+/* ─── TABLET (max 1024px) ───────────────────────────────── */
+@media (max-width: 1024px) {
+  .activity-log {
+    max-width: 100%;
+    padding: 20px;
+  }
+}
+
+/* ─── MOBILE (max 768px) ────────────────────────────────── */
+@media (max-width: 768px) {
+  .activity-log {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .log-header h3 {
+    font-size: 15px;
+  }
+
+  .refresh-info {
+    font-size: 10px;
+  }
+
+  .log-item {
+    padding: 10px 4px;
+    gap: 10px;
+  }
+
+  .log-left {
+    min-width: 36px;
+  }
+
+  .log-icon {
+    font-size: 13px;
+  }
+
+  .log-time {
+    font-size: 10px;
+  }
+
+  .log-descrizione {
+    font-size: 12px;
+  }
+
+  .log-sub {
+    font-size: 11px;
+  }
+}
+
+/* ─── MOBILE PICCOLO (max 480px) ────────────────────────── */
+@media (max-width: 480px) {
+  .activity-log {
+    padding: 14px 12px;
+  }
+
+  .log-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+  }
+
+  .log-item {
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 0;
+  }
+
+  .log-left {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    min-width: unset;
+  }
+
+  .log-time {
+    font-size: 11px;
+  }
+
+  .log-sub {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+}

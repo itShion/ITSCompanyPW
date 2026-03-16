@@ -1,38 +1,154 @@
+/* ─── LAYOUT ────────────────────────────────────────────── */
 .layout {
   display: grid;
   grid-template-columns: 240px 1fr;
+  min-height: 100vh;
 }
 
 .sidebar {
-  background: #ffffff;
-  padding: 20px 16px;
-  border-right: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 24px 12px;
+  border-right: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
 
 .nav-link {
-  display: block;
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
   font-weight: 500;
-  color: #374151;
+  color: #6b7280;
   text-decoration: none;
+  transition: background 0.15s, color 0.15s;
 }
 
 .nav-link:hover {
-  background: #f3f4f6;
+  background: #f5f5f3;
+  color: #111;
 }
 
 .nav-link.active {
-  background: #eff6ff;
+  background: #f0f4ff;
   color: #2563eb;
   font-weight: 600;
 }
 
 .content {
-  padding: 28px;
-  background: #f9fafb;
+  padding: 32px 36px;
+  min-height: 100vh;
+}
+
+/* nascosti su desktop */
+.hamburger,
+.close-btn,
+.overlay {
+  display: none;
+}
+
+/* ─── TABLET + MOBILE (max 1024px) ──────────────────────── */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 20px 18px;
+  }
+
+  /* hamburger in cima al content */
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-bottom: 20px;
+    background: #fff;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #000000;
+    transition: background 0.15s;
+  }
+
+  .hamburger:hover {
+    background: #f5f5f3;
+    color: #000000;
+  }
+
+  /* drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100vh;
+    z-index: 200;
+    padding: 20px 12px;
+    box-shadow: none;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.12);
+  }
+
+  /* bottone chiusura dentro la sidebar */
+  .close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 12px;
+    background: none;
+    border: 1px solid #ebebeb;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .close-btn:hover {
+    background: #f5f5f3;
+    color: #111;
+  }
+
+  /* overlay scuro dietro il drawer */
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    z-index: 199;
+    pointer-events: none;
+    transition: background 0.3s ease;
+  }
+
+  .overlay.visible {
+    background: rgba(0, 0, 0, 0.35);
+    pointer-events: all;
+  }
+}
+
+/* ─── MOBILE PICCOLO (max 480px) ────────────────────────── */
+@media (max-width: 480px) {
+  .content {
+    padding: 16px 14px;
+  }
+
+  .sidebar {
+    width: 240px;
+    left: -260px;
+  }
 }

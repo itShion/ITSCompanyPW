@@ -8,5 +8,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
   styleUrl: './supporto-sidebar.css',
 })
 export class SupportoSidebar {
+  sidebarOpen = false;
 
+  openSidebar()  { this.sidebarOpen = true;  }
+  closeSidebar() { this.sidebarOpen = false; }
 }

@@ -5,6 +5,7 @@ from CompanyResources.Risorsa.models import Risorsa, TipoRisorsa
 from CompanyResources.Utente.models import Utente
 from CompanyResources.Prenotazione.models import Prenotazione, PrenotazionePartecipante
 from CompanyResources.ActivityLog.models import ActivityLog
+from CompanyResources.Notifica.services import NotificaService
 
 
 # ============== TIPO RISORSA ==============
@@ -171,6 +172,12 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
                         prenotazione=prenotazione,
                         utente=partecipante,
                         stato='INVITATO'
+                    )
+                    NotificaService.crea_notifica(
+                        utente=partecipante,
+                        titolo="Sei stato invitato",
+                        messaggio=f"{utente.user.username} ti ha invitato a {prenotazione.risorsa.nome} il {prenotazione.data_inizio.strftime('%d/%m/%Y')}",
+                        tipo="BOOKING_PENDING"
                     )
 
         return prenotazione

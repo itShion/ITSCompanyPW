@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal,computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RisorsaService } from '../../services/RisorsaService';
@@ -23,13 +23,17 @@ export class SupportoRisorse implements OnInit {
   paginaCorrente = signal(1);
   perPagina = 5;
 
+  filtroCerca  = signal('');
+  filtroStato  = signal('');
+  filtroTipo   = signal<number | null>(null);
+
   get totalPages() {
-    return Math.ceil(this.risorse().length / this.perPagina);
+    return Math.ceil(this.risorseFiltrate().length / this.perPagina);
   }
 
   get risorsePaginate() {
     const start = (this.paginaCorrente() - 1) * this.perPagina;
-    return this.risorse().slice(start, start + this.perPagina);
+    return this.risorseFiltrate().slice(start, start + this.perPagina);
   }
 
   paginaPrecedente() {
@@ -287,4 +291,28 @@ export class SupportoRisorse implements OnInit {
     };
     return map[stato] ?? '';
   }
+
+  risorseFiltrate = computed(() => {
+  const cerca = this.filtroCerca().toLowerCase().trim();
+  const stato = this.filtroStato();
+  const tipo  = this.filtroTipo();
+
+  return this.risorse().filter(r => {
+    const matchCerca = !cerca || r.nome?.toLowerCase().includes(cerca);
+    const matchStato = !stato || r.stato === stato;
+    const matchTipo  = tipo === null || r.tipo?.id === tipo;
+    return matchCerca && matchStato && matchTipo;
+  });
+});
+
+onFiltroCerca(v: string)       { this.filtroCerca.set(v);  this.paginaCorrente.set(1); }
+onFiltroStato(v: string)       { this.filtroStato.set(v);  this.paginaCorrente.set(1); }
+onFiltroTipo(v: number | null) { this.filtroTipo.set(v);   this.paginaCorrente.set(1); }
+
+resetFiltri() {
+  this.filtroCerca.set('');
+  this.filtroStato.set('');
+  this.filtroTipo.set(null);
+  this.paginaCorrente.set(1);
+}
 }

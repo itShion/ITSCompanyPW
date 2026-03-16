@@ -3,15 +3,20 @@ from django.dispatch import receiver
 from CompanyResources.Prenotazione.models import Prenotazione
 
 @receiver(pre_save, sender=Prenotazione)
-def salva_stato_precedente(sender, instance, **kwargs):
-    if instance.pk:
+def salva_stato_precedente(sender, instance, raw, **kwargs):
+    if raw:
+        return
+    try:
         old = Prenotazione.objects.get(pk=instance.pk)
         instance._stato_precedente = old.stato
-    else:
+    except Prenotazione.DoesNotExist:
         instance._stato_precedente = None
 
 @receiver(post_save, sender=Prenotazione)
-def gestisci_notifiche(sender, instance, created, **kwargs):
+def gestisci_notifiche(sender, instance, created, raw, **kwargs):
+    if raw:
+        return
+
     from CompanyResources.Utente.models import Utente
     from CompanyResources.Notifica.services import NotificaService
 

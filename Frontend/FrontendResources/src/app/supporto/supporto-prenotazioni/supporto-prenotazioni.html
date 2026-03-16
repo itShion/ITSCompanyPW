@@ -34,7 +34,7 @@
 
 
      <div class="filters-bar">
-    <div class="filter-search">
+     <div class="filter-search">
       <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
@@ -75,11 +75,27 @@
         (change)="onFiltroData($any($event.target).value)" />
     </div>
 
-    <button class="btn-reset-filters"
-      *ngIf="filtroCerca() || filtroRisorsa() || filtroStato() || filtroData()"
+
+    <div class="filter-select">
+  <select [value]="filtroOrdine()" (change)="onFiltroOrdine($any($event.target).value)">
+    <option value="">Ordina per...</option>
+    <option value="data_asc">Data crescente</option>
+    <option value="data_desc">Data decrescente</option>
+    <option value="utente_az">Utente A-Z</option>
+    <option value="utente_za">Utente Z-A</option>
+  </select>
+  <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6 6-6"/>
+  </svg>
+  </div>
+
+  <button class="btn-reset-filters"
+      *ngIf="filtroCerca() || filtroRisorsa() || filtroStato() || filtroData() || filtroOrdine()"
       (click)="resetFiltri()">
       ✕ Azzera
     </button>
+
   </div>
 
 

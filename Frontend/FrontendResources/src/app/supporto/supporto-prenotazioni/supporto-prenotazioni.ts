@@ -25,6 +25,7 @@ export class SupportoPrenotazioni implements OnInit {
  filtroRisorsa = signal('');
  filtroStato  = signal('');
  filtroData   = signal('');
+ filtroOrdine = signal('');
 
 
   // Stats
@@ -158,19 +159,42 @@ export class SupportoPrenotazioni implements OnInit {
   }
 
 prenotazioniFiltrate = computed(() => {
-  const cerca  = this.filtroCerca().toLowerCase().trim();
+  const cerca   = this.filtroCerca().toLowerCase().trim();
   const risorsa = this.filtroRisorsa();
-  const stato  = this.filtroStato();
-  const data   = this.filtroData();
+  const stato   = this.filtroStato();
+  const data    = this.filtroData();
+  const ordine  = this.filtroOrdine();
 
-  return this.prenotazioni().filter(p => {
-    const matchCerca  = !cerca  || p.utente_nome?.toLowerCase().includes(cerca);
+  let result = this.prenotazioni().filter(p => {
+    const matchCerca   = !cerca   || p.utente_nome?.toLowerCase().includes(cerca);
     const matchRisorsa = !risorsa || String(p.risorsa?.id) === risorsa;
-    const matchStato  = !stato  || p.stato === stato;
-    const matchData   = !data   || p.data_inizio?.startsWith(data);
+    const matchStato   = !stato   || p.stato === stato;
+    const matchData    = !data    || p.data_inizio?.startsWith(data);
     return matchCerca && matchRisorsa && matchStato && matchData;
   });
+
+  switch (ordine) {
+    case 'data_asc':
+      result = [...result].sort((a, b) =>
+        new Date(a.data_inizio).getTime() - new Date(b.data_inizio).getTime());
+      break;
+    case 'data_desc':
+      result = [...result].sort((a, b) =>
+        new Date(b.data_inizio).getTime() - new Date(a.data_inizio).getTime());
+      break;
+    case 'utente_az':
+      result = [...result].sort((a, b) =>
+        a.utente_nome?.localeCompare(b.utente_nome ?? '') ?? 0);
+      break;
+    case 'utente_za':
+      result = [...result].sort((a, b) =>
+        b.utente_nome?.localeCompare(a.utente_nome ?? '') ?? 0);
+      break;
+  }
+
+  return result;
 });
+
 
 
 onFiltroCerca(v: string)  { this.filtroCerca.set(v);  this.paginaCorrente.set(1); }
@@ -183,9 +207,11 @@ resetFiltri() {
   this.filtroRisorsa.set('');
   this.filtroStato.set('');
   this.filtroData.set('');
+  this.filtroOrdine.set('');
   this.paginaCorrente.set(1);
 }
 
+onFiltroOrdine(v: string) { this.filtroOrdine.set(v); this.paginaCorrente.set(1); }
 
 
 }

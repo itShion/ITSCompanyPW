@@ -16,10 +16,6 @@
     <label>Periodo</label>
     <input type="date" [value]="filtroData2()" (input)="filtroData2.set($any($event.target).value)" />
 
-    <div class="time-range">
-      <input type="time" [value]="filtroOraInizio()" (input)="filtroOraInizio.set($any($event.target).value)" />
-      <input type="time" [value]="filtroOraFine()" (input)="filtroOraFine.set($any($event.target).value)" />
-    </div>
     </div>
 
     <div class="divider"></div>

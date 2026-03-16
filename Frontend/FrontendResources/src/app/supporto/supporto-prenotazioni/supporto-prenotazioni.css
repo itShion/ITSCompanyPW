@@ -305,3 +305,212 @@ td {
   gap: 12px;
   margin-top: 8px;
 }
+
+/* ─── TABLET (max 1024px) ───────────────────────────────── */
+@media (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* nasconde checkbox e colonna data */
+  th:nth-child(1),
+  td:nth-child(1),
+  th:nth-child(4),
+  td:nth-child(4) {
+    display: none;
+  }
+}
+
+/* ─── MOBILE (max 768px) ────────────────────────────────── */
+@media (max-width: 768px) {
+  .page {
+    gap: 16px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .header p {
+    font-size: 13px;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .header-actions button {
+    width: 100%;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .stat-top {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  /* nasconde checkbox, data, risorsa — rimangono richiedente + stato + azioni */
+  th:nth-child(1),
+  td:nth-child(1),
+  th:nth-child(3),
+  td:nth-child(3),
+  th:nth-child(4),
+  td:nth-child(4) {
+    display: none;
+  }
+
+  th {
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+
+  td {
+    padding: 12px;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .name {
+    font-size: 13px;
+  }
+
+  .sub {
+    font-size: 11px;
+  }
+
+  .badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .btn-approva,
+  .btn-rifiuta {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .pagination div {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .pagination button {
+    flex: 1;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  /* modal bottom sheet */
+  .modal-overlay {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 20px 16px 28px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal.small {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .modal-footer button {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .modal form {
+    gap: 10px;
+  }
+
+  .modal input,
+  .modal select,
+  .modal textarea {
+    font-size: 16px; /* evita zoom automatico su iOS */
+  }
+}
+
+/* ─── MOBILE PICCOLO (max 480px) ────────────────────────── */
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  /* su schermi piccoli mostra solo richiedente + azioni */
+  th:nth-child(5),
+  td:nth-child(5) {
+    display: none;
+  }
+
+  .azioni {
+    gap: 4px;
+  }
+
+  .btn-approva,
+  .btn-rifiuta {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+}

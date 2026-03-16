@@ -5,6 +5,7 @@ from CompanyResources.Risorsa.models import Risorsa, TipoRisorsa
 from CompanyResources.Utente.models import Utente
 from CompanyResources.Prenotazione.models import Prenotazione, PrenotazionePartecipante
 from CompanyResources.ActivityLog.models import ActivityLog
+from CompanyResources.Notifica.services import NotificaService
 
 
 # ============== TIPO RISORSA ==============
@@ -86,7 +87,7 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
         write_only=True
     )
 
-    utente_id = serializers.IntegerField(source='utente.id', read_only=True)
+    utente = serializers.IntegerField(source='utente.id', read_only=True)
     utente_nome = serializers.CharField(source='utente.user.username', read_only=True)
     utente_email = serializers.EmailField(source='utente.user.email', read_only=True)
     utente_ruolo = serializers.CharField(source='utente.get_ruolo_display', read_only=True)
@@ -118,7 +119,7 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'risorsa', 'risorsa_id',
-            'utente_id', 'utente_nome',
+            'utente', 'utente_nome',
             'utente_email', 'utente_ruolo',
             'data_inizio', 'data_fine',
             'stato', 'stato_display',
@@ -130,7 +131,7 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
         read_only_fields = [
             'id', 'created_at', 'updated_at',
             'stato',
-            'utente_id', 'utente_nome',
+            'utente', 'utente_nome',
             'utente_email', 'utente_ruolo',
             'stato_display', 'risorsa'
         ]
@@ -171,6 +172,12 @@ class PrenotazioneSerializer(serializers.ModelSerializer):
                         prenotazione=prenotazione,
                         utente=partecipante,
                         stato='INVITATO'
+                    )
+                    NotificaService.crea_notifica(
+                        utente=partecipante,
+                        titolo="Sei stato invitato",
+                        messaggio=f"{utente.user.username} ti ha invitato a {prenotazione.risorsa.nome} il {prenotazione.data_inizio.strftime('%d/%m/%Y')}",
+                        tipo="BOOKING_PENDING"
                     )
 
         return prenotazione

@@ -6,6 +6,9 @@
       <p>Visualizza, modifica e gestisci le richieste di prenotazione delle risorse aziendali.</p>
     </div>
     <div class="header-actions">
+      <button class="btn-storico" (click)="toggleStorico()">
+        {{ mostraStorico() ? '← Torna alle attive' : '📂 Mostra storico' }}
+      </button>
       <button class="btn-secondary">↓ Export Report</button>
       <button class="btn-primary" (click)="openModal()">+ Nuova Prenotazione</button>
     </div>
@@ -124,10 +127,12 @@
             <div class="sub">{{ p.risorsa.tipo.nome }}</div>
           </td>
           <td>
-            <div class="name">{{ p.data_inizio | date:'dd MMM yyyy' }}</div>
-            <div class="sub">{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</div>
+            <div class="name">{{ formatData(p.data_inizio) }}</div>
+            <div class="sub">{{ formatOra(p.data_inizio) }} - {{ formatOra(p.data_fine) }}</div>
           </td>
-          <td><span class="badge" [ngClass]="getBadgeClass(p.stato)">{{ p.stato_display }}</span></td>
+          <td>
+            <span class="badge" [ngClass]="getBadgeClass(p.stato)">{{ p.stato_display }}</span>
+          </td>
           <td>
             <div class="azioni" *ngIf="p.stato === 'PENDING'">
               <button class="btn-approva" (click)="apriPopup(p.id, 'approva')">✓</button>
@@ -139,7 +144,10 @@
     </table>
 
     <div class="pagination">
-      <span>Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}-{{ min(paginaCorrente()*perPagina, prenotazioniFiltrate().length) }} di {{ prenotazioniFiltrate().length }} risultati</span>
+      <span>
+        Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}-{{ min(paginaCorrente()*perPagina, prenotazioni().length) }}
+        di {{ prenotazioni().length }} risultati
+      </span>
       <div>
         <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>
         <button (click)="paginaSuccessiva()" [disabled]="paginaCorrente() === totalPages">Successivo</button>

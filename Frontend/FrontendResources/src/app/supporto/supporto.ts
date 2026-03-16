@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { SupportoSidebar } from './supporto-sidebar/supporto-sidebar';
 import { SupportoNewRisorsaComponent } from './supporto-risorse/supporto-new-risorsa/supporto-new-risorsa';
 import { RisorsaService } from '../services/RisorsaService';
@@ -19,6 +19,21 @@ export class Supporto implements OnInit {
   utentiTotali = signal(0);
   prenotazioniAttive = signal(0);
   prenotazioniPending = signal(0);
+
+  // ===== STATISTICHE PERC =====
+
+  risorseDisponibili = signal(0);
+  risorseTotali = signal(0);
+  percentualeRisorse = signal(0);
+
+  trendRisorse = computed(() => {
+    const p = this.percentualeRisorse();
+    if (p >= 80) return { label: `+${p}%`, classe: 'positive' };
+    if (p >= 50) return { label: `${p}%`, classe: 'neutral' };
+    return { label: `-${p}%`, classe: 'negative' };
+  });
+
+  alertPending = computed(() => this.prenotazioniPending() > 5);
 
   ngOnInit() {
     this.caricaStatistiche();
@@ -44,7 +59,18 @@ export class Supporto implements OnInit {
       next: (prenotazioni) => {
         this.prenotazioniPending.set(prenotazioni.length);
       }
-    })
+    });
+    this.utilsService.getAllRisorseDisponibili().subscribe({
+      next: (risorse) => {
+        const totale = risorse.length;
+        const disponibili = risorse.filter(r => r.stato === 'ATTIVA').length;
+        this.risorseTotali.set(totale);
+        this.risorseDisponibili.set(disponibili);
+        this.percentualeRisorse.set(
+          totale > 0 ? Math.round((disponibili / totale) * 100) : 0
+        );
+      }
+    });
   }
 
   constructor(private risorsaService: RisorsaService) { }

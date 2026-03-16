@@ -253,7 +253,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* ─── PAGINAZIONE ───────────────────────────────────────── */
 .pagination {
   width: 950px;
-  margin-left: 300px;
+  margin-left: 270px;
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -386,6 +386,216 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #f26b4e;
 }
 
+.btn-invito {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-invito:hover {
+  background: #dbeafe;
+}
+
+.btn-success {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-success:hover {
+  background: #15803d;
+}
+
+.invito-info {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.invito-info p {
+  margin: 0;
+}
+.feedback-banner {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: fadeInDown 0.3s ease;
+}
+
+.feedback-success {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.feedback-error {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.btn-storico {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-storico:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+}
+
+.close-btn:hover {
+  color: #111827;
+}
+
+/* Modal Dettaglio */
+
+.partecipanti-section {
+  text-align: left;
+  padding: 0 4px;
+}
+
+.partecipanti-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.partecipanti-section p {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.partecipanti-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.partecipanti-section li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.motivo-section {
+  text-align: left;
+  padding: 0 4px;
+}
+
+.motivo-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.motivo-section textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #0f172a;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.motivo-section textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.btn-primary {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.btn-primary:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
 /* ─── RESPONSIVE ────────────────────────────────────────── */
 @media (max-width: 640px) {
   body { padding: 20px 16px; }

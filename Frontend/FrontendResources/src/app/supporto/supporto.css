@@ -193,6 +193,30 @@
   }
 }
 
+.stat-trend {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.stat-trend.positive {
+  color: #16a34a;
+}
+
+.stat-trend.negative {
+  color: #dc2626;
+}
+
+.stat-trend.neutral {
+  color: #64748b;
+}
+
+.stat-note {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
 /* ─── TABLET (max 1024px) ───────────────────────────────── */
 @media (max-width: 1024px) {
   .stats-grid {

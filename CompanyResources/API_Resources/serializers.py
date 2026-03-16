@@ -43,11 +43,12 @@ class UtenteSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='user.first_name', read_only=True)
     last_name = serializers.CharField(source='user.last_name', read_only=True)
     is_active = serializers.BooleanField(source='user.is_active', read_only=True)
+    last_login = serializers.DateTimeField(source='user.last_login', read_only=True)
 
     class Meta:
         model = Utente
         fields = ['id', 'user', 'username', 'email', 'first_name', 'last_name',
-                  'ruolo', 'telefono', 'is_active']
+                  'ruolo', 'telefono', 'is_active', 'last_login']
         read_only_fields = ['id', 'user']
 
     def to_representation(self, instance):

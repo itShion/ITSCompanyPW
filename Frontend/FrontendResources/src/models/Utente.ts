@@ -2,9 +2,11 @@ export interface Utente {
   id: number;
   username: string;
   ruolo: string;
+  email?: string;
   telefono: string;
   user_id: number;
   is_active?: boolean;
+  last_login?: string;
 }
 export interface LoginDTO {
   username: string;

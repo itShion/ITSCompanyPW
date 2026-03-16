@@ -2,7 +2,8 @@
 .layout {
   display: grid;
   grid-template-columns: 240px 1fr;
-  min-height: 100vh;
+  height: calc(100vh - 60px);
+  overflow: hidden;
 }
 
 .sidebar {
@@ -12,9 +13,9 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
+  position: static;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .nav-link {
@@ -42,7 +43,8 @@
 
 .content {
   padding: 32px 36px;
-  min-height: 100vh;
+  height: 100%;
+  overflow-y: auto;
 }
 
 /* nascosti su desktop */
@@ -56,10 +58,13 @@
 @media (max-width: 1024px) {
   .layout {
     grid-template-columns: 1fr;
+    height: 100%
   }
 
   .content {
     padding: 20px 18px;
+    height: 100%;
+    overflow-y: auto;
   }
 
   /* hamburger in cima al content */

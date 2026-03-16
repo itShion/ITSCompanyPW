@@ -1,0 +1,7 @@
+html, body {
+  height: 100%;
+}
+
+.app-body {
+  height: calc(100vh - 60px); /* 60px = altezza navbar */
+}

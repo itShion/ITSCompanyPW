@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { Prenotazione } from '../models/Prenotazione';
 import { PrenotaService } from '../app/services/prenota-service';
@@ -84,5 +84,25 @@ export class MiePrenotazioni implements OnInit {
         alert('Errore durante l\'annullamento della prenotazione.');
       }
     });
+  }
+
+
+  paginaCorrente = signal(1);
+  perPagina = 5;
+  get totalPages() {
+    return Math.ceil(this.prenotazioni().length / this.perPagina);
+  }
+  prenotazioniPaginate = computed(() => {
+    const start = (this.paginaCorrente() - 1) * this.perPagina;
+    return this.prenotazioni().slice(start, start + this.perPagina);
+  });
+  paginaPrecedente() {
+    if (this.paginaCorrente() > 1) this.paginaCorrente.update((p) => p - 1);
+  }
+  paginaSuccessiva() {
+    if (this.paginaCorrente() < this.totalPages) this.paginaCorrente.update((p) => p + 1);
+  }
+  min(a: number, b: number) {
+    return Math.min(a, b);
   }
 }

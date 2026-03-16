@@ -306,6 +306,23 @@ td {
   margin-top: 8px;
 }
 
+.btn-storico {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-storico:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
 /* ─── TABLET (max 1024px) ───────────────────────────────── */
 @media (max-width: 1024px) {
   .stats {

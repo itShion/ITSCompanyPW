@@ -213,7 +213,7 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             utente = Utente.objects.get(user=self.request.user)
             oggi = date.today()
 
-            if utente.ruolo in ['Admin', 'RESPONSABILE'] or self.request.user.is_superuser:
+            if utente.ruolo in ['ADMIN', 'RESPONSABILE'] or self.request.user.is_superuser:
                 return Prenotazione.objects.select_related(
                     'utente__user', 'risorsa__tipo'
                 ).filter(data_inizio__date__gte=oggi)
@@ -240,23 +240,6 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
         )
 
     # ---- AZIONI DIPENDENTE ----
-        utente, _ = Utente.objects.get_or_create(
-            user=self.request.user,
-            defaults={'ruolo': 'USER', 'telefono': ''}
-        )
-        serializer.save(utente=utente)
-
-    @action(detail=False, methods=['get'])
-    def attive(self, request):
-        """Restituisce solo le prenotazioni attive (confermate e con data_inizio >= oggi)"""
-        utente = Utente.objects.get(user=request.user)
-        oggi = timezone.now().date()
-        qs = Prenotazione.objects.filter(
-            utente=utente,
-            stato='CONFERMATA',
-            data_inizio__date__gte=oggi
-        ).order_by('data_inizio', 'data_fine')
-        return Response(self.get_serializer(qs, many=True).data)
 
     @action(detail=True, methods=['patch'])
     def modifica_motivo(self, request, pk=None):

@@ -6,7 +6,7 @@ from django.db import models
 class Utente(models.Model):
 
     RUOLI = [
-        ('UTENTE', 'utente'),
+        ('DIPENDENTE', 'dipendente'),
         ('RESPONSABILE', 'responsabile'),
         ('ADMIN', 'amministratore'),
     ]
@@ -22,7 +22,7 @@ class Utente(models.Model):
         return f"{self.user.username} - {self.get_ruolo_display()}"
 
     def is_utente(self):
-        return self.ruolo == 'UTENTE'
+        return self.ruolo == 'DIPENDENTE'
 
     def is_responsabile(self):
         return self.ruolo == 'RESPONSABILE'

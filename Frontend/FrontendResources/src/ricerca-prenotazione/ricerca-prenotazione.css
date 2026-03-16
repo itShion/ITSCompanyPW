@@ -1,5 +1,7 @@
 :host {
   display: block;
+  height: calc(100vh - 60px);
+  overflow: hidden;
   font-family: 'Inter', Arial, sans-serif;
   background: #f5f7fb;
   color: #111827;
@@ -9,7 +11,8 @@
 .layout {
   display: grid;
   grid-template-columns: 280px 1fr;
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* ================= SIDEBAR ================= */
@@ -17,9 +20,8 @@
   background: #ffffff;
   padding: 24px 20px;
   border-right: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .sidebar h3 {
@@ -163,6 +165,8 @@
 /* ================= CONTENT ================= */
 .content {
   padding: 28px;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .content h1 {
@@ -639,13 +643,28 @@
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
+
+  :host {
+    height: auto;
+    overflow: visible;
+  }
+
   .layout {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
   }
 
   .sidebar {
+    height: auto;
+    overflow: visible;
     border-right: none;
     border-bottom: 1px solid #e5e7eb;
+  }
+
+  .content {
+    height: auto;
+    overflow: visible;
   }
 
   .cards {

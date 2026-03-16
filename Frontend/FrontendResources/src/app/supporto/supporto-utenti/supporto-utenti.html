@@ -58,6 +58,7 @@
             <th>RUOLO</th>
             <th>TELEFONO</th>
             <th>STATO</th>
+            <th>ULTIMO ACCESSO</th>
             <th>AZIONI</th>
           </tr>
         </thead>
@@ -70,6 +71,7 @@
                 </div>
                 <div class="user-info">
                   <div class="user-name">{{ u.username }}</div>
+                  <div class="user-email">{{ u.email || '—'}}</div>
                 </div>
               </div>
             </td>
@@ -86,6 +88,11 @@
                 <span class="stato-dot"></span>
                 {{ u.is_active ? 'Attivo' : 'Disabilitato' }}
               </div>
+            </td>
+            <td>
+              <span class="last-access">
+                {{ u.last_login ? (u.last_login | date:'dd MMM yyyy, HH:mm') : 'Mai' }}
+              </span>
             </td>
             <td>
               <div class="azioni">

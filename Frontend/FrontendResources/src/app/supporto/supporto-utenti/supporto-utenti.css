@@ -221,6 +221,12 @@ td {
   color: #1a1d23;
 }
 
+.user-email {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
 /* ── BADGES ── */
 .badge {
   display: inline-flex;
@@ -253,6 +259,11 @@ td {
 .telefono {
   color: #6b7280;
   font-size: 13px;
+}
+
+.last-access {
+  font-size: 13px;
+  color: #6b7280;
 }
 
 /* ── AZIONI ── */

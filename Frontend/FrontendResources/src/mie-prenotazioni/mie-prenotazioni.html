@@ -72,7 +72,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let p of prenotazioni()">
+        <tr *ngFor="let p of prenotazioniPaginate()">
           <td>{{ p.risorsa.nome }}</td>
           <td>{{ p.data_inizio | date:'dd/MM/yyyy' }}</td>
           <td>{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</td>
@@ -102,6 +102,16 @@
       </tbody>
     </table>
     <p *ngIf="loading()" class="loading-text">Caricamento prenotazioni...</p>
+  </div>
+</div>
+
+<div class="pagination">
+  <span>
+    Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}-{{ min(paginaCorrente()*perPagina, prenotazioni().length) }} di {{ prenotazioni().length }} risultati
+  </span>  
+  <div>
+    <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>
+    <button (click)="paginaSuccessiva()" [disabled]="paginaCorrente() === totalPages">Successivo</button>
   </div>
 </div>
 

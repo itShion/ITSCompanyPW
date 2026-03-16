@@ -253,7 +253,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* ─── PAGINAZIONE ───────────────────────────────────────── */
 .pagination {
   width: 950px;
-  margin-left: 300px;
+  margin-left: 270px;
   margin-top: 10px;
   display: flex;
   justify-content: space-between;

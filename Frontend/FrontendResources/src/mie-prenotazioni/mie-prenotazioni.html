@@ -100,7 +100,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let p of prenotazioni()" (click)="openDettaglioModal(p)" style="cursor:pointer">
+        <tr *ngFor="let p of prenotazioniPaginate()" (click)="openDettaglioModal(p)" style="cursor:pointer">
           <td>{{ p.risorsa.nome }}</td>
           <td>{{ formatData(p.data_inizio) }}</td>
           <td>{{ formatOra(p.data_inizio) }} - {{ formatOra(p.data_fine) }}</td>

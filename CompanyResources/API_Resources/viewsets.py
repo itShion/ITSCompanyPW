@@ -1,27 +1,27 @@
-﻿from django.db import models
+from django.db import models
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets, permissions, status
 from CompanyResources.API_Resources.permissions import IsUtente, IsResponsabile, IsAdmin, IsResponsabileOrAdmin, IsOwnerOrResponsabile
 from CompanyResources.API_Resources.serializers import RisorsaSerializer, TipoRisorsaSerializer, UtenteSerializer, PrenotazioneSerializer, ActivityLogSerializer
 from CompanyResources.Risorsa.models import TipoRisorsa, Risorsa
-from CompanyResources.Prenotazione.models import Prenotazione
+from CompanyResources.Prenotazione.models import Prenotazione, PrenotazionePartecipante
 from CompanyResources.Utente.models import Utente
+
+from django.contrib.auth.models import User
 from CompanyResources.ActivityLog.models import ActivityLog
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from CompanyResources.API_Resources.exceptions import NonAutorizzato, PrenotazioneNonModificabile  
+from CompanyResources.API_Resources.exceptions import NonAutorizzato, PrenotazioneNonModificabile
 from rest_framework.decorators import action
 from django.utils import timezone
 from rest_framework.response import Response
-
-from CompanyResources.Prenotazione.models import Prenotazione, PrenotazionePartecipante
 
 __all__ = [
     "RisorsaAPIViewSet",
     "TipoRisorsaAPIViewSet",
     "UtenteAPIViewSet",
-    "PrenotazioneAPIViewSet",  # ← era mancante
+    "PrenotazioneAPIViewSet",
 ]
 
 #--------------- RISORSE ----------------------
@@ -50,7 +50,7 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
         else:
             self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
-    
+
     @action(detail=True, methods=['post'])
     def attiva(self, request, pk=None):
         risorsa = self.get_object()
@@ -71,7 +71,7 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
         risorsa.stato = 'DISATTIVA'
         risorsa.save()
         return Response(self.get_serializer(risorsa).data)
-    
+
     def destroy(self, request, *args, **kwargs):
         risorsa = self.get_object()
         prenotazioni_attive = Prenotazione.objects.filter(
@@ -129,14 +129,70 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
 
     """"solo gli admin e i responsabili possono gestire gli utenti"""
 
-    queryset = Utente.objects.all()
+    # queryset = Utente.objects.all()
     serializer_class = UtenteSerializer
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        mostra_disabilitati = self.request.query_params.get('disabilitati') == 'true'
+        mostra_all = self.request.query_params.get('all') == 'true'
+
+        if mostra_all:
+            return Utente.objects.select_related('user').all()
+        if mostra_disabilitati:
+            return Utente.objects.select_related('user').filter(user__is_active=False)
+        return Utente.objects.select_related('user').filter(user__is_active=True)
 
     def get_permissions(self):
 
         self.permission_classes = [IsAuthenticated, IsResponsabileOrAdmin]
         return super().get_permissions()
+
+    def perform_create(self, serializer):
+        username = self.request.data.get('username')
+        email = self.request.data.get('email', '')
+        password = self.request.data.get('password', '')
+        telefono = self.request.data.get('telefono', '')
+        first_name = self.request.data.get('first_name', '')
+        last_name = self.request.data.get('last_name', '')
+        ruolo = self.request.data.get('ruolo', 'Dipendente')
+
+        if User.objects.filter(username=username).exists():
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError({'username': 'Username già esistente'})
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+
+        serializer.save(user=user, ruolo=ruolo, telefono=telefono)
+
+    def destroy(self, request, *args, **kwargs):
+
+        """Disabilita l'utente invece di cancellarlo"""
+
+        utente = self.get_object()
+        utente.user.is_active = False
+        utente.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['post'])
+    def riabilita(self, request, pk=None):
+
+        """Riabilita un utente disabilitato"""
+
+        try:
+            utente = Utente.objects.select_related('user').get(pk=pk, user__is_active=False)
+            utente.user.is_active = True
+            utente.user.save()
+            return Response({'message': 'Utente riabilitato'}, status=status.HTTP_200_OK)
+        except Utente.DoesNotExist:
+            return Response({'error': 'Utente non trovato o già attivo'}, status=status.HTTP_404_NOT_FOUND)
+
 
 #--------------- PRENOTAZIONE ----------------------
 @extend_schema_view(
@@ -167,6 +223,9 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def get_queryset(self):
+
+        user = self.request.user
+
         try:
             utente = Utente.objects.get(user=self.request.user)
 
@@ -182,7 +241,7 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
                 models.Q(utente=utente) |
                 models.Q(partecipanti__utente=utente)
             ).distinct()
-            
+
         except Utente.DoesNotExist:
             return Prenotazione.objects.none()
 
@@ -211,8 +270,8 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
         oggi = timezone.now().date()
         qs = Prenotazione.objects.filter(
             utente=utente,
-            stato='CONFERMATA',          # ← era 'confermata' (minuscolo), corretto
-            data_inizio__date__gte=oggi  # ← era data_inizio__gte=oggi (confrontava datetime con date)
+            stato='CONFERMATA',
+            data_inizio__date__gte=oggi
         ).order_by('data_inizio', 'data_fine')
         return Response(self.get_serializer(qs, many=True).data)
 

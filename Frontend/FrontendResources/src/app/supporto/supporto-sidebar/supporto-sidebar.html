@@ -1,13 +1,25 @@
 <div class="layout">
-  <aside class="sidebar">
-    <a routerLink="dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
-    <a routerLink="utenti" routerLinkActive="active" class="nav-link">Gestione Utenti</a>
-    <a routerLink="risorse" routerLinkActive="active" class="nav-link">Gestione Risorse</a>
-    <a routerLink="prenotazioni" routerLinkActive="active" class="nav-link">Prenotazioni</a>
-    <a routerLink="reportistica" routerLinkActive="active" class="nav-link">Reportistica</a>    
+  <div class="overlay" [class.visible]="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <aside class="sidebar" [class.open]="sidebarOpen">
+    <button class="close-btn" (click)="closeSidebar()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <a routerLink="dashboard" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">Dashboard</a>
+    <a routerLink="utenti" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">Gestione Utenti</a>
+    <a routerLink="risorse" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">Gestione Risorse</a>
+    <a routerLink="prenotazioni" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">Prenotazioni</a>
+    <a routerLink="reportistica" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">Reportistica</a>
   </aside>
 
   <main class="content">
+    <button class="hamburger" (click)="openSidebar()">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
+    </button>
     <router-outlet></router-outlet>
   </main>
 </div>

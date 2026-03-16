@@ -18,6 +18,10 @@ export class PrenotaService {
   createPrenotazione(prenotazione: PrenotazioneDTO): Observable<Prenotazione> {
     return this.http.post<Prenotazione>(this.apiUrl, prenotazione);
   }
+  
+  getMiePrenotazioni(): Observable<Prenotazione[]> {
+    return this.http.get<Prenotazione[]>(`${this.apiUrl}mie/`);
+  }
 
   // annullaPrenotazione(id: number): Observable<Prenotazione> {
   // return this.http.post<Prenotazione>(`${this.apiUrl}${id}/annulla/`, {});
@@ -43,5 +47,9 @@ export class PrenotaService {
 
   rifiutaPartecipazione(id: number): Observable<Prenotazione> {
     return this.http.post<Prenotazione>(`${this.apiUrl}${id}/rifiuta_partecipazione/`, {});
+  }
+  
+  getPrenotazioniStoriche(): Observable<Prenotazione[]> {
+    return this.http.get<Prenotazione[]>(`${this.apiUrl}storiche/`);
   }
 }

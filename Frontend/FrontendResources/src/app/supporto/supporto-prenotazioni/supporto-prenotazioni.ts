@@ -21,7 +21,9 @@ export class SupportoPrenotazioni implements OnInit {
   dettaglioAperto = signal(false);
   prenotazioneDettaglio = signal<Prenotazione | null>(null);
 
-  // Stats
+  mostraStorico = signal(false);
+
+  // ===== STATS =====
   get inAttesa() {
     return this.prenotazioni().filter((p) => p.stato === 'PENDING').length;
   }
@@ -32,37 +34,45 @@ export class SupportoPrenotazioni implements OnInit {
     return this.prenotazioni().filter((p) => p.stato === 'ANNULLATA').length;
   }
 
+  // ===== PAGINAZIONE =====
   paginaCorrente = signal(1);
   perPagina = 5;
+
   get totalPages() {
     return Math.ceil(this.prenotazioni().length / this.perPagina);
   }
+
   get prenotazioniPaginate() {
     const start = (this.paginaCorrente() - 1) * this.perPagina;
     return this.prenotazioni().slice(start, start + this.perPagina);
   }
+
   paginaPrecedente() {
     if (this.paginaCorrente() > 1) this.paginaCorrente.update((p) => p - 1);
   }
+
   paginaSuccessiva() {
     if (this.paginaCorrente() < this.totalPages) this.paginaCorrente.update((p) => p + 1);
   }
+
   min(a: number, b: number) {
     return Math.min(a, b);
   }
 
-  // Modal
+  // ===== MODAL NUOVA PRENOTAZIONE =====
   modalAperto = signal(false);
   nuova: PrenotazioneDTO = { risorsa_id: 0, data_inizio: '', data_fine: '', motivo: '' };
+
   openModal() {
     this.modalAperto.set(true);
   }
+
   closeModal() {
     this.modalAperto.set(false);
     this.nuova = { risorsa_id: 0, data_inizio: '', data_fine: '', motivo: '' };
   }
 
-  // Badge
+  // ===== BADGE =====
   getBadgeClass(stato: string): string {
     const map: Record<string, string> = {
       PENDING: 'badge-orange',
@@ -72,10 +82,20 @@ export class SupportoPrenotazioni implements OnInit {
     return map[stato] ?? '';
   }
 
+  // ===== FORMATO DATA/ORA =====
+  formatOra(dateStr: string): string {
+    return dateStr.substring(11, 16);
+  }
+
+  formatData(dateStr: string): string {
+    const [year, month, day] = dateStr.substring(0, 10).split('-');
+    return `${day}/${month}/${year}`;
+  }
+
   constructor(
     private prenotaService: PrenotaService,
     private risorsaService: RisorsaService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadPrenotazioni();
@@ -89,6 +109,18 @@ export class SupportoPrenotazioni implements OnInit {
     });
   }
 
+  toggleStorico() {
+    this.mostraStorico.update(v => !v);
+    if (this.mostraStorico()) {
+      this.prenotaService.getPrenotazioniStoriche().subscribe((data) => {
+        this.prenotazioni.set(data);
+        this.paginaCorrente.set(1);
+      });
+    } else {
+      this.loadPrenotazioni();
+    }
+  }
+
   creaPrenotazione() {
     this.prenotaService.createPrenotazione(this.nuova).subscribe(() => {
       this.loadPrenotazioni();
@@ -96,6 +128,7 @@ export class SupportoPrenotazioni implements OnInit {
     });
   }
 
+  // ===== POPUP APPROVA/RIFIUTA =====
   popupAperto = signal(false);
   azioneCorrente = signal<'approva' | 'rifiuta' | null>(null);
   prenotazioneSelezionata = signal<number | null>(null);
@@ -128,6 +161,7 @@ export class SupportoPrenotazioni implements OnInit {
     });
   }
 
+  // ===== DETTAGLIO =====
   openDettaglio(p: Prenotazione) {
     this.prenotazioneDettaglio.set(p);
     this.dettaglioAperto.set(true);
@@ -144,6 +178,7 @@ export class SupportoPrenotazioni implements OnInit {
       this.closeDettaglio();
     });
   }
+
   onRifiutaDettaglio(id: number) {
     this.prenotaService.rifiutaPrenotazione(id).subscribe(() => {
       this.loadPrenotazioni();

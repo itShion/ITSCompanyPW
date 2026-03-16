@@ -640,6 +640,7 @@ tbody td {
   background: #eff6ff;
   color: #2563eb;
   border-color: #bfdbfe;
+}
 /* ─── TABLET (max 1024px) ───────────────────────────────── */
 @media (max-width: 1024px) {
   .page {

@@ -15,13 +15,13 @@ def gestisci_notifiche(sender, instance, created, **kwargs):
     from CompanyResources.Utente.models import Utente
     from CompanyResources.Notifica.services import NotificaService
 
-    if created and instance.stato == "PENDING":
-        responsabili = Utente.objects.filter(ruolo__in=["HR", "TEAM_LEADER"])
+    if created:
+        responsabili = Utente.objects.filter(ruolo__in=["RESPONSABILE", "ADMIN"])
         for r in responsabili:
             NotificaService.crea_notifica(
                 utente=r,
-                titolo="Nuova richiesta",
-                messaggio=f"{instance.utente.user.username} ha richiesto {instance.risorsa.nome}",
+                titolo="Nuova prenotazione",
+                messaggio=f"{instance.utente.user.username} ha prenotato {instance.risorsa.nome}",
                 tipo="BOOKING_PENDING"
             )
 

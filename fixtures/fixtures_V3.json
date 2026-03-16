@@ -144,6 +144,78 @@
   }
 },
 {
+  "model": "Utente.utente",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "ruolo": "ADMIN",
+    "telefono": "0000000000"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "ruolo": "DIPENDENTE",
+    "telefono": "0000000000"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "ruolo": "DIPENDENTE",
+    "telefono": "0000000000"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "ruolo": "DIPENDENTE",
+    "telefono": "0000000000"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "ruolo": "DIPENDENTE",
+    "telefono": "0000000000"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 6,
+  "fields": {
+    "user": 6,
+    "ruolo": "RESPONSABILE",
+    "telefono": "0000000000"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 7,
+  "fields": {
+    "user": 7,
+    "ruolo": "DIPENDENTE",
+    "telefono": "0000000000"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 8,
+  "fields": {
+    "user": 8,
+    "ruolo": "DIPENDENTE",
+    "telefono": "0000000000"
+  }
+},
+{
   "model": "Risorsa.tiporisorsa",
   "pk": 1,
   "fields": {
@@ -264,7 +336,7 @@
   "pk": 5,
   "fields": {
     "nome": "Postazione Beta",
-    "descrizione": "Postazione con PC potente, ideale per lavoro d’ufficio e grafica leggera",
+    "descrizione": "Postazione con PC potente, ideale per lavoro d'ufficio e grafica leggera",
     "capacita": 1,
     "orario_apertura": "08:00:00",
     "orario_chiusura": "18:00:00",

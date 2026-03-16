@@ -11,6 +11,9 @@ def seed_prenotazioni(apps, schema_editor):
     utenti = {u.pk: u for u in Utente.objects.all()}
     risorse = {r.pk: r for r in Risorsa.objects.all()}
 
+    if not utenti or not risorse:
+        return
+
     # ─── PRENOTAZIONI FUTURE (pk 1-6) ────────────────────────────────────────
     Prenotazione.objects.bulk_create([
         Prenotazione(pk=1, utente=utenti[8], risorsa=risorse[15],
@@ -192,6 +195,8 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('Prenotazione', '0001_initial'),
+        ('Utente', '0003_alter_utente_ruolo'),
+        ('Risorsa', '0004_remove_risorsa_attiva_risorsa_stato'),
     ]
 
     operations = [

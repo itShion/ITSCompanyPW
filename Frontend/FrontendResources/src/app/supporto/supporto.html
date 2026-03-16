@@ -4,31 +4,36 @@
     <p class="subtitle">Bentornato, ecco lo stato attuale delle risorse aziendali.</p>
   </div>
 
-  
-
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-label">Utenti Totali</div>
       <div class="stat-value">{{ utentiTotali() }}</div>
-      <div class="stat-trend positive">+12%</div>
+      <div class="stat-note">Utenti registrati</div>
     </div>
 
     <div class="stat-card">
       <div class="stat-label">Prenotazioni Attive</div>
       <div class="stat-value">{{ prenotazioniAttive() }}</div>
-      <div class="stat-trend positive">+5%</div>
+      <div class="stat-note">da oggi in poi</div>
     </div>
 
     <div class="stat-card">
       <div class="stat-label">Risorse Disponibili</div>
-      <div class="stat-value">85%</div>
-      <div class="stat-trend negative">-2%</div>
+      <div class="stat-value">{{ percentualeRisorse() }}%</div>
+      <div class="stat-trend" [ngClass]="trendRisorse().classe">
+        {{ trendRisorse().label }}
+      </div>
+      <div class="stat-note">{{ risorseDisponibili() }} di {{ risorseTotali() }} attive</div>
     </div>
 
     <div class="stat-card">
       <div class="stat-label">Richieste in Attesa</div>
       <div class="stat-value">{{ prenotazioniPending() }}</div>
-      <div class="stat-note">da approvare</div>
+      @if (alertPending()) {
+      <div class="stat-trend negative">⚠ alto carico</div>
+      } @else {
+      <div class="stat-note">Da approvare</div>
+      }
     </div>
   </div>
 
@@ -69,12 +74,8 @@
     </div>
   </div>
 
-    <!-- POPUP NUOVA RISORSA - AGGIUNGI QUESTO -->
-    <app-supporto-new-risorsa 
-    [isOpen]="isNewRisorsaModalOpen"
-    (close)="closeNewRisorsaModal()"
-    (save)="saveNewRisorsa($event)"
-    ></app-supporto-new-risorsa>
+  <app-supporto-new-risorsa [isOpen]="isNewRisorsaModalOpen" (close)="closeNewRisorsaModal()"
+    (save)="saveNewRisorsa($event)"></app-supporto-new-risorsa>
 
   <div class="components-container">
     <!-- Andamento Prenotazioni -->

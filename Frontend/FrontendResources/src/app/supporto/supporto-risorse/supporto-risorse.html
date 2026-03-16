@@ -15,6 +15,51 @@
     }
 
     <div class="table-wrapper">
+
+         <div class="filters-bar">
+    <div class="filter-search">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+      </svg>
+      <input type="text" placeholder="Cerca per nome..."
+        [value]="filtroCerca()"
+        (input)="onFiltroCerca($any($event.target).value)" />
+    </div>
+
+    <div class="filter-select">
+      <select [value]="filtroStato()" (change)="onFiltroStato($any($event.target).value)">
+        <option value="">Tutti gli stati</option>
+        <option value="ATTIVA">Attiva</option>
+        <option value="MANUTENZIONE">Manutenzione</option>
+        <option value="DISATTIVA">Disattiva</option>
+      </select>
+      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </div>
+
+    <button class="btn-reset-filters"
+      *ngIf="filtroCerca() || filtroStato() || filtroTipo() !== null"
+      (click)="resetFiltri()">
+      ✕ Azzera
+    </button>
+  </div>
+
+  <div class="tipo-tabs">
+    <button class="tab-btn" [class.active]="filtroTipo() === null"
+      (click)="onFiltroTipo(null)">
+      Tutti i tipi
+    </button>
+    @for (t of tipiRisorsa(); track t.id) {
+      <button class="tab-btn" [class.active]="filtroTipo() === t.id"
+        (click)="onFiltroTipo(t.id)">
+        {{ t.nome }}
+      </button>
+    }
+  </div>
+
         <table>
             <thead>
                 <tr>
@@ -85,9 +130,9 @@
         <div class="pagination">
             <span>
                 Visualizzati {{ (paginaCorrente() - 1) * perPagina + 1 }}-{{
-                min(paginaCorrente() * perPagina, risorse().length)
+                min(paginaCorrente() * perPagina, risorseFiltrate().length)
                 }}
-                di {{ risorse().length }} risorse
+                di {{ risorseFiltrate().length }} risorse
             </span>
             <div>
                 <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>

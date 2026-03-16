@@ -21,7 +21,7 @@
 
   <div class="filters">
     <div class="filter-input">
-      <input type="search" placeholder="Cerca per nome risorsa..." />
+      <input type="search" placeholder="Cerca per nome risorsa..." [value]="cercaNome()" (input)="onCercaNome($any($event.target).value)" />
       <svg class="icon search-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
@@ -30,13 +30,18 @@
       </svg>
     </div>
 
+
+
     <div class="filter-input">
       <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 -960 960 960" width="24px" fill="currentColor">
         <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" />
       </svg>
-      <select>
-        <option>Tutti gli stati</option>
+      <select [value]="filtroStato()" (change)="onFiltroStato($any($event.target).value)">
+      <option value="">Tutti gli stati</option>
+      <option value="CONFERMATA">Confermata</option>
+      <option value="PENDING">In attesa</option>
+      <option value="ANNULLATA">Annullata</option>
       </select>
       <svg class="icon select-arrow" xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -45,8 +50,9 @@
       </svg>
     </div>
 
+
     <div class="filter-input">
-      <input type="date" />
+      <input type="date" [value]="filtroData()" (change)="onFiltroData($any($event.target).value)" />
       <svg class="icon calendar-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 -960 960 960" width="24px" fill="currentColor">
         <path
@@ -54,6 +60,18 @@
       </svg>
     </div>
   </div>
+
+  <button
+    *ngIf="cercaNome() || filtroStato() || filtroData()"
+    class="btn-reset"
+    (click)="resetFiltri()">
+    <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 6L6 18M6 6l12 12"/>
+    </svg>
+    Azzera filtri
+  </button>
+
 </div>
 
 <div class="prenotazioni-list">
@@ -106,9 +124,10 @@
 </div>
 
 <div class="pagination">
-  <span>
-    Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}-{{ min(paginaCorrente()*perPagina, prenotazioni().length) }} di {{ prenotazioni().length }} risultati
-  </span>  
+<span>
+  Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}-{{ min(paginaCorrente()*perPagina, prenotazioniFiltrate().length) }}
+  di {{ prenotazioniFiltrate().length }} risultati
+</span> 
   <div>
     <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>
     <button (click)="paginaSuccessiva()" [disabled]="paginaCorrente() === totalPages">Successivo</button>

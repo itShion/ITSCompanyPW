@@ -22,6 +22,10 @@ export class MiePrenotazioni implements OnInit {
   inAttesa = signal(0);
   annullate = signal(0);
 
+  cercaNome = signal('');
+  filtroStato = signal('');
+  filtroData = signal('');
+
   showAnnullaModal = signal(false);
   prenotazioneSelezionata = signal<Prenotazione | null>(null);
 
@@ -90,11 +94,11 @@ export class MiePrenotazioni implements OnInit {
   paginaCorrente = signal(1);
   perPagina = 5;
   get totalPages() {
-    return Math.ceil(this.prenotazioni().length / this.perPagina);
+    return Math.ceil(this.prenotazioniFiltrate().length / this.perPagina);
   }
   prenotazioniPaginate = computed(() => {
     const start = (this.paginaCorrente() - 1) * this.perPagina;
-    return this.prenotazioni().slice(start, start + this.perPagina);
+    return this.prenotazioniFiltrate().slice(start, start + this.perPagina);
   });
   paginaPrecedente() {
     if (this.paginaCorrente() > 1) this.paginaCorrente.update((p) => p - 1);
@@ -105,4 +109,39 @@ export class MiePrenotazioni implements OnInit {
   min(a: number, b: number) {
     return Math.min(a, b);
   }
+
+
+
+ prenotazioniFiltrate = computed(() => {
+  const nome = this.cercaNome().toLowerCase().trim();
+  const stato = this.filtroStato();
+  const data = this.filtroData();
+  return this.prenotazioni().filter(p => {
+    const matchesNome = p.risorsa.nome.toLowerCase().includes(nome);
+    const matchesStato = stato ? p.stato === stato : true;
+    const matchData = !data || p.data_inizio.startsWith(data);    return matchesNome && matchesStato && matchData;
+  });});
+
+
+  onCercaNome(val: string) {
+  this.cercaNome.set(val);
+  this.paginaCorrente.set(1);
+}
+
+onFiltroStato(val: string) {
+  this.filtroStato.set(val);
+  this.paginaCorrente.set(1);
+}
+
+onFiltroData(val: string) {
+  this.filtroData.set(val);
+  this.paginaCorrente.set(1);
+}
+
+resetFiltri() {
+  this.cercaNome.set('');
+  this.filtroStato.set('');
+  this.filtroData.set('');
+  this.paginaCorrente.set(1);
+}
 }

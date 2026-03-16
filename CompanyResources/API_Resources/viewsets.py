@@ -404,10 +404,17 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     def storiche(self, request):
         utente = Utente.objects.get(user=request.user)
         oggi = timezone.now().date()
-        prenotazioni = Prenotazione.objects.filter(
-            models.Q(utente=utente) | models.Q(partecipanti__utente=utente),
-            data_inizio__lt=oggi
-        ).distinct().order_by('-data_inizio')
+
+        if utente.ruolo in ['ADMIN', 'RESPONSABILE'] or request.user.is_superuser:
+            prenotazioni = Prenotazione.objects.filter(
+                data_inizio__lt=oggi
+            ).order_by('-data_inizio')
+        else:
+            prenotazioni = Prenotazione.objects.filter(
+                models.Q(utente=utente) | models.Q(partecipanti__utente=utente),
+                data_inizio__lt=oggi
+            ).distinct().order_by('-data_inizio')
+
         return Response(self.get_serializer(prenotazioni, many=True).data)
 
     @action(detail=False, methods=['get'])

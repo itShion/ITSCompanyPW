@@ -33,8 +33,8 @@
 
 
     <div class="filter-input">
-      <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
-        viewBox="0 -960 960 960" width="24px" fill="currentColor">
+      <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+        width="24px" fill="currentColor">
         <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" />
       </svg>
       <select [value]="filtroStato()" (change)="onFiltroStato($any($event.target).value)">
@@ -43,9 +43,8 @@
       <option value="PENDING">In attesa</option>
       <option value="ANNULLATA">Annullata</option>
       </select>
-      <svg class="icon select-arrow" xmlns="http://www.w3.org/2000/svg" height="24px"
-        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
+      <svg class="icon select-arrow" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M6 9l6 6 6-6" />
       </svg>
     </div>
@@ -60,6 +59,9 @@
       </svg>
     </div>
   </div>
+  <button class="btn-storico" (click)="toggleStorico()">
+    {{ mostraStorico() ? '← Torna alle attive' : '📂 Mostra storico' }}
+  </button>
 
   <button
     *ngIf="cercaNome() || filtroStato() || filtroData()"
@@ -75,6 +77,14 @@
 </div>
 
 <div class="prenotazioni-list">
+
+  <!-- FEEDBACK BANNER -->
+  @if (feedbackMessage()) {
+  <div class="feedback-banner" [ngClass]="feedbackTipo() === 'success' ? 'feedback-success' : 'feedback-error'">
+    {{ feedbackMessage() }}
+  </div>
+  }
+
   <p *ngIf="loading()">Caricamento prenotazioni...</p>
   <p *ngIf="!loading() && prenotazioni().length === 0">Non hai ancora prenotazioni.</p>
 
@@ -90,13 +100,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let p of prenotazioniPaginate()">
+        <tr *ngFor="let p of prenotazioni()" (click)="openDettaglioModal(p)" style="cursor:pointer">
           <td>{{ p.risorsa.nome }}</td>
-          <td>{{ p.data_inizio | date:'dd/MM/yyyy' }}</td>
-          <td>{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</td>
+          <td>{{ formatData(p.data_inizio) }}</td>
+          <td>{{ formatOra(p.data_inizio) }} - {{ formatOra(p.data_fine) }}</td>
           <td>
-            <span class="stato-badge"
-              [ngClass]="{
+            <span class="stato-badge" [ngClass]="{
                 pending: p.stato === 'PENDING',
                 confermata: p.stato === 'CONFERMATA',
                 annullata: p.stato === 'ANNULLATA'
@@ -105,17 +114,17 @@
             </span>
           </td>
           <td>
-            <button 
-              class="btn-danger"
-              *ngIf="p.stato === 'PENDING' || p.stato === 'CONFERMATA'"
-              (click)="openAnnullaModal(p)"
-              [disabled]="loading()">
+            @if (isInvitato(p)) {
+            <button class="btn-invito" (click)="$event.stopPropagation(); openInvitoModal(p)">
+              📬 Rispondi all'invito
+            </button>
+            }
+            @if ((p.stato === 'PENDING' || p.stato === 'CONFERMATA') && !isInvitato(p)) {
+            <button class="btn-danger" (click)="$event.stopPropagation(); openAnnullaModal(p)" [disabled]="loading()">
               Annulla Prenotazione
             </button>
+            }
           </td>
-        </tr>
-        <tr *ngIf="!loading() && prenotazioni().length === 0">
-          <td colspan="6" class="no-data">Non ci sono prenotazioni.</td>
         </tr>
       </tbody>
     </table>
@@ -127,20 +136,21 @@
 <span>
   Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}-{{ min(paginaCorrente()*perPagina, prenotazioniFiltrate().length) }}
   di {{ prenotazioniFiltrate().length }} risultati
-</span> 
+</span>
   <div>
     <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>
     <button (click)="paginaSuccessiva()" [disabled]="paginaCorrente() === totalPages">Successivo</button>
   </div>
 </div>
 
+<!-- MODAL ANNULLA -->
 <div class="modal-overlay" *ngIf="showAnnullaModal() && prenotazioneSelezionata() as p">
   <div class="modal">
     <h2>Sei sicuro di voler annullare la prenotazione?</h2>
     <p>
       Risorsa: {{ p.risorsa?.nome }}<br>
-      Data: {{ p.data_inizio | date:'dd/MM/yyyy' }}<br>
-      Orario: {{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}
+      Data: {{ formatData(p.data_inizio) }}<br>
+      Orario: {{ formatOra(p.data_inizio) }} - {{ formatOra(p.data_fine) }}
     </p>
     <div class="modal-buttons">
       <button class="btn-danger" (click)="confirmAnnullaPrenotazione()">Annulla Prenotazione</button>
@@ -148,3 +158,91 @@
     </div>
   </div>
 </div>
+
+<!-- MODAL INVITO -->
+@if (showInvitoModal() && prenotazioneInvito()) {
+<div class="modal-overlay" (click)="closeInvitoModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Invito a partecipare</h2>
+      <button class="close-btn" (click)="closeInvitoModal()">✕</button>
+    </div>
+    <p>
+      <strong>{{ prenotazioneInvito()?.utente_nome }}</strong> ti ha invitato a:
+    </p>
+    <div class="invito-info">
+      <p>📍 <strong>{{ prenotazioneInvito()?.risorsa?.nome }}</strong></p>
+      <p>📅 {{ formatData(prenotazioneInvito()!.data_inizio) }}</p>
+      <p>🕐 {{ formatOra(prenotazioneInvito()!.data_inizio) }} - {{ formatOra(prenotazioneInvito()!.data_fine) }}</p>
+      @if (prenotazioneInvito()?.motivo) {
+      <p>💬 {{ prenotazioneInvito()?.motivo }}</p>
+      }
+    </div>
+    <div class="modal-buttons">
+      <button class="btn-danger" (click)="rifiutaInvito()">✕ Rifiuta</button>
+      <button class="btn-success" (click)="accettaInvito()">✓ Accetta</button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- MODAL DETTAGLIO -->
+@if (showDettaglioModal() && prenotazioneDettaglio()) {
+<div class="modal-overlay" (click)="closeDettaglioModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ prenotazioneDettaglio()!.risorsa.nome }}</h2>
+      <button class="close-btn" (click)="closeDettaglioModal()">✕</button>
+    </div>
+
+    <div class="invito-info">
+      <p>📅 {{ formatData(prenotazioneDettaglio()!.data_inizio) }}</p>
+      <p>🕐 {{ formatOra(prenotazioneDettaglio()!.data_inizio) }} - {{ formatOra(prenotazioneDettaglio()!.data_fine) }}
+      </p>
+      <p>📌 <span class="stato-badge" [ngClass]="{
+            pending: prenotazioneDettaglio()!.stato === 'PENDING',
+            confermata: prenotazioneDettaglio()!.stato === 'CONFERMATA',
+            annullata: prenotazioneDettaglio()!.stato === 'ANNULLATA'
+          }">{{ prenotazioneDettaglio()!.stato_display }}</span>
+      </p>
+    </div>
+
+    <!-- Partecipanti (solo se sala riunioni) -->
+    @if (prenotazioneDettaglio()!.partecipanti.length > 0) {
+    <div class="partecipanti-section">
+      <p>👤 Creato da <strong>{{ prenotazioneDettaglio()!.utente_nome }}</strong></p>
+      <h4>👥 Partecipanti</h4>
+      <ul>
+        @for (part of prenotazioneDettaglio()!.partecipanti; track part.id) {
+        <li>
+          {{ part.username }}
+          <span class="stato-badge" [ngClass]="{
+                  pending: part.stato === 'INVITATO',
+                  confermata: part.stato === 'ACCETTATO',
+                  annullata: part.stato === 'RIFIUTATO'
+                }">{{ part.stato }}</span>
+        </li>
+        }
+      </ul>
+    </div>
+    }
+
+    <!-- Modifica motivo (solo se non annullata e sei il creatore) -->
+    @if (prenotazioneDettaglio()!.stato !== 'ANNULLATA' &&
+    prenotazioneDettaglio()!.utente === currentUser()?.utente_id) {
+    <div class="motivo-section">
+      <h4>💬 Motivo</h4>
+      <textarea [(ngModel)]="motivoInput" placeholder="Aggiungi un motivo..." rows="3">
+          </textarea>
+      <button class="btn-primary" (click)="salvaMotivo()" [disabled]="loadingMotivo()">
+        {{ loadingMotivo() ? 'Salvataggio...' : 'Salva motivo' }}
+      </button>
+    </div>
+    }
+
+    <div class="modal-buttons">
+      <button class="btn-secondary" (click)="closeDettaglioModal()">Chiudi</button>
+    </div>
+  </div>
+</div>
+}

@@ -367,8 +367,28 @@ html {
 }
 .segna-letta-btn:hover { background: #dcfce7; }
 
+/* Visibilità desktop/mobile */
+.desktop-only {
+  display: none !important;
+}
+
+.mobile-only {
+  display: flex;
+  align-items: center;
+}
 
 @media (min-width: 769px) {
+
+.desktop-only {
+  display: flex !important;
+  align-items: center;
+  height: 100%;
+}
+
+.mobile-only {
+  display: none !important;
+}
+
   .navbar {
     justify-content: space-between;
   }
@@ -411,6 +431,49 @@ html {
 
 /* ========== MOBILE ========== */
 @media (max-width: 768px) {
+
+  .open-sidebar-button { order: 3; }
+  .mobile-only          { order: 2; }
+  .brand                { order: 1; }
+
+  /* Il contenitore mobile deve permettere al popup di uscire sotto */
+  .notifiche-container.mobile-only {
+    width: auto;       /* ← non espandere */
+    height: 60px;
+  }
+
+  .notifiche-container.mobile-only .bell-btn {
+    width: auto;       /* ← solo quanto serve */
+    height: 60px;
+    padding: 0 16px;
+  }
+
+  .notifiche-container.mobile-only .badge {
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    margin-left: 0;    /* ← reset del margin-left: auto che avevi */
+  }
+
+  /* Wrapper che avvolge tutto e permette l'espansione verso il basso */
+  .notifiche-container.mobile-only .popup {
+    position: absolute;
+    top: 60px; /* altezza della navbar */
+    left: auto;
+    right: 0;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: var(--color-1);
+    z-index: 999;
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 6px 0;
+    margin: 0;
+  }
+
   /* Logo centrato */
   .brand {
     display: block;
@@ -490,5 +553,35 @@ html {
   .dropdown-item i {
     width: 16px;
     font-size: 0.8rem;
+  }
+
+  /* Notifiche dentro l'hamburger — mai visibili in mobile, quindi rimuovi queste regole */
+
+  .popup ul {
+    padding: 0;
+  }
+
+  .popup li {
+    padding: 8px 30px 8px 60px;
+    font-size: 0.85rem;
+  }
+
+  .popup .titolo {
+    font-size: 0.9rem;
+  }
+
+  .popup .messaggio {
+    font-size: 0.8rem;
+  }
+
+  .popup .segna-letta-btn {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    margin-top: 6px;
+  }
+
+  .popup .empty-msg {
+    font-size: 0.85rem;
+    padding: 12px 30px;
   }
 }

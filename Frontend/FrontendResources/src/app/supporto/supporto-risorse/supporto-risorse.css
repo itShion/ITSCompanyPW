@@ -175,29 +175,51 @@ tbody td {
 .btn-manutenzione,
 .btn-disattiva,
 .btn-elimina {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: transparent;
   cursor: pointer;
-  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.15s;
+  color: #9ca3af;
+  transition: all 0.15s;
+  font-size: 14px;
 }
 
 .btn-attiva { background: #dcfce7; color: #16a34a; }
-.btn-attiva:hover { background: #bbf7d0; }
+
+.btn-attiva:hover {
+  border-color: #16a34a;
+  color: #16a34a;
+  background: #f0fdf4;
+}
 
 .btn-manutenzione { background: #fff7ed; color: #ea580c; }
-.btn-manutenzione:hover { background: #fed7aa; }
+
+.btn-manutenzione:hover {
+  border-color: #d97706;
+  color: #d97706;
+  background: #fffbeb;
+}
 
 .btn-disattiva { background: #fee2e2; color: #dc2626; }
-.btn-disattiva:hover { background: #fecaca; }
+
+.btn-disattiva:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #fef2f2;
+}
 
 .btn-elimina { background: #f3f4f6; color: #6b7280; }
-.btn-elimina:hover { background: #e5e7eb; }
+
+.btn-elimina:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #fef2f2;
+}
 
 /* ================= PAGINAZIONE ================= */
 .pagination {
@@ -643,7 +665,9 @@ tbody td {
 }
 /* ─── TABLET (max 1024px) ───────────────────────────────── */
 @media (max-width: 1024px) {
-  .page { padding: 20px; }
+  .page {
+    padding: 20px;
+  }
 
   .header {
     flex-direction: column;
@@ -662,7 +686,9 @@ tbody td {
 
 /* ─── TABLET PICCOLO (max 768px) ────────────────────────── */
 @media (max-width: 768px) {
-  .page { padding: 16px 14px; }
+  .page {
+    padding: 16px 14px;
+  }
 
   .header h1 { font-size: 20px; }
   .header p  { font-size: 13px; }
@@ -698,8 +724,6 @@ tbody td {
   .btn-elimina {
     width: 28px;
     height: 28px;
-    font-size: 12px;
-    border-radius: 6px;
   }
 
   /* Filtri */
@@ -743,8 +767,15 @@ tbody td {
     padding: 12px;
   }
 
-  .pagination div  { width: 100%; justify-content: flex-end; }
-  .pagination button { flex: 1; text-align: center; }
+  .pagination div {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .pagination button {
+    flex: 1;
+    text-align: center;
+  }
 
   /* Modal — sheet dal basso */
   .modal-overlay { align-items: flex-end; }
@@ -800,7 +831,6 @@ tbody td {
   .btn-elimina {
     width: 26px;
     height: 26px;
-    font-size: 11px;
   }
 
   .filters-bar { padding: 10px 10px 0; }

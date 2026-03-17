@@ -1,0 +1,1348 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$eTJjBtjDLPCq6IKS8zA933$PpEELbRdfb/4moCZ0C32fXrkkYT08zsYVwr6fiRjpIM=",
+    "last_login": "2026-03-17T08:15:15.519",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:45:02.681",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$UgtgbjSVPg2DZBpK1i8on9$vq+XzENGuG45QXwXHUGkGOTK3jEjUAKhxmNbpAo1uak=",
+    "last_login": "2026-03-17T11:10:14.768",
+    "is_superuser": false,
+    "username": "alessio.rossi",
+    "first_name": "",
+    "last_name": "",
+    "email": "alessio.rossi@azienda.it",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:48:52.444",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$AqWC6Q55J0ecGZbuTMJ8zL$pJs34JNHEyaXp0vwDQjKo7CmU6/SWVZ++ETREQgHlXs=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "giulia.bianchi",
+    "first_name": "",
+    "last_name": "",
+    "email": "giulia.bianchi@azienda.it",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:49:24.804",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$iE99IoiOqEbUC9qCbIfjvE$V6Z+V5mLlkHcXBdqU7H82SfCmOvNyj6Y4pI0Z5avXIo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "marco.ferrari",
+    "first_name": "",
+    "last_name": "",
+    "email": "marco.ferrari@azienda.it",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:50:05.092",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$8CCXolTVc9KVc1szUKCpUQ$pHG7Ea4UV6delPfOY04Ggx1w8c1o1qZT0wVMIeUZnYU=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "sara.verdi",
+    "first_name": "",
+    "last_name": "",
+    "email": "sara.verdi@azienda.it",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:52:55.204",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$vTpFMBNXD4pR3u8vFRVMHr$KFEL9pSUfzVgXLJcaLqBPxc4WrMJeGVEWPeQt661Cs8=",
+    "last_login": "2026-03-16T22:44:23.655",
+    "is_superuser": false,
+    "username": "laura.marini",
+    "first_name": "",
+    "last_name": "",
+    "email": "laura.marini@azienda.it",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:53:45.967",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$W92DG5bmdBExECjk8D3oKM$rnwQaO0V5Df6aZxKHQ1yNBTsIbQdHCxnBRtD15RtHWM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "francesca.galli",
+    "first_name": "",
+    "last_name": "",
+    "email": "francesca.galli@azienda.it",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:54:28.947",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ziVfY7JXebcCqJ75mVVCdI$z41+BahSb0Bys6Jk3quO6eZCxEJgaYBSWaMKJrXO7KY=",
+    "last_login": "2026-03-16T22:31:52.364",
+    "is_superuser": false,
+    "username": "luca.moretti",
+    "first_name": "",
+    "last_name": "",
+    "email": "luca.moretti@azienda.it",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-16T21:54:53.215",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 1,
+  "fields": {
+    "utente": 8,
+    "risorsa": 15,
+    "data_inizio": "2026-03-17T08:00:00",
+    "data_fine": "2026-03-17T16:00:00",
+    "stato": "PENDING",
+    "motivo": "Meeting con IT Agency per chiudere Q2",
+    "created_at": "2026-03-16T23:31:10.587",
+    "updated_at": "2026-03-16T23:31:10.587"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 2,
+  "fields": {
+    "utente": 8,
+    "risorsa": 3,
+    "data_inizio": "2026-03-17T08:00:00",
+    "data_fine": "2026-03-17T08:30:00",
+    "stato": "PENDING",
+    "motivo": "Riunione di Riallineamento",
+    "created_at": "2026-03-16T23:31:10.587",
+    "updated_at": "2026-03-16T23:31:10.587"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 3,
+  "fields": {
+    "utente": 8,
+    "risorsa": 4,
+    "data_inizio": "2026-03-17T08:00:00",
+    "data_fine": "2026-03-17T08:30:00",
+    "stato": "CONFERMATA",
+    "motivo": "Coding",
+    "created_at": "2026-03-16T23:31:10.587",
+    "updated_at": "2026-03-16T23:31:10.587"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 4,
+  "fields": {
+    "utente": 2,
+    "risorsa": 1,
+    "data_inizio": "2026-03-17T12:00:00",
+    "data_fine": "2026-03-17T14:00:00",
+    "stato": "PENDING",
+    "motivo": "Riunione settimanale del team di sviluppo",
+    "created_at": "2026-03-16T23:31:10.587",
+    "updated_at": "2026-03-16T23:31:10.587"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 5,
+  "fields": {
+    "utente": 6,
+    "risorsa": 4,
+    "data_inizio": "2026-03-19T08:00:00",
+    "data_fine": "2026-03-19T10:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Lavoro individuale su progetto aziendale",
+    "created_at": "2026-03-16T23:31:10.587",
+    "updated_at": "2026-03-16T23:31:10.587"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 6,
+  "fields": {
+    "utente": 6,
+    "risorsa": 14,
+    "data_inizio": "2026-03-20T15:00:00",
+    "data_fine": "2026-03-20T16:00:00",
+    "stato": "PENDING",
+    "motivo": "Corso di aggiornamento tecnico per il reparto IT",
+    "created_at": "2026-03-16T23:31:10.587",
+    "updated_at": "2026-03-16T23:31:10.587"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 100,
+  "fields": {
+    "utente": 8,
+    "risorsa": 4,
+    "data_inizio": "2026-02-03T09:00:00",
+    "data_fine": "2026-02-03T11:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Lavoro individuale progetto Q1",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 101,
+  "fields": {
+    "utente": 6,
+    "risorsa": 5,
+    "data_inizio": "2026-02-04T10:00:00",
+    "data_fine": "2026-02-04T12:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Analisi dati mensili",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 102,
+  "fields": {
+    "utente": 2,
+    "risorsa": 1,
+    "data_inizio": "2026-02-05T14:00:00",
+    "data_fine": "2026-02-05T16:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Review sprint febbraio",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 103,
+  "fields": {
+    "utente": 4,
+    "risorsa": 6,
+    "data_inizio": "2026-02-06T08:00:00",
+    "data_fine": "2026-02-06T10:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Sviluppo modulo pagamenti",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 104,
+  "fields": {
+    "utente": 5,
+    "risorsa": 4,
+    "data_inizio": "2026-02-10T09:00:00",
+    "data_fine": "2026-02-10T11:00:00",
+    "stato": "ANNULLATA",
+    "motivo": "Lavoro da remoto",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 105,
+  "fields": {
+    "utente": 3,
+    "risorsa": 3,
+    "data_inizio": "2026-02-11T10:00:00",
+    "data_fine": "2026-02-11T12:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Workshop UX design",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 106,
+  "fields": {
+    "utente": 7,
+    "risorsa": 15,
+    "data_inizio": "2026-02-12T08:00:00",
+    "data_fine": "2026-02-12T16:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Trasferta cliente Milano",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 107,
+  "fields": {
+    "utente": 8,
+    "risorsa": 1,
+    "data_inizio": "2026-02-13T09:00:00",
+    "data_fine": "2026-02-13T11:00:00",
+    "stato": "ANNULLATA",
+    "motivo": "Riunione cliente annullata",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 108,
+  "fields": {
+    "utente": 2,
+    "risorsa": 15,
+    "data_inizio": "2026-02-17T08:00:00",
+    "data_fine": "2026-02-17T14:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Meeting partner commerciale",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 109,
+  "fields": {
+    "utente": 6,
+    "risorsa": 14,
+    "data_inizio": "2026-02-20T15:00:00",
+    "data_fine": "2026-02-20T16:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Corso sicurezza informatica",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 110,
+  "fields": {
+    "utente": 4,
+    "risorsa": 5,
+    "data_inizio": "2026-03-02T09:00:00",
+    "data_fine": "2026-03-02T11:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Sviluppo API REST",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 111,
+  "fields": {
+    "utente": 5,
+    "risorsa": 3,
+    "data_inizio": "2026-03-03T10:00:00",
+    "data_fine": "2026-03-03T12:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Presentazione Q1 risultati",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 112,
+  "fields": {
+    "utente": 8,
+    "risorsa": 6,
+    "data_inizio": "2026-03-04T14:00:00",
+    "data_fine": "2026-03-04T16:00:00",
+    "stato": "ANNULLATA",
+    "motivo": "Impegno improvviso",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 113,
+  "fields": {
+    "utente": 3,
+    "risorsa": 1,
+    "data_inizio": "2026-03-05T09:00:00",
+    "data_fine": "2026-03-05T11:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Design review con il team",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 114,
+  "fields": {
+    "utente": 7,
+    "risorsa": 4,
+    "data_inizio": "2026-03-06T08:00:00",
+    "data_fine": "2026-03-06T10:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Test ambiente staging",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 115,
+  "fields": {
+    "utente": 2,
+    "risorsa": 15,
+    "data_inizio": "2026-03-10T08:00:00",
+    "data_fine": "2026-03-10T16:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Visita cliente Torino",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 116,
+  "fields": {
+    "utente": 6,
+    "risorsa": 5,
+    "data_inizio": "2026-03-11T09:00:00",
+    "data_fine": "2026-03-11T11:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Aggiornamento documentazione",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 117,
+  "fields": {
+    "utente": 4,
+    "risorsa": 13,
+    "data_inizio": "2026-03-11T09:00:00",
+    "data_fine": "2026-03-11T13:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Corso Django avanzato",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 118,
+  "fields": {
+    "utente": 8,
+    "risorsa": 4,
+    "data_inizio": "2026-03-12T10:00:00",
+    "data_fine": "2026-03-12T12:00:00",
+    "stato": "ANNULLATA",
+    "motivo": "Lavoro in smart working",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.592"
+  }
+},
+{
+  "model": "Prenotazione.prenotazione",
+  "pk": 119,
+  "fields": {
+    "utente": 5,
+    "risorsa": 1,
+    "data_inizio": "2026-03-13T14:00:00",
+    "data_fine": "2026-03-13T16:00:00",
+    "stato": "CONFERMATA",
+    "motivo": "Retrospettiva sprint marzo",
+    "created_at": "2026-03-16T23:31:10.592",
+    "updated_at": "2026-03-16T23:31:10.593"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 1,
+  "fields": {
+    "prenotazione": 1,
+    "utente": 8,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 2,
+  "fields": {
+    "prenotazione": 1,
+    "utente": 5,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 3,
+  "fields": {
+    "prenotazione": 1,
+    "utente": 6,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 4,
+  "fields": {
+    "prenotazione": 2,
+    "utente": 8,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 5,
+  "fields": {
+    "prenotazione": 2,
+    "utente": 2,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 6,
+  "fields": {
+    "prenotazione": 2,
+    "utente": 6,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 7,
+  "fields": {
+    "prenotazione": 2,
+    "utente": 4,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 8,
+  "fields": {
+    "prenotazione": 4,
+    "utente": 2,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 9,
+  "fields": {
+    "prenotazione": 4,
+    "utente": 4,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 10,
+  "fields": {
+    "prenotazione": 4,
+    "utente": 3,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 11,
+  "fields": {
+    "prenotazione": 4,
+    "utente": 7,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 12,
+  "fields": {
+    "prenotazione": 4,
+    "utente": 8,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 13,
+  "fields": {
+    "prenotazione": 6,
+    "utente": 6,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 14,
+  "fields": {
+    "prenotazione": 6,
+    "utente": 4,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 15,
+  "fields": {
+    "prenotazione": 6,
+    "utente": 5,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 16,
+  "fields": {
+    "prenotazione": 6,
+    "utente": 2,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.597"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 100,
+  "fields": {
+    "prenotazione": 102,
+    "utente": 2,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.598"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 101,
+  "fields": {
+    "prenotazione": 102,
+    "utente": 3,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.598"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 102,
+  "fields": {
+    "prenotazione": 102,
+    "utente": 4,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.598"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 103,
+  "fields": {
+    "prenotazione": 102,
+    "utente": 5,
+    "stato": "RIFIUTATO",
+    "created_at": "2026-03-16T23:31:10.598"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 104,
+  "fields": {
+    "prenotazione": 105,
+    "utente": 3,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.598"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 105,
+  "fields": {
+    "prenotazione": 105,
+    "utente": 6,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.598"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 106,
+  "fields": {
+    "prenotazione": 105,
+    "utente": 7,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.598"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 107,
+  "fields": {
+    "prenotazione": 106,
+    "utente": 7,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 108,
+  "fields": {
+    "prenotazione": 106,
+    "utente": 8,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 109,
+  "fields": {
+    "prenotazione": 107,
+    "utente": 8,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 110,
+  "fields": {
+    "prenotazione": 107,
+    "utente": 2,
+    "stato": "INVITATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 111,
+  "fields": {
+    "prenotazione": 108,
+    "utente": 2,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 112,
+  "fields": {
+    "prenotazione": 108,
+    "utente": 4,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 113,
+  "fields": {
+    "prenotazione": 109,
+    "utente": 6,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 114,
+  "fields": {
+    "prenotazione": 109,
+    "utente": 3,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 115,
+  "fields": {
+    "prenotazione": 109,
+    "utente": 5,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 116,
+  "fields": {
+    "prenotazione": 111,
+    "utente": 5,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 117,
+  "fields": {
+    "prenotazione": 111,
+    "utente": 2,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 118,
+  "fields": {
+    "prenotazione": 111,
+    "utente": 7,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 119,
+  "fields": {
+    "prenotazione": 111,
+    "utente": 8,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 120,
+  "fields": {
+    "prenotazione": 113,
+    "utente": 3,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 121,
+  "fields": {
+    "prenotazione": 113,
+    "utente": 4,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 122,
+  "fields": {
+    "prenotazione": 113,
+    "utente": 6,
+    "stato": "RIFIUTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 123,
+  "fields": {
+    "prenotazione": 115,
+    "utente": 2,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 124,
+  "fields": {
+    "prenotazione": 115,
+    "utente": 5,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 125,
+  "fields": {
+    "prenotazione": 117,
+    "utente": 4,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 126,
+  "fields": {
+    "prenotazione": 117,
+    "utente": 3,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 127,
+  "fields": {
+    "prenotazione": 117,
+    "utente": 7,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 128,
+  "fields": {
+    "prenotazione": 119,
+    "utente": 5,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 129,
+  "fields": {
+    "prenotazione": 119,
+    "utente": 8,
+    "stato": "ACCETTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Prenotazione.prenotazionepartecipante",
+  "pk": 130,
+  "fields": {
+    "prenotazione": 119,
+    "utente": 6,
+    "stato": "RIFIUTATO",
+    "created_at": "2026-03-16T23:31:10.599"
+  }
+},
+{
+  "model": "Risorsa.tiporisorsa",
+  "pk": 1,
+  "fields": {
+    "nome": "Auto Aziendale",
+    "descrizione": "Auto per trasferte e spostamenti dei dipendenti",
+    "immagine_url": "https://images.unsplash.com/photo-1585503418537-88331351ad99?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
+},
+{
+  "model": "Risorsa.tiporisorsa",
+  "pk": 2,
+  "fields": {
+    "nome": "Sala Riunioni",
+    "descrizione": "Sale destinate a riunioni e incontri aziendali di varie dimensioni",
+    "immagine_url": "https://images.unsplash.com/photo-1698653223247-09aaf01166fc?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
+},
+{
+  "model": "Risorsa.tiporisorsa",
+  "pk": 3,
+  "fields": {
+    "nome": "Postazione PC",
+    "descrizione": "Postazioni Singole con Computer",
+    "immagine_url": "https://plus.unsplash.com/premium_photo-1678566153919-86c4ba4216f1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
+},
+{
+  "model": "Risorsa.tiporisorsa",
+  "pk": 4,
+  "fields": {
+    "nome": "Aula Formazione",
+    "descrizione": "Aula per Corsi e Training",
+    "immagine_url": "https://plus.unsplash.com/premium_photo-1764687760331-fd125d36e299?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 1,
+  "fields": {
+    "nome": "Sala Giada",
+    "descrizione": "Sala elegante per riunioni e brainstorming",
+    "capacita": 12,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 2
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 2,
+  "fields": {
+    "nome": "Sala Ambra",
+    "descrizione": "Sala Luminosa con Lavagna e Monitor",
+    "capacita": 10,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "DISATTIVA",
+    "tipo": 2
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 3,
+  "fields": {
+    "nome": "Sala Topazio",
+    "descrizione": "Sala ampia, adatta a workshop e presentazioni",
+    "capacita": 20,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 2
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 4,
+  "fields": {
+    "nome": "Postazione Alfa",
+    "descrizione": "Postazione singola con PC Windows e monitor da 24\"",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 3
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 5,
+  "fields": {
+    "nome": "Postazione Beta",
+    "descrizione": "Postazione con PC potente, ideale per lavoro d’ufficio e grafica leggera",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 3
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 6,
+  "fields": {
+    "nome": "Postazione Gamma",
+    "descrizione": "Postazione con computer e cuffie, adatta a call e lavoro individuale",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 3
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 7,
+  "fields": {
+    "nome": "Postazione Delta",
+    "descrizione": "Postazione con PC e monitor esterno, ideale per analisi dati",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "MANUTENZIONE",
+    "tipo": 3
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 8,
+  "fields": {
+    "nome": "Postazione Epsilon",
+    "descrizione": "Postazione ergonomica con PC, tastiera meccanica e sedia confortevole",
+    "capacita": 1,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "MANUTENZIONE",
+    "tipo": 3
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 12,
+  "fields": {
+    "nome": "Aula Leonardo",
+    "descrizione": "Aula moderna con proiettore e sedute modulari per corsi e workshop",
+    "capacita": 30,
+    "orario_apertura": "14:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": false,
+    "mercoledi": false,
+    "giovedi": true,
+    "venerdi": false,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 4
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 13,
+  "fields": {
+    "nome": "Aula Raffaello",
+    "descrizione": "Aula luminosa con lavagna e monitor, perfetta per training interattivi",
+    "capacita": 25,
+    "orario_apertura": "09:00:00",
+    "orario_chiusura": "13:00:00",
+    "lunedi": false,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": false,
+    "venerdi": false,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 4
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 14,
+  "fields": {
+    "nome": "Aula Caravaggio",
+    "descrizione": "Aula attrezzata per corsi pratici e laboratori didattici",
+    "capacita": 20,
+    "orario_apertura": "15:00:00",
+    "orario_chiusura": "16:00:00",
+    "lunedi": false,
+    "martedi": false,
+    "mercoledi": false,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 4
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 15,
+  "fields": {
+    "nome": "Fiat Tipo Grigia",
+    "descrizione": "Auto aziendale compatta, ideale per trasferte brevi o spostamenti cittadini",
+    "capacita": 5,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "ATTIVA",
+    "tipo": 1
+  }
+},
+{
+  "model": "Risorsa.risorsa",
+  "pk": 16,
+  "fields": {
+    "nome": "Volkswagen Golf R Blu",
+    "descrizione": "Auto aziendale confortevole, adatta a viaggi di lavoro e meeting fuori sede",
+    "capacita": 5,
+    "orario_apertura": "08:00:00",
+    "orario_chiusura": "18:00:00",
+    "lunedi": true,
+    "martedi": true,
+    "mercoledi": true,
+    "giovedi": true,
+    "venerdi": true,
+    "sabato": false,
+    "domenica": false,
+    "stato": "MANUTENZIONE",
+    "tipo": 1
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "ruolo": "ADMIN",
+    "telefono": "3321234553"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "ruolo": "RESPONSABILE",
+    "telefono": "3331234561"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "ruolo": "RESPONSABILE",
+    "telefono": "3331234562"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "ruolo": "RESPONSABILE",
+    "telefono": "3331234563"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "ruolo": "DIPENDENTE",
+    "telefono": "3332345671"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 6,
+  "fields": {
+    "user": 6,
+    "ruolo": "DIPENDENTE",
+    "telefono": "3332345677"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 7,
+  "fields": {
+    "user": 7,
+    "ruolo": "DIPENDENTE",
+    "telefono": "3332345673"
+  }
+},
+{
+  "model": "Utente.utente",
+  "pk": 8,
+  "fields": {
+    "user": 8,
+    "ruolo": "DIPENDENTE",
+    "telefono": "3332345672"
+  }
+}
+]

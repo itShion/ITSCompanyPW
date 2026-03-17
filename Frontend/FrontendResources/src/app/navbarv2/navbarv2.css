@@ -59,10 +59,10 @@ html {
   font-weight: 600;
   letter-spacing: -0.2px;
   padding-left: 20px;
-  display: flex;           /* Cambiato da 'none' a 'flex' */
-  align-items: center;     /* Allinea verticalmente gli elementi */
-  height: 100%;            /* Occupa tutta l'altezza della navbar */
-  line-height: 1;          /* Rimuove l'altezza della linea extra */
+  display: flex;
+  align-items: center;
+  height: 100%;
+  line-height: 1;
 }
 
 .brand img {
@@ -71,7 +71,7 @@ html {
   width: auto;
   object-fit: contain;
   content: url(logo2.jpg);
-  margin-right: 6px;       /* Aggiunge un piccolo spazio tra logo e testo */
+  margin-right: 6px;
 }
 
 .links-container {
@@ -438,12 +438,12 @@ html {
 
   /* Il contenitore mobile deve permettere al popup di uscire sotto */
   .notifiche-container.mobile-only {
-    width: auto;       /* ← non espandere */
+    width: auto;
     height: 60px;
   }
 
   .notifiche-container.mobile-only .bell-btn {
-    width: auto;       /* ← solo quanto serve */
+    width: auto;
     height: 60px;
     padding: 0 16px;
   }
@@ -452,13 +452,13 @@ html {
     position: absolute;
     top: 10px;
     right: 8px;
-    margin-left: 0;    /* ← reset del margin-left: auto che avevi */
+    margin-left: 0;
   }
 
   /* Wrapper che avvolge tutto e permette l'espansione verso il basso */
   .notifiche-container.mobile-only .popup {
     position: absolute;
-    top: 60px; /* altezza della navbar */
+    top: 60px;
     left: auto;
     right: 0;
     width: 300px;
@@ -474,22 +474,21 @@ html {
     margin: 0;
   }
 
-  /* Logo centrato */
   .brand {
-    display: flex;           /* Mantieni flex */
-  align-items: center;     /* Allineamento verticale */
+    display: flex;
+  align-items: center;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   padding: 0;
-  height: 60px;            /* Altezza fissa come la navbar */
-  white-space: nowrap;     /* Evita che il testo vada a capo */
+  height: 60px;
+  white-space: nowrap;
   }
 
   .brand img {
     height: 30px;
   max-height: 32px;
-  margin-right: 4px;       /* Spazio ridotto per mobile */
+  margin-right: 4px;
   }
 
   /* User dropdown nell'ordine normale */
@@ -504,14 +503,14 @@ html {
 
   .dropdown-trigger {
     width: 100%;
-    padding: 12px 30px;  /* ← Più compatto */
+    padding: 12px 30px;
     height: auto;
     justify-content: space-between;
-    font-size: 0.95rem;  /* ← Testo più piccolo */
+    font-size: 0.95rem;
   }
 
   .user-icon {
-    width: 28px;  /* ← Più piccolo */
+    width: 28px;
     height: 28px;
     font-size: 0.9rem;
   }

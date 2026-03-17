@@ -68,7 +68,13 @@
   <!-- AZIONI FILTRI -->
   <div class="filters-actions">
     <button class="btn-storico" (click)="toggleStorico()">
-      {{ mostraStorico() ? '← Torna alle attive' : '📂 Mostra storico' }}
+      <svg *ngIf="mostraStorico()" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      <svg *ngIf="!mostraStorico()" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+      </svg>
+      {{ mostraStorico() ? 'Torna alle attive' : 'Mostra storico' }}
     </button>
     <button class="btn-reset"
       *ngIf="cercaNome() || filtroStato() || filtroData()"
@@ -124,9 +130,12 @@
           </td>
           <td>
             @if (isInvitato(p)) {
-              <button class="btn-invito"
-                (click)="$event.stopPropagation(); openInvitoModal(p)">
-                📬 Rispondi all'invito
+              <button class="btn-invito" (click)="$event.stopPropagation(); openInvitoModal(p)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                Rispondi all'invito
               </button>
             }
             @if ((p.stato === 'PENDING' || p.stato === 'CONFERMATA') && !isInvitato(p)) {
@@ -178,20 +187,54 @@
     <div class="modal" (click)="$event.stopPropagation()">
       <div class="modal-header">
         <h2>Invito a partecipare</h2>
-        <button class="close-btn" (click)="closeInvitoModal()">✕</button>
+        <button class="close-btn" (click)="closeInvitoModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
       </div>
       <p><strong>{{ prenotazioneInvito()?.utente_nome }}</strong> ti ha invitato a:</p>
       <div class="invito-info">
-        <p>📍 <strong>{{ prenotazioneInvito()?.risorsa?.nome }}</strong></p>
-        <p>📅 {{ formatData(prenotazioneInvito()!.data_inizio) }}</p>
-        <p>🕐 {{ formatOra(prenotazioneInvito()!.data_inizio) }} - {{ formatOra(prenotazioneInvito()!.data_fine) }}</p>
+        <p>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <strong>{{ prenotazioneInvito()?.risorsa?.nome }}</strong>
+        </p>
+        <p>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ formatData(prenotazioneInvito()!.data_inizio) }}
+        </p>
+        <p>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          {{ formatOra(prenotazioneInvito()!.data_inizio) }} - {{ formatOra(prenotazioneInvito()!.data_fine) }}
+        </p>
         @if (prenotazioneInvito()?.motivo) {
-          <p>💬 {{ prenotazioneInvito()?.motivo }}</p>
+          <p>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            {{ prenotazioneInvito()?.motivo }}
+          </p>
         }
       </div>
       <div class="modal-buttons">
-        <button class="btn-danger" (click)="rifiutaInvito()">✕ Rifiuta</button>
-        <button class="btn-success" (click)="accettaInvito()">✓ Accetta</button>
+        <button class="btn-danger" (click)="rifiutaInvito()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          Rifiuta
+        </button>
+        <button class="btn-success" (click)="accettaInvito()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Accetta
+        </button>
       </div>
     </div>
   </div>
@@ -207,9 +250,22 @@
       </div>
 
       <div class="invito-info">
-        <p>📅 {{ formatData(prenotazioneDettaglio()!.data_inizio) }}</p>
-        <p>🕐 {{ formatOra(prenotazioneDettaglio()!.data_inizio) }} - {{ formatOra(prenotazioneDettaglio()!.data_fine) }}</p>
-        <p>📌
+        <p>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ formatData(prenotazioneDettaglio()!.data_inizio) }}
+        </p>
+        <p>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          {{ formatOra(prenotazioneDettaglio()!.data_inizio) }} - {{ formatOra(prenotazioneDettaglio()!.data_fine) }}
+        </p>
+        <p>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
           <span class="stato-badge" [ngClass]="{
             pending:    prenotazioneDettaglio()!.stato === 'PENDING',
             confermata: prenotazioneDettaglio()!.stato === 'CONFERMATA',
@@ -220,8 +276,19 @@
 
       @if (prenotazioneDettaglio()!.partecipanti.length > 0) {
         <div class="partecipanti-section">
-          <p>👤 Creato da <strong>{{ prenotazioneDettaglio()!.utente_nome }}</strong></p>
-          <h4>👥 Partecipanti</h4>
+          <p>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            Creato da <strong>{{ prenotazioneDettaglio()!.utente_nome }}</strong>
+          </p>
+          <h4>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Partecipanti
+          </h4>
           <ul>
             @for (part of prenotazioneDettaglio()!.partecipanti; track part.id) {
               <li>
@@ -240,7 +307,12 @@
       @if (prenotazioneDettaglio()!.stato !== 'ANNULLATA' &&
            prenotazioneDettaglio()!.utente === currentUser()?.utente_id) {
         <div class="motivo-section">
-          <h4>💬 Motivo</h4>
+          <h4>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Motivo
+          </h4>
           <textarea [(ngModel)]="motivoInput"
             placeholder="Aggiungi un motivo..." rows="3"></textarea>
           <button class="btn-primary" (click)="salvaMotivo()" [disabled]="loadingMotivo()">

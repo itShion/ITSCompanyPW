@@ -25,7 +25,7 @@
 
         <a *ngIf="showSupport$ | async" routerLink="/supporto">Supporto</a>
 
-        
+
 
 <!-- Notifiche -->
 <div class="notifiche-container">
@@ -43,7 +43,7 @@
         <button *ngIf="!notifica.letta" class="segna-letta-btn" (click)="segnaComeLetta(notifica)">
           Segna come letta
         </button>
-        
+
         <li *ngIf="notifiche().length === 0" class="empty-msg">Nessuna notifica</li>
     </ul>
   </div>
@@ -57,10 +57,10 @@
           {{ currentUser?.username.charAt(0) || 'U' }}
         </div>
         <span>{{ currentUser?.username || 'Utente' }}</span>
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          height="20px" 
-          viewBox="0 -960 960 960" 
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="20px"
+          viewBox="0 -960 960 960"
           width="20px"
           [style.transform]="isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)'"
           style="transition: transform 0.3s ease;"
@@ -68,26 +68,26 @@
           <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
         </svg>
       </a>
-      
+
       <div class="dropdown-menu" [class.show]="isDropdownOpen">
         <div class="dropdown-header">
           <small>Accesso come: {{ currentUser?.username }}</small>
         </div>
-        
+
         <div class="dropdown-divider"></div>
-        
+
         <a class="dropdown-item">
           <i class="bi bi-person"></i>
           <span>Profilo</span>
         </a>
-        
+
         <a class="dropdown-item">
           <i class="bi bi-gear"></i>
           <span>Impostazioni</span>
         </a>
-        
+
         <div class="dropdown-divider"></div>
-        
+
         <a class="dropdown-item logout" (click)="logout()">
           <i class="bi bi-box-arrow-right"></i>
           <span>Logout</span>

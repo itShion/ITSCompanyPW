@@ -19,14 +19,16 @@ export class PrenotaService {
     return this.http.post<Prenotazione>(this.apiUrl, prenotazione);
   }
 
+  getMiePrenotazioni(): Observable<Prenotazione[]> {
+    return this.http.get<Prenotazione[]>(`${this.apiUrl}mie/`);
+  }
+
   // annullaPrenotazione(id: number): Observable<Prenotazione> {
   // return this.http.post<Prenotazione>(`${this.apiUrl}${id}/annulla/`, {});
   //}
 
   annullaPrenotazione(id: number): Observable<Prenotazione> {
-    return this.http.patch<Prenotazione>(`${this.apiUrl}${id}/`, {
-      stato: 'ANNULLATA',
-    });
+  return this.http.post<Prenotazione>(`${this.apiUrl}${id}/annulla/`, {});
   }
 
   approvaPrenotazione(id: number): Observable<Prenotazione> {
@@ -43,5 +45,16 @@ export class PrenotaService {
 
   rifiutaPartecipazione(id: number): Observable<Prenotazione> {
     return this.http.post<Prenotazione>(`${this.apiUrl}${id}/rifiuta_partecipazione/`, {});
+  }
+
+  getPrenotazioniStoriche(): Observable<Prenotazione[]> {
+    return this.http.get<Prenotazione[]>(`${this.apiUrl}storiche/`);
+  }
+
+  modificaMotivo(id: number, motivo: string): Observable<Prenotazione> {
+    return this.http.patch<Prenotazione>(
+      `${this.apiUrl}${id}/modifica_motivo/`,
+      { motivo }
+    );
   }
 }

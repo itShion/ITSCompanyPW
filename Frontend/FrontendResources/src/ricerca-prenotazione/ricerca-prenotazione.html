@@ -4,25 +4,40 @@
   <aside class="sidebar">
     <h3>Filtra Risorse</h3>
 
+      <div class="filter-group">
     <label>Cerca</label>
-    <input type="text" placeholder="Tipo risorsa" />
+    <input type="text" placeholder="Nome risorsa" [value]="filtroCerca()" (input)="filtroCerca.set($any($event.target).value)" />
+      </div>
+
+    <div class="divider"></div>
+
+    <div class="filter-group">
 
     <label>Periodo</label>
-    <input type="date" />
+    <input type="date" [value]="filtroData2()" (input)="filtroData2.set($any($event.target).value)" />
 
-    <div class="time-range">
-      <input type="time" />
-      <input type="time" />
     </div>
 
+    <div class="divider"></div>
+
+    <div class="filter-group">
     <label>Tipo di Risorsa</label>
-    <div class="checks">
-      <label><input type="checkbox" /> Postazioni Lavoro</label>
-      <label><input type="checkbox" /> Sale Riunioni</label>
-      <label><input type="checkbox" /> Macchinari</label>
+<div class="checks">
+  @for (t of tipiRisorsa(); track t.id) {
+    <label>
+      <input type="checkbox"
+        [checked]="filtroTipi().includes(t.nome)"
+        (change)="toggleTipo(t.nome, $any($event.target).checked)" />
+      {{ t.nome }}
+    </label>
+  }
+</div>
     </div>
-    <button class="btn-primary">Applica Filtri</button>
-  </aside>
+<button class="btn-reset-sidebar"
+    *ngIf="filtroCerca() || filtroTipi().length > 0 || filtroOraInizio() || filtroOraFine()"
+    (click)="resetFiltriSidebar()">
+    Azzera
+  </button>  </aside>
 
   <!-- MAIN -->
   <main class="content">
@@ -47,7 +62,8 @@
       }
 
       @if (!loading() && !error()) {
-      @for (r of risorse(); track r.id) {
+
+      @for (r of risorseFiltrate(); track r.id) {
       <div class="card">
         <div class="img">
           <img [src]="r.tipo.immagine_url" [alt]="r.nome" />
@@ -70,11 +86,13 @@
         </div>
       </div>
       }
-      }
+    }
+      
     </section>
 
   </main>
 </div>
+
 
 <!-- ================= MODAL DI PRENOTAZIONE ================= -->
 @if (showModal()) {

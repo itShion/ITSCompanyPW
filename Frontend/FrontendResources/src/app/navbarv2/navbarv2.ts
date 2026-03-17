@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterModule, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { NotificaService } from '../services/notifica-service';
@@ -62,9 +62,16 @@ togglePopup() {
 
   segnaComeLetta(notifica: Notifica) {
     this.notificaService.markRead(notifica.id).subscribe(() => {
-      // aggiorna badge e lista
       this.loadNotifiche();
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.notifiche-container')) {
+      this.popupAperto.set(false);
+    }
   }
 
 }

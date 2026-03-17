@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
 from CompanyResources.Utente.models import Utente
@@ -20,6 +20,8 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
 
         if user:
+
+            login(request, user)
             # Genera token JWT
             refresh = RefreshToken.for_user(user)
 

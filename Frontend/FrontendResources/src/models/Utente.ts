@@ -2,8 +2,11 @@ export interface Utente {
   id: number;
   username: string;
   ruolo: string;
+  email?: string;
   telefono: string;
   user_id: number;
+  is_active?: boolean;
+  last_login?: string;
 }
 export interface LoginDTO {
   username: string;
@@ -41,3 +44,11 @@ export interface CurrentUser{
   telefono: string;
   user_id: number;
 }
+
+export interface NuovoUtenteDTO {
+  username: string;
+  email?: string;
+  password?: string;
+  ruolo: string;
+  telefono?: string;
+ }

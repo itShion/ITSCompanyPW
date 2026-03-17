@@ -1,9 +1,12 @@
 <div class="main-wrapper">
+
+  <!-- HEADER -->
   <div class="header-text">
     <h1>Le mie prenotazioni</h1>
     <p>Gestisci le tue prenotazioni per postazioni, sale riunioni e macchinari.</p>
   </div>
 
+  <!-- BOXES -->
   <div id="boxbox">
     <div class="box">
       <h3>ATTIVE</h3>
@@ -19,47 +22,80 @@
     </div>
   </div>
 
+  <!-- FILTRI -->
   <div class="filters">
     <div class="filter-input">
-      <input type="search" placeholder="Cerca per nome risorsa..." />
-      <svg class="icon search-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
-        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
+      <input type="search" placeholder="Cerca per nome risorsa..." [value]="cercaNome()"
+        (input)="onCercaNome($any($event.target).value)" />
+      <svg class="icon search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="7" />
         <line x1="16.5" y1="16.5" x2="21" y2="21" />
       </svg>
     </div>
 
     <div class="filter-input">
-      <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
-        viewBox="0 -960 960 960" width="24px" fill="currentColor">
+      <svg class="icon select-start-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+        fill="currentColor">
         <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" />
       </svg>
-      <select>
-        <option>Tutti gli stati</option>
+      <select [value]="filtroStato()" (change)="onFiltroStato($any($event.target).value)">
+        <option value="">Tutti gli stati</option>
+        <option value="CONFERMATA">Confermata</option>
+        <option value="PENDING">In attesa</option>
+        <option value="ANNULLATA">Annullata</option>
       </select>
-      <svg class="icon select-arrow" xmlns="http://www.w3.org/2000/svg" height="24px"
-        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
+      <svg class="icon select-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M6 9l6 6 6-6" />
       </svg>
     </div>
 
     <div class="filter-input">
-      <input type="date" />
-      <svg class="icon calendar-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
-        viewBox="0 -960 960 960" width="24px" fill="currentColor">
+      <input type="date" [value]="filtroData()" (change)="onFiltroData($any($event.target).value)" />
+      <svg class="icon calendar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
         <path
           d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
       </svg>
     </div>
   </div>
-</div>
 
-<div class="prenotazioni-list">
-  <p *ngIf="loading()">Caricamento prenotazioni...</p>
-  <p *ngIf="!loading() && prenotazioni().length === 0">Non hai ancora prenotazioni.</p>
+  <!-- AZIONI FILTRI -->
+  <div class="filters-actions">
+    <button class="btn-storico" (click)="toggleStorico()">
+      <svg *ngIf="mostraStorico()" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      <svg *ngIf="!mostraStorico()" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+      </svg>
+      {{ mostraStorico() ? 'Torna alle attive' : 'Mostra storico' }}
+    </button>
+    <button class="btn-reset" *ngIf="cercaNome() || filtroStato() || filtroData()" (click)="resetFiltri()">
+      <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6L6 18M6 6l12 12" />
+      </svg>
+      Azzera filtri
+    </button>
+  </div>
 
+  <!-- FEEDBACK BANNER -->
+  @if (feedbackMessage()) {
+  <div class="feedback-banner" [ngClass]="feedbackTipo() === 'success' ? 'feedback-success' : 'feedback-error'">
+    {{ feedbackMessage() }}
+  </div>
+  }
+
+  <!-- STATI VUOTI -->
+  <p *ngIf="loading()" class="loading-text">Caricamento prenotazioni...</p>
+  <p *ngIf="!loading() && prenotazioni().length === 0" class="no-data">
+    Non hai ancora prenotazioni.
+  </p>
+
+  <!-- TABELLA -->
   <div class="prenotazioni-table-wrapper">
     <table class="prenotazioni-table">
       <thead>
@@ -72,46 +108,62 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let p of prenotazioni()">
+        <tr *ngFor="let p of prenotazioniPaginate()" (click)="openDettaglioModal(p)" style="cursor:pointer">
           <td>{{ p.risorsa.nome }}</td>
-          <td>{{ p.data_inizio | date:'dd/MM/yyyy' }}</td>
-          <td>{{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}</td>
+          <td>{{ formatData(p.data_inizio) }}</td>
+          <td>{{ formatOra(p.data_inizio) }} - {{ formatOra(p.data_fine) }}</td>
           <td>
-            <span class="stato-badge"
-              [ngClass]="{
-                pending: p.stato === 'PENDING',
-                confermata: p.stato === 'CONFERMATA',
-                annullata: p.stato === 'ANNULLATA'
-              }">
-              {{ p.stato_display }}
-            </span>
+            <span class="stato-badge" [ngClass]="{
+              pending:    p.stato === 'PENDING',
+              confermata: p.stato === 'CONFERMATA',
+              annullata:  p.stato === 'ANNULLATA'
+            }">{{ p.stato_display }}</span>
           </td>
           <td>
-            <button 
-              class="btn-danger"
-              *ngIf="p.stato === 'PENDING' || p.stato === 'CONFERMATA'"
-              (click)="openAnnullaModal(p)"
-              [disabled]="loading()">
-              Annulla Prenotazione
+            @if (isInvitato(p)) {
+            <button class="btn-invito" (click)="$event.stopPropagation(); openInvitoModal(p)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              Rispondi all'invito
             </button>
+            }
+            @if ((p.stato === 'PENDING' || p.stato === 'CONFERMATA') && !isInvitato(p)) {
+            <button class="btn-danger" (click)="$event.stopPropagation(); openAnnullaModal(p)" [disabled]="loading()">
+              Annulla
+            </button>
+            }
           </td>
-        </tr>
-        <tr *ngIf="!loading() && prenotazioni().length === 0">
-          <td colspan="6" class="no-data">Non ci sono prenotazioni.</td>
         </tr>
       </tbody>
     </table>
-    <p *ngIf="loading()" class="loading-text">Caricamento prenotazioni...</p>
   </div>
-</div>
 
+  <!-- PAGINAZIONE -->
+  <div class="pagination">
+    <span>
+      Visualizzati {{ (paginaCorrente()-1)*perPagina+1 }}–{{ min(paginaCorrente()*perPagina,
+      prenotazioniFiltrate().length) }}
+      di {{ prenotazioniFiltrate().length }} risultati
+    </span>
+    <div>
+      <button (click)="paginaPrecedente()" [disabled]="paginaCorrente() === 1">Precedente</button>
+      <button (click)="paginaSuccessiva()" [disabled]="paginaCorrente() === totalPages">Successivo</button>
+    </div>
+  </div>
+
+</div><!-- fine main-wrapper -->
+
+<!-- ═══ MODAL ANNULLA ═══════════════════════════════════════ -->
 <div class="modal-overlay" *ngIf="showAnnullaModal() && prenotazioneSelezionata() as p">
   <div class="modal">
     <h2>Sei sicuro di voler annullare la prenotazione?</h2>
     <p>
       Risorsa: {{ p.risorsa?.nome }}<br>
-      Data: {{ p.data_inizio | date:'dd/MM/yyyy' }}<br>
-      Orario: {{ p.data_inizio | date:'HH:mm' }} - {{ p.data_fine | date:'HH:mm' }}
+      Data: {{ formatData(p.data_inizio) }}<br>
+      Orario: {{ formatOra(p.data_inizio) }} - {{ formatOra(p.data_fine) }}
     </p>
     <div class="modal-buttons">
       <button class="btn-danger" (click)="confirmAnnullaPrenotazione()">Annulla Prenotazione</button>
@@ -119,3 +171,180 @@
     </div>
   </div>
 </div>
+
+<!-- ═══ MODAL INVITO ════════════════════════════════════════ -->
+@if (showInvitoModal() && prenotazioneInvito()) {
+<div class="modal-overlay" (click)="closeInvitoModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Invito a partecipare</h2>
+      <button class="close-btn" (click)="closeInvitoModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <p><strong>{{ prenotazioneInvito()?.utente_nome }}</strong> ti ha invitato a:</p>
+    <div class="invito-info">
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <strong>{{ prenotazioneInvito()?.risorsa?.nome }}</strong>
+      </p>
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        {{ formatData(prenotazioneInvito()!.data_inizio) }}
+      </p>
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        {{ formatOra(prenotazioneInvito()!.data_inizio) }} - {{ formatOra(prenotazioneInvito()!.data_fine) }}
+      </p>
+      @if (prenotazioneInvito()?.motivo) {
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        {{ prenotazioneInvito()?.motivo }}
+      </p>
+      }
+    </div>
+    <div class="modal-buttons">
+      <button class="btn-danger" (click)="rifiutaInvito()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+        Rifiuta
+      </button>
+      <button class="btn-success" (click)="accettaInvito()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        Accetta
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- ═══ MODAL DETTAGLIO ═════════════════════════════════════ -->
+@if (showDettaglioModal() && prenotazioneDettaglio()) {
+<div class="modal-overlay" (click)="closeDettaglioModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ prenotazioneDettaglio()!.risorsa.nome }}</h2>
+      <button class="close-btn" (click)="closeDettaglioModal()">✕</button>
+    </div>
+
+    <div class="invito-info">
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        {{ formatData(prenotazioneDettaglio()!.data_inizio) }}
+      </p>
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        {{ formatOra(prenotazioneDettaglio()!.data_inizio) }} - {{ formatOra(prenotazioneDettaglio()!.data_fine) }}
+      </p>
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <circle cx="12" cy="12" r="10" />
+        </svg>
+        <span class="stato-badge" [ngClass]="{
+            pending:    prenotazioneDettaglio()!.stato === 'PENDING',
+            confermata: prenotazioneDettaglio()!.stato === 'CONFERMATA',
+            annullata:  prenotazioneDettaglio()!.stato === 'ANNULLATA'
+          }">{{ prenotazioneDettaglio()!.stato_display }}</span>
+      </p>
+    </div>
+
+    @if (prenotazioneDettaglio()!.partecipanti.length > 0) {
+    <div class="partecipanti-section">
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        Creato da <strong>{{ prenotazioneDettaglio()!.utente_nome }}</strong>
+
+      </p>
+
+      <h4>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        Partecipanti
+      </h4>
+      <ul>
+        @for (part of prenotazioneDettaglio()!.partecipanti; track part.id) {
+        <li>
+          {{ part.username }}
+          <span class="stato-badge" [ngClass]="{
+                  pending:    part.stato === 'INVITATO',
+                  confermata: part.stato === 'ACCETTATO',
+                  annullata:  part.stato === 'RIFIUTATO'
+                }">{{ part.stato }}</span>
+        </li>
+        }
+      </ul>
+    </div>
+    }
+
+    <div class="motivo-section">
+      <h4>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:5px">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        Motivo
+      </h4>
+      <textarea [(ngModel)]="motivoInput" placeholder="Aggiungi un motivo..." rows="3"></textarea>
+      <button class="btn-primary" (click)="salvaMotivo()" [disabled]="loadingMotivo()">
+        {{ loadingMotivo() ? 'Salvataggio...' : 'Salva motivo' }}
+      </button>
+    </div>
+
+    @if (prenotazioneDettaglio()!.stato !== 'ANNULLATA' &&
+    prenotazioneDettaglio()!.utente === currentUser()?.utente_id) {
+
+    }
+
+    <div class="modal-buttons">
+      <button class="btn-secondary" (click)="closeDettaglioModal()">Chiudi</button>
+    </div>
+  </div>
+</div>
+}

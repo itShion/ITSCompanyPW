@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Prenotazione, PrenotazioneDTO } from '../../../models/Prenotazione';
@@ -21,7 +21,17 @@ export class SupportoPrenotazioni implements OnInit {
   dettaglioAperto = signal(false);
   prenotazioneDettaglio = signal<Prenotazione | null>(null);
 
+ filtroCerca  = signal('');
+ filtroRisorsa = signal('');
+ filtroStato  = signal('');
+ filtroData   = signal('');
+ filtroOrdine = signal('');
+
+
   // Stats
+  mostraStorico = signal(false);
+
+  // ===== STATS =====
   get inAttesa() {
     return this.prenotazioni().filter((p) => p.stato === 'PENDING').length;
   }
@@ -32,37 +42,45 @@ export class SupportoPrenotazioni implements OnInit {
     return this.prenotazioni().filter((p) => p.stato === 'ANNULLATA').length;
   }
 
+  // ===== PAGINAZIONE =====
   paginaCorrente = signal(1);
   perPagina = 5;
+
   get totalPages() {
-    return Math.ceil(this.prenotazioni().length / this.perPagina);
+    return Math.ceil(this.prenotazioniFiltrate().length / this.perPagina);
   }
+
   get prenotazioniPaginate() {
     const start = (this.paginaCorrente() - 1) * this.perPagina;
-    return this.prenotazioni().slice(start, start + this.perPagina);
+    return this.prenotazioniFiltrate().slice(start, start + this.perPagina);
   }
+
   paginaPrecedente() {
     if (this.paginaCorrente() > 1) this.paginaCorrente.update((p) => p - 1);
   }
+
   paginaSuccessiva() {
     if (this.paginaCorrente() < this.totalPages) this.paginaCorrente.update((p) => p + 1);
   }
+
   min(a: number, b: number) {
     return Math.min(a, b);
   }
 
-  // Modal
+  // ===== MODAL NUOVA PRENOTAZIONE =====
   modalAperto = signal(false);
   nuova: PrenotazioneDTO = { risorsa_id: 0, data_inizio: '', data_fine: '', motivo: '' };
+
   openModal() {
     this.modalAperto.set(true);
   }
+
   closeModal() {
     this.modalAperto.set(false);
     this.nuova = { risorsa_id: 0, data_inizio: '', data_fine: '', motivo: '' };
   }
 
-  // Badge
+  // ===== BADGE =====
   getBadgeClass(stato: string): string {
     const map: Record<string, string> = {
       PENDING: 'badge-orange',
@@ -72,10 +90,20 @@ export class SupportoPrenotazioni implements OnInit {
     return map[stato] ?? '';
   }
 
+  // ===== FORMATO DATA/ORA =====
+  formatOra(dateStr: string): string {
+    return dateStr.substring(11, 16);
+  }
+
+  formatData(dateStr: string): string {
+    const [year, month, day] = dateStr.substring(0, 10).split('-');
+    return `${day}/${month}/${year}`;
+  }
+
   constructor(
     private prenotaService: PrenotaService,
     private risorsaService: RisorsaService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadPrenotazioni();
@@ -89,6 +117,18 @@ export class SupportoPrenotazioni implements OnInit {
     });
   }
 
+  toggleStorico() {
+    this.mostraStorico.update(v => !v);
+    if (this.mostraStorico()) {
+      this.prenotaService.getPrenotazioniStoriche().subscribe((data) => {
+        this.prenotazioni.set(data);
+        this.paginaCorrente.set(1);
+      });
+    } else {
+      this.loadPrenotazioni();
+    }
+  }
+
   creaPrenotazione() {
     this.prenotaService.createPrenotazione(this.nuova).subscribe(() => {
       this.loadPrenotazioni();
@@ -96,6 +136,7 @@ export class SupportoPrenotazioni implements OnInit {
     });
   }
 
+  // ===== POPUP APPROVA/RIFIUTA =====
   popupAperto = signal(false);
   azioneCorrente = signal<'approva' | 'rifiuta' | null>(null);
   prenotazioneSelezionata = signal<number | null>(null);
@@ -128,6 +169,7 @@ export class SupportoPrenotazioni implements OnInit {
     });
   }
 
+  // ===== DETTAGLIO =====
   openDettaglio(p: Prenotazione) {
     this.prenotazioneDettaglio.set(p);
     this.dettaglioAperto.set(true);
@@ -144,10 +186,68 @@ export class SupportoPrenotazioni implements OnInit {
       this.closeDettaglio();
     });
   }
+
   onRifiutaDettaglio(id: number) {
     this.prenotaService.rifiutaPrenotazione(id).subscribe(() => {
       this.loadPrenotazioni();
       this.closeDettaglio();
     });
   }
+
+prenotazioniFiltrate = computed(() => {
+  const cerca   = this.filtroCerca().toLowerCase().trim();
+  const risorsa = this.filtroRisorsa();
+  const stato   = this.filtroStato();
+  const data    = this.filtroData();
+  const ordine  = this.filtroOrdine();
+
+  let result = this.prenotazioni().filter(p => {
+    const matchCerca   = !cerca   || p.utente_nome?.toLowerCase().includes(cerca);
+    const matchRisorsa = !risorsa || String(p.risorsa?.id) === risorsa;
+    const matchStato   = !stato   || p.stato === stato;
+    const matchData    = !data    || p.data_inizio?.startsWith(data);
+    return matchCerca && matchRisorsa && matchStato && matchData;
+  });
+
+  switch (ordine) {
+    case 'data_asc':
+      result = [...result].sort((a, b) =>
+        new Date(a.data_inizio).getTime() - new Date(b.data_inizio).getTime());
+      break;
+    case 'data_desc':
+      result = [...result].sort((a, b) =>
+        new Date(b.data_inizio).getTime() - new Date(a.data_inizio).getTime());
+      break;
+    case 'utente_az':
+      result = [...result].sort((a, b) =>
+        a.utente_nome?.localeCompare(b.utente_nome ?? '') ?? 0);
+      break;
+    case 'utente_za':
+      result = [...result].sort((a, b) =>
+        b.utente_nome?.localeCompare(a.utente_nome ?? '') ?? 0);
+      break;
+  }
+
+  return result;
+});
+
+
+
+onFiltroCerca(v: string)  { this.filtroCerca.set(v);  this.paginaCorrente.set(1); }
+onFiltroRisorsa(v: string) { this.filtroRisorsa.set(v); this.paginaCorrente.set(1); }
+onFiltroStato(v: string)  { this.filtroStato.set(v);  this.paginaCorrente.set(1); }
+onFiltroData(v: string)   { this.filtroData.set(v);   this.paginaCorrente.set(1); }
+
+resetFiltri() {
+  this.filtroCerca.set('');
+  this.filtroRisorsa.set('');
+  this.filtroStato.set('');
+  this.filtroData.set('');
+  this.filtroOrdine.set('');
+  this.paginaCorrente.set(1);
+}
+
+onFiltroOrdine(v: string) { this.filtroOrdine.set(v); this.paginaCorrente.set(1); }
+
+
 }

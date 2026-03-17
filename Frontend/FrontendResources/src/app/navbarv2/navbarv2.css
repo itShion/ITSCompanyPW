@@ -59,7 +59,10 @@ html {
   font-weight: 600;
   letter-spacing: -0.2px;
   padding-left: 20px;
-  display: none;
+  display: flex;           /* Cambiato da 'none' a 'flex' */
+  align-items: center;     /* Allinea verticalmente gli elementi */
+  height: 100%;            /* Occupa tutta l'altezza della navbar */
+  line-height: 1;          /* Rimuove l'altezza della linea extra */
 }
 
 .brand img {
@@ -67,7 +70,8 @@ html {
   max-height: 40px;
   width: auto;
   object-fit: contain;
-  content: url(logo.jpg);
+  content: url(logo2.jpg);
+  margin-right: 6px;       /* Aggiunge un piccolo spazio tra logo e testo */
 }
 
 .links-container {
@@ -393,10 +397,6 @@ html {
     justify-content: space-between;
   }
 
-  .brand {
-    display: block;
-  }
-
   .open-sidebar-button,
   .close-sidebar-button {
     display: none;
@@ -476,16 +476,20 @@ html {
 
   /* Logo centrato */
   .brand {
-    display: block;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0;
+    display: flex;           /* Mantieni flex */
+  align-items: center;     /* Allineamento verticale */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
+  height: 60px;            /* Altezza fissa come la navbar */
+  white-space: nowrap;     /* Evita che il testo vada a capo */
   }
 
   .brand img {
-    height: 32px;
-    max-height: 32px;
+    height: 30px;
+  max-height: 32px;
+  margin-right: 4px;       /* Spazio ridotto per mobile */
   }
 
   /* User dropdown nell'ordine normale */

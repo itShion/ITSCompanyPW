@@ -222,30 +222,30 @@
   padding-top: 4px;
 }
 
-.btn-approva {
+.btn-approva,
+.btn-rifiuta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   padding: 10px 20px;
   border-radius: 8px;
   border: none;
-  background: #16a34a;
-  color: #ffffff;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
+.btn-approva {
+  background: #16a34a;
+  color: #ffffff;
+}
+
 .btn-approva:hover { background: #15803d; }
 
 .btn-rifiuta {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
   background: #fee2e2;
   color: #dc2626;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s;
 }
 
 .btn-rifiuta:hover { background: #fecaca; }

@@ -37,7 +37,7 @@ ITSCompanyPW/
 |------------|----------------------------|
 | Backend    | Python / Django            |
 | Frontend   | TypeScript, HTML, CSS      |
-| Database   | Django ORM                 |
+| Database   | MySQL                      |
 | Container  | Docker / Docker Compose    |
 
 ---

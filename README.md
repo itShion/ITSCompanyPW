@@ -46,9 +46,12 @@ ITSCompanyPW/
 
 ### Prerequisiti
 
-- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) installati sulla propria macchina.
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Node Js](https://nodejs.org/en)
+- [Angular](https://angular.dev/)
 
-### 1. Clona il repository
+### 1. Clona la repository
 
 ```bash
 git clone https://github.com/itShion/ITSCompanyPW.git

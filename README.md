@@ -1,5 +1,12 @@
 # Uffezzi
 
+![Contributors](https://img.shields.io/github/contributors/itShion/ITSCompanyPW)
+![Issues](https://img.shields.io/github/issues/itShion/ITSCompanyPW)
+![Pull Requests](https://img.shields.io/github/issues-pr/itShion/ITSCompanyPW)
+![Last Commit](https://img.shields.io/github/last-commit/itShion/ITSCompanyPW)
+![Top Language](https://img.shields.io/github/languages/top/itShion/ITSCompanyPW)
+![Repo Size](https://img.shields.io/github/repo-size/itShion/ITSCompanyPW)
+
 **Uffezzi** è un'applicazione web per la gestione e prenotazione delle risorse aziendali. Permette ai dipendenti di visualizzare, prenotare e gestire risorse condivise all'interno dell'azienda (come sale riunioni, attrezzature, veicoli, ecc.), centralizzando tutto in un'unica piattaforma digitale e riducendo la necessità di coordinamento manuale.
 
 ---
@@ -30,7 +37,7 @@ ITSCompanyPW/
 |------------|----------------------------|
 | Backend    | Python / Django            |
 | Frontend   | TypeScript, HTML, CSS      |
-| Database   | MySQL                      |
+| Database   | Django ORM                 |
 | Container  | Docker / Docker Compose    |
 
 ---

@@ -1,21 +1,4 @@
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql_db
-    env_file:
-      - secrets/db.env
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
-      timeout: 20s
-      retries: 10
-      start_period: 30s
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - app_network
-
   django:
     container_name: gestionale
     build:
@@ -27,13 +10,8 @@ services:
       - .:/usr/src/app
     ports:
       - "8000:8000"
-    depends_on:
-      mysql:
-        condition: service_healthy
     command: >
-      sh -c "echo 'Waiting for MySQL...' &&
-             sleep 15 &&
-             python manage.py migrate &&
+      sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     networks:
       - app_network
@@ -58,9 +36,6 @@ services:
     tty: true
     networks:
       - app_network
-
-volumes:
-  mysql_data:
 
 networks:
   app_network:

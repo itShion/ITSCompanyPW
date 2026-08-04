@@ -37,7 +37,7 @@ ITSCompanyPW/
 |------------|----------------------------|
 | Backend    | Python / Django            |
 | Frontend   | TypeScript, HTML, CSS      |
-| Database   | MySQL                      |
+| Database   | PostgreSQL (Supabase)      |
 | Container  | Docker / Docker Compose    |
 
 ---
@@ -103,3 +103,5 @@ docker-compose exec django python manage.py createsuperuser
 ## 🔒 Secrets
 
 Le configurazioni sensibili (chiavi API, credenziali del database, ecc.) vanno inserite nella cartella `secrets/`. Assicurarsi che questa cartella sia inclusa nel `.gitignore` e non venga mai committata.
+
+Il database è un'istanza [Supabase](https://supabase.com/) (PostgreSQL). Copiare `secrets/secrets.example.txt` in `secrets/secrets.txt` e compilarlo con le credenziali del proprio progetto Supabase (Project Settings → Database → Connection info), preferibilmente usando l'host del **connection pooler**.

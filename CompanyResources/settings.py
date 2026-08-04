@@ -12,13 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import pymysql
 
 # JWT
 from datetime import timedelta
-
-pymysql.install_as_MySQLdb()
-pymysql.version_info = (2, 2, 1, "final", 0)  # FINGE di essere mysqlclient 2.2.1
 
 
 # Quick-start development settings - unsuitable for production
@@ -133,12 +129,15 @@ if secrets_path.exists():
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USER"),
         "PASSWORD": os.environ.get("DB_PASSWORD"),
-        "HOST": os.environ.get("DB_HOST", "localhost"),
-        "PORT": os.environ.get("DB_PORT", "3306"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT", "5432"),
+        "OPTIONS": {
+            "sslmode": os.environ.get("DB_SSLMODE", "require"),
+        },
     }
 }
 

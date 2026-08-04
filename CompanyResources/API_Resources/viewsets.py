@@ -145,7 +145,7 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
         telefono = self.request.data.get('telefono', '')
         first_name = self.request.data.get('first_name', '')
         last_name = self.request.data.get('last_name', '')
-        ruolo = self.request.data.get('ruolo', 'Dipendente')
+        ruolo = self.request.data.get('ruolo', 'UTENTE')
 
         if User.objects.filter(username=username).exists():
             from rest_framework.exceptions import ValidationError
@@ -213,7 +213,7 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             utente = Utente.objects.get(user=self.request.user)
             oggi = date.today()
 
-            if utente.ruolo in ['Admin', 'RESPONSABILE'] or self.request.user.is_superuser:
+            if utente.ruolo in ['ADMIN', 'RESPONSABILE'] or self.request.user.is_superuser:
                 return Prenotazione.objects.select_related(
                     'utente__user', 'risorsa__tipo'
                 ).filter(data_inizio__date__gte=oggi)
@@ -238,13 +238,6 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             prenotazione=prenotazione,
             descrizione=f"{utente.user.username} ha creato una prenotazione #{prenotazione.id}"
         )
-
-    # ---- AZIONI DIPENDENTE ----
-        utente, _ = Utente.objects.get_or_create(
-            user=self.request.user,
-            defaults={'ruolo': 'USER', 'telefono': ''}
-        )
-        serializer.save(utente=utente)
 
     @action(detail=False, methods=['get'])
     def attive(self, request):

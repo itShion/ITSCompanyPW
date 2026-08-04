@@ -129,17 +129,17 @@
   {
     "model": "Utente.utente",
     "pk": 1,
-    "fields": { "user": 1, "ruolo": "Admin", "telefono": "3331234567" }
+    "fields": { "user": 1, "ruolo": "ADMIN", "telefono": "3331234567" }
   },
   {
     "model": "Utente.utente",
     "pk": 2,
-    "fields": { "user": 2, "ruolo": "Dipendente", "telefono": "3339876543" }
+    "fields": { "user": 2, "ruolo": "UTENTE", "telefono": "3339876543" }
   },
   {
     "model": "Utente.utente",
     "pk": 3,
-    "fields": { "user": 3, "ruolo": "Dipendente", "telefono": "3339876544" }
+    "fields": { "user": 3, "ruolo": "UTENTE", "telefono": "3339876544" }
   },
   {
     "model": "Prenotazione.prenotazione",

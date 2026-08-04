@@ -100,7 +100,7 @@ export class AuthService {
 
   refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
-    return this.http.post(`${this.apiUrl}/refresh/`, { refresh: refreshToken }).pipe(
+    return this.http.post(`${this.apiUrl}/token/refresh/`, { refresh: refreshToken }).pipe(
       tap((response: any) => {
         if (response.access) {
           localStorage.setItem('access_token', response.access);

@@ -28,7 +28,7 @@ class LoginView(APIView):
             # Ottieni o crea profilo Utente
             utente, created = Utente.objects.get_or_create(
                 user=user,
-                defaults={'ruolo': 'Dipendente', 'telefono': ''}
+                defaults={'ruolo': 'UTENTE', 'telefono': ''}
             )
 
             return Response({
@@ -88,7 +88,7 @@ class RegisterView(APIView):
         # Crea profilo Utente
         utente = Utente.objects.create(
             user=user,
-            ruolo='Dipendente',
+            ruolo='UTENTE',
             telefono=telefono
         )
 
@@ -120,7 +120,7 @@ class CurrentUserView(APIView):
 
         utente, created = Utente.objects.get_or_create(
             user=user,
-            defaults={'ruolo': 'Dipendente', 'telefono': ''}
+            defaults={'ruolo': 'UTENTE', 'telefono': ''}
         )
 
         return Response({

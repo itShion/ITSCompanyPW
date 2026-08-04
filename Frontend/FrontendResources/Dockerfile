@@ -5,8 +5,8 @@ RUN npm install -g @angular/cli@17
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
-RUN npm install zone.js
+RUN npm ci --legacy-peer-deps
+RUN npm install zone.js --legacy-peer-deps
 COPY .. .
 
 EXPOSE 4200

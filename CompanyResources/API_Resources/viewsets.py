@@ -41,7 +41,7 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
     serializer_class = RisorsaSerializer
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+        if self.action in ['create', 'update', 'partial_update', 'destroy', 'attiva', 'manutenzione', 'disattiva']:
             self.permission_classes = [IsAuthenticated, IsResponsabileOrAdmin]
         else:
             self.permission_classes = [IsAuthenticated]
@@ -133,7 +133,7 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
         return Utente.objects.select_related('user').filter(user__is_active=True)
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+        if self.action in ['create', 'update', 'partial_update', 'destroy', 'riabilita']:
             self.permission_classes = [IsAuthenticated, IsResponsabileOrAdmin]
         else:
             self.permission_classes = [IsAuthenticated]  # tutti possono leggere
@@ -203,6 +203,8 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             self.permission_classes = [IsAuthenticated]
         elif self.action in ['partial_update', 'update', 'destroy']:
             self.permission_classes = [IsAuthenticated, IsOwnerOrResponsabile]
+        elif self.action in ['approva', 'rifiuta', 'pending']:
+            self.permission_classes = [IsAuthenticated, IsResponsabileOrAdmin]
         else:
             self.permission_classes = [IsAuthenticated]
         return super().get_permissions()

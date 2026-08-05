@@ -1,9 +1,8 @@
-psycopg[binary]
-pipenv
-django
-cryptography
-djangorestframework
+Django~=5.2.8
+psycopg[binary]~=3.2
+cryptography~=44.0
+djangorestframework~=3.15
 # CORS per Angular
 django-cors-headers==4.9.0
-drf-spectacular
-djangorestframework-simplejwt
+drf-spectacular~=0.28
+djangorestframework-simplejwt~=5.4

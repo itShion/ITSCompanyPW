@@ -52,6 +52,12 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
         risorsa = self.get_object()
         risorsa.stato = 'ATTIVA'
         risorsa.save()
+        utente = Utente.objects.get(user=request.user)
+        ActivityLog.objects.create(
+            azione='RISORSA_ATTIVATA',
+            utente=utente,
+            descrizione=f"{utente.user.username} ha attivato la risorsa {risorsa.nome}"
+        )
         return Response(self.get_serializer(risorsa).data)
 
     @action(detail=True, methods=['post'])
@@ -59,6 +65,12 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
         risorsa = self.get_object()
         risorsa.stato = 'MANUTENZIONE'
         risorsa.save()
+        utente = Utente.objects.get(user=request.user)
+        ActivityLog.objects.create(
+            azione='RISORSA_MANUTENZIONE',
+            utente=utente,
+            descrizione=f"{utente.user.username} ha messo in manutenzione la risorsa {risorsa.nome}"
+        )
         return Response(self.get_serializer(risorsa).data)
 
     @action(detail=True, methods=['post'])
@@ -66,6 +78,12 @@ class RisorsaAPIViewSet(viewsets.ModelViewSet):
         risorsa = self.get_object()
         risorsa.stato = 'DISATTIVA'
         risorsa.save()
+        utente = Utente.objects.get(user=request.user)
+        ActivityLog.objects.create(
+            azione='RISORSA_DISATTIVATA',
+            utente=utente,
+            descrizione=f"{utente.user.username} ha disattivato la risorsa {risorsa.nome}"
+        )
         return Response(self.get_serializer(risorsa).data)
 
     def destroy(self, request, *args, **kwargs):
@@ -160,7 +178,14 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
             last_name=last_name
         )
 
-        serializer.save(user=user, ruolo=ruolo, telefono=telefono)
+        nuovo_utente = serializer.save(user=user, ruolo=ruolo, telefono=telefono)
+
+        autore = Utente.objects.get(user=self.request.user)
+        ActivityLog.objects.create(
+            azione='UTENTE_CREATO',
+            utente=autore,
+            descrizione=f"{autore.user.username} ha creato l'utente {nuovo_utente.user.username}"
+        )
 
     def destroy(self, request, *args, **kwargs):
 
@@ -169,6 +194,12 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
         utente = self.get_object()
         utente.user.is_active = False
         utente.user.save()
+        autore = Utente.objects.get(user=request.user)
+        ActivityLog.objects.create(
+            azione='UTENTE_DISABILITATO',
+            utente=autore,
+            descrizione=f"{autore.user.username} ha disabilitato l'utente {utente.user.username}"
+        )
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['post'])
@@ -180,6 +211,12 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
             utente = Utente.objects.select_related('user').get(pk=pk, user__is_active=False)
             utente.user.is_active = True
             utente.user.save()
+            autore = Utente.objects.get(user=request.user)
+            ActivityLog.objects.create(
+                azione='UTENTE_RIABILITATO',
+                utente=autore,
+                descrizione=f"{autore.user.username} ha riabilitato l'utente {utente.user.username}"
+            )
             return Response({'message': 'Utente riabilitato'}, status=status.HTTP_200_OK)
         except Utente.DoesNotExist:
             return Response({'error': 'Utente non trovato o già attivo'}, status=status.HTTP_404_NOT_FOUND)

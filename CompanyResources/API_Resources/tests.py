@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -256,3 +257,25 @@ class UtenteCreazionePermessiTests(APITestCase):
                 utente=self.admin, azione='UTENTE_CREATO'
             ).exists()
         )
+
+
+class ThrottlingTests(APITestCase):
+    """Il throttle e' condiviso (per IP) tra tutte le richieste anonime del
+    processo di test: puliamo la cache prima e dopo per non contaminare
+    ne' essere contaminati da altri test che chiamano endpoint anonimi."""
+
+    def setUp(self):
+        cache.clear()
+
+    def tearDown(self):
+        cache.clear()
+
+    def test_troppe_richieste_anonime_vengono_bloccate(self):
+        # /api/token/ e' AllowAny: le richieste passano il controllo
+        # permessi e arrivano al throttle anche con credenziali finte.
+        for _ in range(100):
+            response = self.client.post('/api/token/', {'username': 'nessuno', 'password': 'x'})
+            self.assertNotEqual(response.status_code, status.HTTP_429_TOO_MANY_REQUESTS)
+
+        response = self.client.post('/api/token/', {'username': 'nessuno', 'password': 'x'})
+        self.assertEqual(response.status_code, status.HTTP_429_TOO_MANY_REQUESTS)

@@ -1,0 +1,25 @@
+# Segreti: non devono mai finire in un layer dell'immagine
+secrets/
+
+# Controllo versione
+.git/
+.gitignore
+
+# Ambiente Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Frontend (ha il proprio .dockerignore per il suo build context)
+Frontend/FrontendResources/node_modules/
+Frontend/FrontendResources/dist/
+
+# Editor/IDE e tooling locale
+.claude/
+.vscode/
+.idea/
+
+# File di sviluppo locale
+install.cmd
+db.sqlite3

@@ -1,0 +1,39 @@
+# Stack di produzione: Django servito da gunicorn, Angular compilato e
+# servito da Nginx (che fa anche da reverse proxy verso il backend).
+#
+# Prima di avviarlo, in secrets/secrets.txt vanno impostati per l'ambiente
+# reale (non i default di sviluppo): SECRET_KEY, ALLOWED_HOSTS,
+# CORS_ALLOWED_ORIGINS, CSRF_TRUSTED_ORIGINS (vedi secrets/secrets.example.txt).
+#
+# Uso: docker compose -f docker-compose.prod.yml up --build
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file:
+      - secrets/secrets.txt
+    environment:
+      - DEBUG=False
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  angular:
+    build:
+      context: ./Frontend/FrontendResources
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    depends_on:
+      - django
+    restart: unless-stopped
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge

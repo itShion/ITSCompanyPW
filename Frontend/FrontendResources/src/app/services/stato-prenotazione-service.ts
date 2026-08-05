@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Prenotazione } from '../../models/Prenotazione';
 import { PrenotaService } from './prenota-service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { PrenotaService } from './prenota-service';
 export class StatoPrenotazioneService {
   private http = inject(HttpClient);
   private prenotaService = inject(PrenotaService);
-  private apiUrl = 'http://localhost:8000/api/v1';
+  private apiUrl = `${environment.apiUrl}/api/v1`;
 
   getPrenotazioniConfermate(): Observable<number> {
     return this.prenotaService.getPrenotazioni().pipe(

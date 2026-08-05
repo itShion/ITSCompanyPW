@@ -6,23 +6,26 @@ import { tap } from 'rxjs/operators';
 
 import { Utente,LoginDTO,RegisterDTO,DjangoAuthResponse, CurrentUser } from '../../models/Utente'
 import { NotificaResponse } from '../../models/Notifica';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class NotificaService {
+  private apiUrl = `${environment.apiUrl}/api/notifiche`;
+
   constructor(private http: HttpClient) {}
 
-  
+
 // notifica.service.ts
 getUnread(): Observable<NotificaResponse> {
-return this.http.get<NotificaResponse>('http://localhost:8000/api/notifiche/unread/');}
+return this.http.get<NotificaResponse>(`${this.apiUrl}/unread/`);}
 
-getAll(): Observable<NotificaResponse[]> {
-  return this.http.get<NotificaResponse[]>('http://localhost:8000/api/notifiche/');
+getAll(): Observable<NotificaResponse> {
+  return this.http.get<NotificaResponse>(`${this.apiUrl}/`);
 }
 
 markRead(id: number) {
   return this.http.post(
-    `http://localhost:8000/api/notifiche/${id}/mark_read/`,
+    `${this.apiUrl}/${id}/mark_read/`,
     {}
   );
 }

@@ -10,6 +10,7 @@ from CompanyResources.Utente.models import Utente
 
 from django.contrib.auth.models import User
 from CompanyResources.ActivityLog.models import ActivityLog
+from CompanyResources.Notifica.services import NotificaService
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from CompanyResources.API_Resources.exceptions import NonAutorizzato, PrenotazioneNonModificabile
@@ -113,6 +114,7 @@ class TipoRisorsaAPIViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(tags=['Utente']),
     destroy=extend_schema(tags=['Utente']),
 )
+@method_decorator(csrf_exempt, name='dispatch')
 class UtenteAPIViewSet(viewsets.ModelViewSet):
     queryset = Utente.objects.all()
 
@@ -193,6 +195,7 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(tags=['Prenotazione']),
     destroy=extend_schema(tags=['Prenotazione']),
 )
+@method_decorator(csrf_exempt, name='dispatch')
 class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     serializer_class = PrenotazioneSerializer
 
@@ -367,6 +370,12 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             prenotazione=prenotazione,
             descrizione=f"{utente.user.username} ha confermato la prenotazione #{prenotazione.id}"
         )
+        NotificaService.crea_notifica(
+            utente=prenotazione.utente,
+            titolo="Prenotazione approvata",
+            messaggio=f"La tua prenotazione per {prenotazione.risorsa.nome} è stata approvata.",
+            tipo="BOOKING_APPROVED"
+        )
         return Response(self.get_serializer(prenotazione).data)
 
     @action(detail=True, methods=['post'])
@@ -387,6 +396,12 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             utente=utente,
             prenotazione=prenotazione,
             descrizione=f"{utente.user.username} ha rifiutato la prenotazione #{prenotazione.id}"
+        )
+        NotificaService.crea_notifica(
+            utente=prenotazione.utente,
+            titolo="Prenotazione rifiutata",
+            messaggio=f"La tua prenotazione per {prenotazione.risorsa.nome} è stata rifiutata.",
+            tipo="BOOKING_REJECTED"
         )
         return Response(self.get_serializer(prenotazione).data)
 

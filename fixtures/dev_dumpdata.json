@@ -58,7 +58,7 @@
   "pk": 1,
   "fields": {
     "user": 1,
-    "ruolo": "Admin",
+    "ruolo": "ADMIN",
     "telefono": "3331234567"
   }
 },
@@ -67,7 +67,7 @@
   "pk": 2,
   "fields": {
     "user": 2,
-    "ruolo": "Dipendente",
+    "ruolo": "UTENTE",
     "telefono": "3339876543"
   }
 },
@@ -76,7 +76,7 @@
   "pk": 3,
   "fields": {
     "user": 3,
-    "ruolo": "Dipendente",
+    "ruolo": "UTENTE",
     "telefono": "3339876544"
   }
 },

@@ -182,7 +182,7 @@ class PrenotazionePartecipante(models.Model):
         Notifica.objects.create(
             utente=self.utente,
             titolo="Prenotazione approvata",
-            messaggio=f"La tua prenotazione per {self.risorsa.nome} è stata approvata.",
+            messaggio=f"La tua prenotazione per {self.prenotazione.risorsa.nome} è stata approvata.",
             tipo="BOOKING_APPROVED"
         )
     

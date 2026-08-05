@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupportoPrenotazioniDettaglio } from './supporto-prenotazioni-dettaglio';
+import { SupportoPrenotazioneDettaglio } from './supporto-prenotazioni-dettaglio';
 
-describe('SupportoPrenotazioniDettaglio', () => {
-  let component: SupportoPrenotazioniDettaglio;
-  let fixture: ComponentFixture<SupportoPrenotazioniDettaglio>;
+describe('SupportoPrenotazioneDettaglio', () => {
+  let component: SupportoPrenotazioneDettaglio;
+  let fixture: ComponentFixture<SupportoPrenotazioneDettaglio>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SupportoPrenotazioniDettaglio]
+      imports: [SupportoPrenotazioneDettaglio]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SupportoPrenotazioniDettaglio);
+    fixture = TestBed.createComponent(SupportoPrenotazioneDettaglio);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
 import { Loginv2 } from './loginv2';
 
@@ -8,7 +11,8 @@ describe('Loginv2', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Loginv2]
+      imports: [Loginv2],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     })
     .compileComponents();
 

@@ -1,18 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
-import { Registerv2 } from './registerv2';
+import { registerv2 } from './registerv2';
 
-describe('Registerv2', () => {
-  let component: Registerv2;
-  let fixture: ComponentFixture<Registerv2>;
+describe('registerv2', () => {
+  let component: registerv2;
+  let fixture: ComponentFixture<registerv2>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Registerv2]
+      imports: [registerv2],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Registerv2);
+    fixture = TestBed.createComponent(registerv2);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

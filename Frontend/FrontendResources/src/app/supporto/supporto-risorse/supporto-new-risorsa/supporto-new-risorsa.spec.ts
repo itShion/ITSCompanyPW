@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupportoNewRisorsa } from './supporto-new-risorsa';
+import { SupportoNewRisorsaComponent } from './supporto-new-risorsa';
 
-describe('SupportoNewRisorsa', () => {
-  let component: SupportoNewRisorsa;
-  let fixture: ComponentFixture<SupportoNewRisorsa>;
+describe('SupportoNewRisorsaComponent', () => {
+  let component: SupportoNewRisorsaComponent;
+  let fixture: ComponentFixture<SupportoNewRisorsaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SupportoNewRisorsa]
+      imports: [SupportoNewRisorsaComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SupportoNewRisorsa);
+    fixture = TestBed.createComponent(SupportoNewRisorsaComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

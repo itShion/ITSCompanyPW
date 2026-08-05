@@ -1,8 +1,4 @@
 import { Routes } from '@angular/router';
-import { Prenotazionitab } from '../prenotazionitab/prenotazionitab';
-import { Login } from '../login/login';
-import { RegisterComponent } from '../register/register';
-import { Prenota } from '../prenota/prenota';
 import { RicercaPrenotazione } from '../ricerca-prenotazione/ricerca-prenotazione'
 import { MiePrenotazioni } from '../mie-prenotazioni/mie-prenotazioni';
 import { registerv2 } from './registerv2/registerv2';
@@ -16,10 +12,7 @@ import { SupportoActivitylog } from './supporto/supporto-activitylog/supporto-ac
 
 export const routes: Routes = [
   { path: 'mie-prenotazioni', component: MiePrenotazioni },
-  { path: 'prenotazionitab', component: Prenotazionitab },
   { path: '', redirectTo: '/ricercaPrenotazione', pathMatch: 'full' },
-  { path: 'register', component: RegisterComponent },
-  { path: 'prenota/:id', component: Prenota },
   { path: 'registerv2', component: registerv2 },
   { path: 'loginv2', component: Loginv2 },
   { path: 'ricercaPrenotazione', component: RicercaPrenotazione },

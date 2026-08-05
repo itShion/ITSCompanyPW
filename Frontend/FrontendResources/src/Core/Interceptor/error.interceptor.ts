@@ -18,7 +18,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           break;
         case 401:
           notifiche.errore('Sessione scaduta, effettua di nuovo il login.');
-          router.navigate(['/login']);
+          router.navigate(['/loginv2']);
           break;
         case 403:
           notifiche.errore(dettaglio);

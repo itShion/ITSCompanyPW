@@ -2,6 +2,20 @@ html, body {
   height: 100%;
 }
 
+body {
+  background-color: var(--color-bg);
+}
+
 .app-body {
-  height: calc(100vh - 60px); /* 60px = altezza navbar */
+  height: calc(100vh - 64px); /* 64px = altezza navbar */
+  overflow-y: auto;
+}
+
+.app-body--no-nav {
+  height: 100vh;
+}
+
+.page-container {
+  display: block;
+  width: 100%;
 }

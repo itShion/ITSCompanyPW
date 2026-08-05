@@ -28,17 +28,19 @@ import { NotificationService } from '../services/notification.service';
     }
     .toast {
       padding: .75rem 1.25rem;
-      border-radius: 6px;
+      border-radius: 10px;
       color: white;
       cursor: pointer;
       min-width: 280px;
       font-size: .9rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+      font-weight: 500;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
       animation: fadeIn .2s ease;
     }
-    .toast--successo { background: #2e7d32; }
-    .toast--errore   { background: #c62828; }
-    .toast--info     { background: #1565c0; }
+    .toast--successo { background: #16a34a; }
+    .toast--errore   { background: #dc2626; }
+    .toast--info     { background: #006aff; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
   `]
 })

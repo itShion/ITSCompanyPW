@@ -1,7 +1,7 @@
 <div class="page-container">
     <app-navbarv2 *ngIf="showNavbar"></app-navbarv2>
-  <div class="app-body">
-
+  <div class="app-body" [class.app-body--no-nav]="!showNavbar">
     <router-outlet></router-outlet>
   </div>
+  <app-toast></app-toast>
 </div>

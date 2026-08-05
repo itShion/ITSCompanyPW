@@ -2,7 +2,7 @@
 .layout {
   display: grid;
   grid-template-columns: 240px 1fr;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 64px);
   overflow: hidden;
 }
 
@@ -37,7 +37,7 @@
 
 .nav-link.active {
   background: #f0f4ff;
-  color: #2563eb;
+  color: var(--color-accent);
   font-weight: 600;
 }
 

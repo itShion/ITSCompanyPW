@@ -34,7 +34,7 @@
   padding: 10px 16px;
   border-radius: 8px;
   border: none;
-  background: #2563eb;
+  background: var(--color-accent);
   color: #ffffff;
   font-weight: 600;
   font-size: 14px;
@@ -42,7 +42,7 @@
   transition: background 0.2s;
 }
 
-.btn-primary:hover { background: #1d4ed8; }
+.btn-primary:hover { background: var(--color-accent-hover); }
 
 .btn-secondary {
   padding: 10px 16px;
@@ -329,7 +329,7 @@ tbody td {
 .modal select:focus,
 .modal textarea:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--color-accent);
 }
 
 .modal-body textarea {
@@ -559,9 +559,9 @@ tbody td {
 
 .filter-search input:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--color-accent);
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  box-shadow: 0 0 0 3px rgba(0, 106, 255,0.1);
 }
 
 .search-icon {
@@ -596,9 +596,9 @@ tbody td {
 
 .filter-select select:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--color-accent);
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  box-shadow: 0 0 0 3px rgba(0, 106, 255,0.1);
 }
 
 .arrow-icon {
@@ -660,7 +660,7 @@ tbody td {
 
 .tab-btn.active {
   background: #eff6ff;
-  color: #2563eb;
+  color: var(--color-accent);
   border-color: #bfdbfe;
 }
 /* ─── TABLET (max 1024px) ───────────────────────────────── */

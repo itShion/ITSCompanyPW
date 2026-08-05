@@ -96,7 +96,7 @@
 }
 
 .action-card:hover {
-  border-color: #2563eb;
+  border-color: var(--color-accent);
   background: #fafcff;
 }
 
@@ -112,7 +112,7 @@
 
 .action-icon.blue {
   background: #eef2ff;
-  color: #2563eb;
+  color: var(--color-accent);
 }
 
 .action-icon.green {
@@ -174,7 +174,7 @@
 
 :host ::ng-deep .component-header a {
   font-size: 12px;
-  color: #2563eb;
+  color: var(--color-accent);
   text-decoration: none;
 }
 

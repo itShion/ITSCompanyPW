@@ -43,7 +43,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
     host.strip()
-    for host in os.environ.get('ALLOWED_HOSTS', 'django,localhost').split(',')
+    for host in os.environ.get('ALLOWED_HOSTS', 'django,localhost,127.0.0.1').split(',')
     if host.strip()
 ]
 

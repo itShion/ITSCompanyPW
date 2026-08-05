@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Risorsa, RisorsaCreate } from '../../models/Risorsa';
 import { TipoRisorsa } from '../../models/TipoRisorsa';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RisorsaService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8000/api/v1';
+  private apiUrl = `${environment.apiUrl}/api/v1`;
 
   getRisorse(): Observable<Risorsa[]> {
     return this.http.get<Risorsa[]>(`${this.apiUrl}/risorse/`);

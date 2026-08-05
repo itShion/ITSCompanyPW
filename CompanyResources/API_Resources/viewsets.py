@@ -113,6 +113,7 @@ class TipoRisorsaAPIViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(tags=['Utente']),
     destroy=extend_schema(tags=['Utente']),
 )
+@method_decorator(csrf_exempt, name='dispatch')
 class UtenteAPIViewSet(viewsets.ModelViewSet):
     queryset = Utente.objects.all()
 
@@ -193,6 +194,7 @@ class UtenteAPIViewSet(viewsets.ModelViewSet):
     partial_update=extend_schema(tags=['Prenotazione']),
     destroy=extend_schema(tags=['Prenotazione']),
 )
+@method_decorator(csrf_exempt, name='dispatch')
 class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     serializer_class = PrenotazioneSerializer
 

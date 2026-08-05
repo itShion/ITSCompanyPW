@@ -9,6 +9,22 @@ from CompanyResources.Utente.models import Utente
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def notifiche_list(request):
+    utente = Utente.objects.get(user=request.user)
+
+    notifiche = Notifica.objects.filter(
+        utente=utente
+    ).order_by('-created_at')
+
+    serializer = NotificaSerializer(notifiche, many=True)
+
+    return Response({
+        "count": notifiche.count(),
+        "results": serializer.data
+    })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def notifiche_unread(request):
     utente = Utente.objects.get(user=request.user)
 

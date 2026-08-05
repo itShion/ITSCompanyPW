@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Prenotazione, PrenotazioneDTO } from '../../models/Prenotazione';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PrenotaService {
-  private apiUrl = 'http://localhost:8000/api/v1/prenotazioni/';
+  private apiUrl = `${environment.apiUrl}/api/v1/prenotazioni/`;
 
   constructor(private http: HttpClient) { }
 

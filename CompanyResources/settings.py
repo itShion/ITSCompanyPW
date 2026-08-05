@@ -16,19 +16,35 @@ from pathlib import Path
 # JWT
 from datetime import timedelta
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Carica secrets/secrets.txt PRIMA di leggere qualunque variabile d'ambiente,
+# cosi' SECRET_KEY/DEBUG/ALLOWED_HOSTS/ecc. possono essere sovrascritte da li'.
+secrets_path = BASE_DIR / 'secrets' / 'secrets.txt'
+
+if secrets_path.exists():
+    with open(secrets_path) as f:
+        for line in f:
+            if "=" in line:
+                key, value = line.strip().split("=", 1)
+                os.environ[key] = value
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$u*q)3)w3y^#d-rg^2r5zpljvr%c5x9rmk*79ak2mbq5t)0*0*'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-$u*q)3)w3y^#d-rg^2r5zpljvr%c5x9rmk*79ak2mbq5t)0*0*'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
-    'django',
-    'localhost',
+    host.strip()
+    for host in os.environ.get('ALLOWED_HOSTS', 'django,localhost').split(',')
+    if host.strip()
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -75,20 +91,26 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-    "http://127.0.0.1:4200",
+    origin.strip()
+    for origin in os.environ.get(
+        'CORS_ALLOWED_ORIGINS', 'http://localhost:4200,http://127.0.0.1:4200'
+    ).split(',')
+    if origin.strip()
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:4200",
-    "http://127.0.0.1:4200",
+    origin.strip()
+    for origin in os.environ.get(
+        'CSRF_TRUSTED_ORIGINS', 'http://localhost:4200,http://127.0.0.1:4200'
+    ).split(',')
+    if origin.strip()
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -115,17 +137,6 @@ WSGI_APPLICATION = 'CompanyResources.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-secrets_path = BASE_DIR / 'secrets' / 'secrets.txt'
-
-if secrets_path.exists():
-    with open(secrets_path) as f:
-        for line in f:
-            if "=" in line:
-                key, value = line.strip().split("=", 1)
-                os.environ[key] = value
 
 DATABASES = {
     "default": {

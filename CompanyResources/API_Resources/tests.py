@@ -178,6 +178,12 @@ class RisorsaAzioniPermessiTests(APITestCase):
         self.risorsa.refresh_from_db()
         self.assertEqual(self.risorsa.stato, 'DISATTIVA')
 
+        self.assertTrue(
+            ActivityLog.objects.filter(
+                utente=self.responsabile, azione='RISORSA_DISATTIVATA'
+            ).exists()
+        )
+
 
 class UtenteRiabilitaPermessiTests(APITestCase):
     def setUp(self):
@@ -199,3 +205,54 @@ class UtenteRiabilitaPermessiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.disabilitato.user.refresh_from_db()
         self.assertTrue(self.disabilitato.user.is_active)
+
+        self.assertTrue(
+            ActivityLog.objects.filter(
+                utente=self.admin, azione='UTENTE_RIABILITATO'
+            ).exists()
+        )
+
+    def test_disabilitazione_utente_scrive_activity_log(self):
+        self.client.force_authenticate(user=self.admin.user)
+        response = self.client.delete(f'/api/v1/utenti/{self.utente.pk}/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        self.assertTrue(
+            ActivityLog.objects.filter(
+                utente=self.admin, azione='UTENTE_DISABILITATO'
+            ).exists()
+        )
+
+
+class UtenteCreazionePermessiTests(APITestCase):
+    def setUp(self):
+        self.admin = crea_utente('admin', ruolo='ADMIN')
+        self.dipendente = crea_utente('dipendente')
+
+    def test_utente_normale_non_puo_creare_utenti(self):
+        self.client.force_authenticate(user=self.dipendente.user)
+        response = self.client.post('/api/v1/utenti/', {
+            'username': 'nuovo',
+            'email': 'nuovo@example.com',
+            'password': 'passwordsicura123',
+            'ruolo': 'UTENTE',
+            'telefono': '3331234567',
+        })
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_admin_puo_creare_utenti_e_scrive_activity_log(self):
+        self.client.force_authenticate(user=self.admin.user)
+        response = self.client.post('/api/v1/utenti/', {
+            'username': 'nuovo',
+            'email': 'nuovo@example.com',
+            'password': 'passwordsicura123',
+            'ruolo': 'UTENTE',
+            'telefono': '3331234567',
+        })
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
+
+        self.assertTrue(
+            ActivityLog.objects.filter(
+                utente=self.admin, azione='UTENTE_CREATO'
+            ).exists()
+        )

@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
 import { Prenotazionitab } from './prenotazionitab';
 
@@ -8,7 +11,8 @@ describe('Prenotazionitab', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Prenotazionitab]
+      imports: [Prenotazionitab],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     })
     .compileComponents();
 

@@ -141,8 +141,11 @@ class PrenotazioneApprovazionePermessiTests(APITestCase):
         self.prenotazione.refresh_from_db()
         self.assertEqual(self.prenotazione.stato, 'CONFERMATA')
 
-        notifica = Notifica.objects.filter(utente=self.creatore, tipo='BOOKING_APPROVED').first()
-        self.assertIsNotNone(notifica)
+        # Esattamente una: Prenotazione/signals.py la crea gia' via post_save,
+        # approva() non deve duplicarla.
+        self.assertEqual(
+            Notifica.objects.filter(utente=self.creatore, tipo='BOOKING_APPROVED').count(), 1
+        )
 
     def test_responsabile_puo_rifiutare_e_notifica_il_richiedente(self):
         self.client.force_authenticate(user=self.responsabile.user)
@@ -152,8 +155,9 @@ class PrenotazioneApprovazionePermessiTests(APITestCase):
         self.prenotazione.refresh_from_db()
         self.assertEqual(self.prenotazione.stato, 'ANNULLATA')
 
-        notifica = Notifica.objects.filter(utente=self.creatore, tipo='BOOKING_REJECTED').first()
-        self.assertIsNotNone(notifica)
+        self.assertEqual(
+            Notifica.objects.filter(utente=self.creatore, tipo='BOOKING_REJECTED').count(), 1
+        )
 
 
 class RisorsaAzioniPermessiTests(APITestCase):

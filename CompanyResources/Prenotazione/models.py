@@ -24,7 +24,7 @@ class Prenotazione(models.Model):
     data_fine = models.DateTimeField()
 
     stato = models.CharField(max_length=10,choices=STATI,default='PENDING')
-    motivo = models.TextField(default='')
+    motivo = models.TextField(default='', blank=True)
 
 
     created_at = models.DateTimeField(auto_now_add=True)

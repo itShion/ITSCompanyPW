@@ -47,6 +47,14 @@
   flex-shrink: 0;
 }
 
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-storico:disabled,
+.btn-danger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 /* ─── BUTTONS ────────────────────────────────────────────── */
 .btn-primary {
   background: var(--color-accent);

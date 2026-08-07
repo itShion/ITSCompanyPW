@@ -51,6 +51,11 @@ export class ToastComponent implements OnInit {
 
   ngOnInit() {
     this.notificationService.notifiche$.subscribe(n => {
+      // Evita di impilare piu' volte lo stesso messaggio (es. piu' chiamate
+      // API in parallelo che falliscono tutte con 401 alla scadenza sessione)
+      const giaMostrato = this.notifiche.some(x => x.tipo === n.tipo && x.messaggio === n.messaggio);
+      if (giaMostrato) return;
+
       this.notifiche.push(n);
       setTimeout(() => this.rimuovi(n), 4000);
     });

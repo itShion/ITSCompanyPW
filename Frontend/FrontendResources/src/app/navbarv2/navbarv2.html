@@ -31,7 +31,7 @@
 <div class="notifiche-container">
   <button class="bell-btn" (click)="togglePopup()">
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
-    <span *ngIf="unreadCount() > 0" class="badge">{{ unreadCount() }}</span>
+    <span *ngIf="unreadCount() > 0" class="badge">{{ unreadCount() > 99 ? '99+' : unreadCount() }}</span>
   </button>
 
   <!-- Popup notifiche -->
@@ -67,18 +67,6 @@
                   <small>Accesso come: {{ currentUser.username }}</small>
                   <small *ngIf="currentUser.ruolo">({{ currentUser.ruolo }})</small>
                 </div>
-
-                <div class="dropdown-divider"></div>
-
-                <a class="dropdown-item" routerLink="/profilo">
-                  <i class="bi bi-person"></i>
-                  <span>Profilo</span>
-                </a>
-
-                <a class="dropdown-item" routerLink="/impostazioni">
-                  <i class="bi bi-gear"></i>
-                  <span>Impostazioni</span>
-                </a>
 
                 <div class="dropdown-divider"></div>
 

@@ -173,7 +173,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #2563eb;
+  background: var(--color-accent);
   color: #ffffff;
   font-size: 12px;
   font-weight: 600;

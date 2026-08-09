@@ -93,7 +93,7 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--color-accent);
 }
 
 .giorni-grid {
@@ -150,12 +150,12 @@ input:focus, select:focus, textarea:focus {
 }
 
 .btn-primary {
-  background: #2563eb;
+  background: var(--color-accent);
   color: white;
 }
 
 .btn-primary:hover {
-  background: #1d4ed8;
+  background: var(--color-accent-hover);
 }
 
 .btn-secondary {

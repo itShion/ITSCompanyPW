@@ -257,10 +257,14 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
             if utente.ruolo in ['ADMIN', 'RESPONSABILE'] or self.request.user.is_superuser:
                 return Prenotazione.objects.select_related(
                     'utente__user', 'risorsa__tipo'
+                ).prefetch_related(
+                    'partecipanti__utente__user'
                 ).filter(data_inizio__date__gte=oggi)
 
             return Prenotazione.objects.select_related(
                 'utente__user', 'risorsa__tipo'
+            ).prefetch_related(
+                'partecipanti__utente__user'
             ).filter(
                 models.Q(utente=utente) |
                 models.Q(partecipanti__utente=utente),
@@ -437,7 +441,11 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     def attive(self, request):
         utente = Utente.objects.get(user=request.user)
         oggi = timezone.now().date()
-        prenotazioni = Prenotazione.objects.filter(
+        prenotazioni = Prenotazione.objects.select_related(
+            'utente__user', 'risorsa__tipo'
+        ).prefetch_related(
+            'partecipanti__utente__user'
+        ).filter(
             models.Q(utente=utente) | models.Q(partecipanti__utente=utente),
             stato='CONFERMATA',
             data_inizio__gte=oggi
@@ -446,7 +454,11 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def pending(self, request):
-        prenotazioni = Prenotazione.objects.filter(
+        prenotazioni = Prenotazione.objects.select_related(
+            'utente__user', 'risorsa__tipo'
+        ).prefetch_related(
+            'partecipanti__utente__user'
+        ).filter(
             stato='PENDING'
         ).order_by('-data_inizio')
         return Response(self.get_serializer(prenotazioni, many=True).data)
@@ -455,7 +467,11 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
     def storiche(self, request):
         utente = Utente.objects.get(user=request.user)
         oggi = timezone.now().date()
-        prenotazioni = Prenotazione.objects.filter(
+        prenotazioni = Prenotazione.objects.select_related(
+            'utente__user', 'risorsa__tipo'
+        ).prefetch_related(
+            'partecipanti__utente__user'
+        ).filter(
             models.Q(utente=utente) | models.Q(partecipanti__utente=utente),
             data_inizio__lt=oggi
         ).distinct().order_by('-data_inizio')
@@ -468,6 +484,8 @@ class PrenotazioneAPIViewSet(viewsets.ModelViewSet):
 
         prenotazioni = Prenotazione.objects.select_related(
             'utente__user', 'risorsa__tipo'
+        ).prefetch_related(
+            'partecipanti__utente__user'
         ).filter(
             models.Q(utente=utente) |
             models.Q(partecipanti__utente=utente),

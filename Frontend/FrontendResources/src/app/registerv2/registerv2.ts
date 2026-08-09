@@ -1,4 +1,4 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -10,7 +10,6 @@ import { RegisterDTO } from '../../models/Utente';
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './registerv2.html',
   styleUrl: './registerv2.css',
-  encapsulation: ViewEncapsulation.None
 })
 export class registerv2 {
   private authService = inject(AuthService);

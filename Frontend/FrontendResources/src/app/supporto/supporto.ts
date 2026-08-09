@@ -1,4 +1,5 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SupportoSidebar } from './supporto-sidebar/supporto-sidebar';
 import { SupportoNewRisorsaComponent } from './supporto-risorse/supporto-new-risorsa/supporto-new-risorsa';
 import { RisorsaService } from '../services/RisorsaService';
@@ -8,7 +9,7 @@ import { UtilsReportService } from '../services/utils-report-service';
 
 @Component({
   selector: 'app-supporto',
-  imports: [SupportoNewRisorsaComponent, CommonModule],
+  imports: [SupportoNewRisorsaComponent, CommonModule, RouterLink],
   templateUrl: './supporto.html',
   styleUrl: './supporto.css',
 })

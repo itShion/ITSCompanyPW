@@ -47,9 +47,21 @@ MOTIVI_POSTAZIONE = [
 ]
 
 TIPI_RISORSA = [
-    ("Sala Riunioni", "spazio prenotabile per riunioni e incontri di lavoro, con posti a sedere."),
-    ("Attrezzatura", "insieme di strumenti e dispositivi prenotabili per attivita' lavorative."),
-    ("Postazione", "spazio di lavoro individuale prenotabile per attivita' quotidiane."),
+    (
+        "Sala Riunioni",
+        "spazio prenotabile per riunioni e incontri di lavoro, con posti a sedere.",
+        "https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=800&q=80",
+    ),
+    (
+        "Attrezzatura",
+        "insieme di strumenti e dispositivi prenotabili per attivita' lavorative.",
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80",
+    ),
+    (
+        "Postazione",
+        "spazio di lavoro individuale prenotabile per attivita' quotidiane.",
+        "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80",
+    ),
 ]
 
 RISORSE = [
@@ -113,10 +125,13 @@ class Command(BaseCommand):
 
     def _crea_tipi_risorsa(self):
         tipi = {}
-        for nome, descrizione in TIPI_RISORSA:
-            tipo, _ = TipoRisorsa.objects.get_or_create(
-                nome=nome, defaults={"descrizione": descrizione}
+        for nome, descrizione, immagine_url in TIPI_RISORSA:
+            tipo, creato = TipoRisorsa.objects.get_or_create(
+                nome=nome, defaults={"descrizione": descrizione, "immagine_url": immagine_url}
             )
+            if not creato and not tipo.immagine_url:
+                tipo.immagine_url = immagine_url
+                tipo.save(update_fields=["immagine_url"])
             tipi[nome] = tipo
         return tipi
 

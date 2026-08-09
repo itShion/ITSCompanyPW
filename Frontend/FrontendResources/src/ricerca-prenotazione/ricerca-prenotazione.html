@@ -54,7 +54,7 @@
     <section class="cards">
 
       @if (loading()) {
-      <p>Caricamento risorse...</p>
+      <p class="loading-state"><span class="spinner"></span> Caricamento risorse...</p>
       }
 
       @if (error()) {
@@ -74,7 +74,7 @@
           <p>{{ r.descrizione }}</p>
 
           <div class="tags">
-            <span>{{ r.tipo?.nome }}</span>
+            <span>{{ r.tipo.nome }}</span>
             <span>Capienza {{ r.capacita }}</span>
           </div>
 
